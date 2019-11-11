@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:rxdart/rxdart.dart';
+
 class RegistroBloc{
 
-  final _cuiController          =StreamController<int>.broadcast();
-  final _nombreController       =StreamController<String>.broadcast();
-  final _passwordController     =StreamController<String>.broadcast();
-  final _confirmacionController =StreamController<String>.broadcast();
+  final _cuiController          =BehaviorSubject<int>();
+  final _nombreController       =BehaviorSubject<String>();
+  final _passwordController     =BehaviorSubject<String>();
+  final _confirmacionController =BehaviorSubject<String>();
 
   //recuperar los datos del Stream
   Stream<int>   get cuiStream          => _cuiController.stream;
@@ -16,7 +18,13 @@ class RegistroBloc{
   Function(int)    get changeCui            => _cuiController.sink.add;
   Function(String) get changeNombre         => _nombreController.sink.add;
   Function(String) get changePassword       => _passwordController.sink.add;
-  Function(String) get changeConfirmacion => _confirmacionController.sink.add;
+  Function(String) get changeConfirmacion   => _confirmacionController.sink.add;
+  
+    //obtener el ultimo valor ingresado a los textinput
+  int get cui=>_cuiController.value;
+  String get nombre=>_nombreController.value;
+  String get password=>_passwordController.value;
+  String get confirmacion=>_confirmacionController.value;
   
   dispose(){
     _cuiController?.close();

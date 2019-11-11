@@ -1,12 +1,14 @@
+import 'package:alerta_app/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
-
+import 'package:alerta_app/src/bloc/provider.dart';
 class MapaPage extends StatelessWidget {
   const MapaPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final bloc = Provider.ofLogin(context);
     return Scaffold(
       appBar: AppBar(
         title:Center(
@@ -19,18 +21,21 @@ class MapaPage extends StatelessWidget {
           )
         ],
       ),
-      body:_crearFlutterMap()
+      body:_crearFlutterMap(context,bloc)
       
     );
   }
-  Widget _crearCarrete(){
+  Widget _crearCarrete(BuildContext context,LoginBloc bloc){
+    mostrarAlerta(context,'Bienvenido ${bloc.cui}');
     return Container(
       child: Text('Container'),
       height: 20,
       color: Colors.black,
     );
   }
-  Widget _crearFlutterMap(){
+  Widget _crearFlutterMap(BuildContext context, LoginBloc bloc){
+    //mostrarAlerta(context,'Bievenido ${bloc.cui}');
+    print(bloc.cui);
     return FlutterMap(
         options: MapOptions(
           center: LatLng(14.586493,-90.552185),

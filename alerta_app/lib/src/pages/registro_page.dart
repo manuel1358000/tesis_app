@@ -50,6 +50,7 @@ class RegistroPage extends StatelessWidget {
            ),
             child: Column(
               children: <Widget>[
+                SizedBox(height: 30.0,),
                 _crearCUI(context,bloc),
                 SizedBox(height: 15.0,),
                 _crearNOMBRE(context,bloc),
@@ -57,8 +58,8 @@ class RegistroPage extends StatelessWidget {
                 _crearPASSWORD(context,bloc),
                 SizedBox(height: 15.0),
                 _crearCONFIRMACIONPASSWORD(context,bloc),
-                SizedBox(height: 15.0),
-                _crearREGISTRO(context),
+                SizedBox(height: 40.0),
+                _crearREGISTRO(context,bloc),
                 SizedBox(height: 30.0,),
               ],
             ),
@@ -118,10 +119,10 @@ class RegistroPage extends StatelessWidget {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: TextField(
+            obscureText: true,
             style: TextStyle(
               color: Color.fromRGBO(42,26,94,1.0)
             ),
-            keyboardType: TextInputType.number,
             decoration: InputDecoration(
               fillColor: Colors.black26,
               labelText: 'CONTRASEÑA',
@@ -157,7 +158,7 @@ class RegistroPage extends StatelessWidget {
     );
   }
 
-Widget _crearREGISTRO(BuildContext context){
+Widget _crearREGISTRO(BuildContext context, RegistroBloc bloc){
   final size=MediaQuery.of(context).size;
   return RaisedButton(
     color: Color.fromRGBO(42,26,94,1.0),
@@ -168,8 +169,12 @@ Widget _crearREGISTRO(BuildContext context){
       )
     ),
     onPressed: (){
-      Navigator.pushNamed(context,'registro');
+      _registro(bloc,context);
+      //Navigator.pushNamed(context,'registro');
     },
   );
+}
+_registro(RegistroBloc bloc,BuildContext context){
+    mostrarAlerta(context, 'CUI: ${bloc.cui} NOMBRE: ${bloc.nombre} PASSWORD: ${bloc.password} CONFIRMACION: ${bloc.confirmacion}');
 }
 }

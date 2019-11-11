@@ -60,7 +60,7 @@ class LoginPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    _crearIngreso(context),
+                    _crearIngreso(context,bloc),
                     SizedBox(width: 10.0,),
                     _crearInvitado(context)
                   ],
@@ -126,7 +126,7 @@ Widget _crearLogo(BuildContext context){
       }
     );
   }
-  Widget _crearIngreso(BuildContext context){
+  Widget _crearIngreso(BuildContext context,LoginBloc bloc){
     final size=MediaQuery.of(context).size;
   return RaisedButton(
     color: Color.fromRGBO(42,26,94,1.0),
@@ -137,11 +137,15 @@ Widget _crearLogo(BuildContext context){
       )
     ),
     onPressed: (){
-      Navigator.pushReplacementNamed(context,'mapa');
+      _login(bloc,context);
     },
   );
 }
 
+_login(LoginBloc bloc, BuildContext context){
+  mostrarAlerta(context,'CUI: ${bloc.cui} PASSWORD: ${bloc.password}');
+  Navigator.of(context).pushReplacementNamed('mapa');
+}
 Widget _crearInvitado(BuildContext context){
   final size=MediaQuery.of(context).size;
   return RaisedButton(
