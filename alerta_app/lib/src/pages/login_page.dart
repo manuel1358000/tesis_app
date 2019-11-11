@@ -144,7 +144,7 @@ Widget _crearLogo(BuildContext context){
 
 _login(LoginBloc bloc, BuildContext context){
   mostrarAlerta(context,'CUI: ${bloc.cui} PASSWORD: ${bloc.password}');
-  Navigator.of(context).pushReplacementNamed('mapa');
+  Navigator.pushReplacementNamed(context,'mapa');
 }
 Widget _crearInvitado(BuildContext context){
   final size=MediaQuery.of(context).size;
