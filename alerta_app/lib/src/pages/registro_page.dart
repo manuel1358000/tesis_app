@@ -97,7 +97,7 @@ class RegistroPage extends StatelessWidget {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: TextField(
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.text,
             decoration: InputDecoration(
               fillColor: Colors.black26,
               labelText: 'NOMBRE',
@@ -175,6 +175,6 @@ Widget _crearREGISTRO(BuildContext context, RegistroBloc bloc){
   );
 }
 _registro(RegistroBloc bloc,BuildContext context){
-    mostrarAlerta(context, 'CUI: ${bloc.cui} NOMBRE: ${bloc.nombre} PASSWORD: ${bloc.password} CONFIRMACION: ${bloc.confirmacion}');
+  usuarioProvider.nuevoUsuario(bloc.cui, bloc.password, bloc.nombre,1,1);    
 }
 }

@@ -18,6 +18,11 @@ class LoginBloc{
   //obtener el ultimo valor ingresado a los textinput
   int get cui=>_cuiController.value;
   String get password=>_passwordController.value;
+
+  set setCui(int valor)=>_cuiController.value=valor;
+  set setPassword(String valor)=>_passwordController.value=valor;
+
+
   dispose(){
     _cuiController?.close();
     _passwordController?.close();

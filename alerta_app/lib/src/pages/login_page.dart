@@ -2,7 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:alerta_app/src/utils/utils.dart';
 import 'package:alerta_app/src/bloc/provider.dart';
+import 'package:alerta_app/src/provider/usuario_provider.dart';
 class LoginPage extends StatelessWidget {
+
+  final usuarioProvider=new UsuarioProvider();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,8 +146,9 @@ Widget _crearLogo(BuildContext context){
 }
 
 _login(LoginBloc bloc, BuildContext context){
-  mostrarAlerta(context,'CUI: ${bloc.cui} PASSWORD: ${bloc.password}');
-  Navigator.pushReplacementNamed(context,'mapa');
+  usuarioProvider.iniciarSesion(bloc.cui,bloc.password);
+  print('Que lleva aqui'+ bloc.cui.toString());
+  //Navigator.pushReplacementNamed(context,'mapa'); para que funcione tengo que eliminar lo de arriba
 }
 Widget _crearInvitado(BuildContext context){
   final size=MediaQuery.of(context).size;

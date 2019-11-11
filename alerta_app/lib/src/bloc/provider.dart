@@ -5,11 +5,24 @@ export 'package:alerta_app/src/bloc/login_bloc.dart';
 export 'package:alerta_app/src/bloc/registro_bloc.dart';
 class Provider extends InheritedWidget{
 
-  final loginBloc= LoginBloc();
-  final registroBloc= RegistroBloc();
-  Provider({Key key, Widget child})
+  static Provider _instancia;
+
+  factory Provider({Key key, Widget child}){
+    if(_instancia==null){
+      _instancia=new Provider._internal(key:key,child: child,);
+    }
+    return _instancia;
+  }
+
+  Provider._internal({Key key, Widget child})
     : super(key:key,child:child);
 
+  final loginBloc= LoginBloc();
+  final registroBloc= RegistroBloc();
+
+
+
+  
 
 
   @override
