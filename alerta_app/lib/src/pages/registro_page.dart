@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:alerta_app/src/provider/usuario_provider.dart';
 import 'package:alerta_app/src/utils/utils.dart';
 class RegistroPage extends StatelessWidget {
+
+  final usuarioProvider=new UsuarioProvider();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
