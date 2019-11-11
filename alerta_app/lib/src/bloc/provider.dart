@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:alerta_app/src/bloc/login_bloc.dart';
 import 'package:alerta_app/src/bloc/registro_bloc.dart';
-
+export 'package:alerta_app/src/bloc/login_bloc.dart';
+export 'package:alerta_app/src/bloc/registro_bloc.dart';
 class Provider extends InheritedWidget{
 
   final loginBloc= LoginBloc();

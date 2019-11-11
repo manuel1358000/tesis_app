@@ -1,5 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:alerta_app/src/utils/utils.dart';
+import 'package:alerta_app/src/bloc/provider.dart';
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class LoginPage extends StatelessWidget {
     );
   }
   Widget _loginForm(BuildContext context){
+    final bloc =Provider.ofLogin(context);
     final size=MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
@@ -50,9 +53,9 @@ class LoginPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 _crearLogo(context),
-                _crearCUI(context),
+                _crearCUI(context,bloc),
                 SizedBox(height: 15.0,),
-                _crearPassword(context),
+                _crearPassword(context,bloc),
                 SizedBox(height: 30.0,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -80,35 +83,47 @@ Widget _crearLogo(BuildContext context){
     child: Image.asset('assets/mapa3.jpg',height: size.height*0.30,),
   );
 }
-  Widget _crearCUI(BuildContext context){
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: TextField(
-        keyboardType: TextInputType.number,
-        decoration: InputDecoration(
-          fillColor: Colors.black26,
-          labelText: 'CUI',
-          hintText: 'Ej. 20000000010101',
-          labelStyle: TextStyle(
-            color: Color.fromRGBO(42,26,94,1.0)
-          )
-        ),
-      ),
+  Widget _crearCUI(BuildContext context,LoginBloc bloc){
+    return StreamBuilder(
+      stream: bloc.cuiStream,
+      builder: (BuildContext context,AsyncSnapshot snapshot){
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: TextField(
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              fillColor: Colors.black26,
+              labelText: 'CUI',
+              hintText: 'Ej. 20000000010101',
+              labelStyle: TextStyle(
+                color: Color.fromRGBO(42,26,94,1.0)
+              )
+            ),
+            onChanged: (value)=>bloc.changeCui(int.parse(value)),
+          ),
+        );  
+      },
     );
   }
-  Widget _crearPassword(BuildContext context){
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: TextField(
-        obscureText: true,
-        decoration: InputDecoration(
-          fillColor: Colors.black26,
-          labelText: 'CONTRASEÑA',
-          labelStyle: TextStyle(
-            color: Color.fromRGBO(42,26,94,1.0)
-          )
-        ),
-      ),
+  Widget _crearPassword(BuildContext context,LoginBloc bloc){
+    return StreamBuilder(
+      stream:bloc.passwordStream,
+      builder:(BuildContext context,AsyncSnapshot snapshot){
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: TextField(
+            obscureText: true,
+            decoration: InputDecoration(
+              fillColor: Colors.black26,
+              labelText: 'CONTRASEÑA',
+              labelStyle: TextStyle(
+                color: Color.fromRGBO(42,26,94,1.0)
+              )
+            ),
+            onChanged: (value)=>bloc.changePassword(value),
+          ),
+        );
+      }
     );
   }
   Widget _crearIngreso(BuildContext context){

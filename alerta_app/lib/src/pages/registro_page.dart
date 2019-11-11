@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:alerta_app/src/provider/usuario_provider.dart';
 import 'package:alerta_app/src/utils/utils.dart';
+import 'package:alerta_app/src/bloc/provider.dart';
 class RegistroPage extends StatelessWidget {
 
   final usuarioProvider=new UsuarioProvider();
@@ -32,6 +33,7 @@ class RegistroPage extends StatelessWidget {
     );
   }
   Widget _registroForm(BuildContext context){
+    final bloc =Provider.ofRegistro(context);
     final size=MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
@@ -48,13 +50,13 @@ class RegistroPage extends StatelessWidget {
            ),
             child: Column(
               children: <Widget>[
-                _crearCUI(context),
+                _crearCUI(context,bloc),
                 SizedBox(height: 15.0,),
-                _crearNOMBRE(context),
+                _crearNOMBRE(context,bloc),
                 SizedBox(height: 15.0,),
-                _crearPASSWORD(context),
+                _crearPASSWORD(context,bloc),
                 SizedBox(height: 15.0),
-                _crearCONFIRMACIONPASSWORD(context),
+                _crearCONFIRMACIONPASSWORD(context,bloc),
                 SizedBox(height: 15.0),
                 _crearREGISTRO(context),
                 SizedBox(height: 30.0,),
@@ -65,69 +67,93 @@ class RegistroPage extends StatelessWidget {
       ),
     );
   }
-  Widget _crearCUI(BuildContext context){
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: TextField(
-        keyboardType: TextInputType.number,
-        decoration: InputDecoration(
-          fillColor: Colors.black26,
-          labelText: 'CUI',
-          hintText: 'Ej. 2000000000101',
-          labelStyle: TextStyle(
-            color: Color.fromRGBO(42,26,94,1.0)
-          )
-        ),
-      ),
+  Widget _crearCUI(BuildContext context,RegistroBloc bloc){
+    return StreamBuilder(
+      stream:bloc.cuiStream,
+      builder:(BuildContext context,AsyncSnapshot snapshot){
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: TextField(
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              fillColor: Colors.black26,
+              labelText: 'CUI',
+              hintText: 'Ej. 2000000000101',
+              labelStyle: TextStyle(
+                color: Color.fromRGBO(42,26,94,1.0)
+              )
+            ),
+            onChanged: (value)=>bloc.changeCui(int.parse(value)),
+          ),
+        );
+      }
     );
   }
-  Widget _crearNOMBRE(BuildContext context){
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: TextField(
-        keyboardType: TextInputType.number,
-        decoration: InputDecoration(
-          fillColor: Colors.black26,
-          labelText: 'NOMBRE',
-          hintText: 'Ej. Manuel Fuentes',
-          labelStyle: TextStyle(
-            color: Color.fromRGBO(42,26,94,1.0)
-          )
-        ),
-      ),
+  Widget _crearNOMBRE(BuildContext context,RegistroBloc bloc){
+    return StreamBuilder(
+      stream:bloc.nombreStream,
+      builder:(BuildContext context,AsyncSnapshot snapshot){
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: TextField(
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              fillColor: Colors.black26,
+              labelText: 'NOMBRE',
+              hintText: 'Ej. Manuel Fuentes',
+              labelStyle: TextStyle(
+                color: Color.fromRGBO(42,26,94,1.0)
+              )
+            ),
+            onChanged: (value)=>bloc.changeNombre(value),
+          ),
+        );
+      }
     );
   }
-  Widget _crearPASSWORD(BuildContext context){
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: TextField(
-        style: TextStyle(
-          color: Color.fromRGBO(42,26,94,1.0)
-        ),
-        keyboardType: TextInputType.number,
-        decoration: InputDecoration(
-          fillColor: Colors.black26,
-          labelText: 'CONTRASEÑA',
-          labelStyle: TextStyle(
-            color: Color.fromRGBO(42,26,94,1.0)
-          )
-        ),
-      ),
+  Widget _crearPASSWORD(BuildContext context,RegistroBloc bloc){
+    return StreamBuilder(
+      stream:bloc.passwordStream,
+      builder:(BuildContext context,AsyncSnapshot snapshot){
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: TextField(
+            style: TextStyle(
+              color: Color.fromRGBO(42,26,94,1.0)
+            ),
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              fillColor: Colors.black26,
+              labelText: 'CONTRASEÑA',
+              labelStyle: TextStyle(
+                color: Color.fromRGBO(42,26,94,1.0)
+              )
+            ),
+            onChanged: (value)=>bloc.changePassword(value),
+          ),
+        );
+      }
     );
   }
-  Widget _crearCONFIRMACIONPASSWORD(BuildContext context){
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: TextField(
-        obscureText: true,
-        decoration: InputDecoration(
-          fillColor: Colors.black26,
-          labelText: 'CONFIRMACION CONTRASEÑA',
-          labelStyle: TextStyle(
-            color: Color.fromRGBO(42,26,94,1.0)
-          )
-        ),
-      ),
+  Widget _crearCONFIRMACIONPASSWORD(BuildContext context,RegistroBloc bloc){
+    return StreamBuilder(
+      stream:bloc.confirmacionStream,
+      builder:(BuildContext context,AsyncSnapshot snapshot){
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: TextField(
+            obscureText: true,
+            decoration: InputDecoration(
+              fillColor: Colors.black26,
+              labelText: 'CONFIRMACION CONTRASEÑA',
+              labelStyle: TextStyle(
+                color: Color.fromRGBO(42,26,94,1.0)
+              )
+            ),
+            onChanged: (value)=>bloc.changeConfirmacion(value),
+          ),
+        );
+      }
     );
   }
 
