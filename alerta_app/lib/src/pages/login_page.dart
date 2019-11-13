@@ -9,16 +9,6 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBar(
-        centerTitle: true,
-        title: Text('Alerta USAC'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.info_outline),
-            onPressed:()=>Navigator.pushNamed(context,'info') 
-          ),
-        ],
-      ),
       body: Stack(
         children: <Widget>[
           _crearFondo(context),
@@ -33,7 +23,7 @@ class LoginPage extends StatelessWidget {
       height: double.infinity,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.white
+        color: Color.fromRGBO(42,26,94,1.0)
       ),
     );
   }
@@ -41,36 +31,38 @@ class LoginPage extends StatelessWidget {
     final bloc =Provider.ofLogin(context);
     final size=MediaQuery.of(context).size;
     return SingleChildScrollView(
+      padding: EdgeInsets.only(bottom: 30.0),
       child: Column(
         children: <Widget>[
-          SafeArea(
-            child: Container(
-              height: 10.0,
-            ), 
+        SafeArea(
+          child: Container(
+            height: size.height*0.10,
+          ), 
+        ),
+        Container(
+          width: size.width*0.85,
+          decoration:BoxDecoration(
+            boxShadow: [new BoxShadow(
+              color: Colors.black,
+              blurRadius: 20.0,
+            ),],
+            color: Colors.white,
+            borderRadius: new BorderRadius.all(Radius.circular(40.0))
           ),
-          Container(
-            width: size.width*0.85,
-            decoration:BoxDecoration(
-              color: Colors.white,
-           ),
-            child: Column(
-              children: <Widget>[
-                _crearLogo(context),
-                _crearCUI(context,bloc),
-                SizedBox(height: 15.0,),
-                _crearPassword(context,bloc),
-                SizedBox(height: 30.0,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    _crearIngreso(context,bloc),
-                    SizedBox(width: 10.0,),
-                    _crearInvitado(context)
-                  ],
-                ),
-                SizedBox(height: 15.0),
-                _crearOlvido(context,'¿Haz olvidado tu contraseña?'),
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 15.0,),
+              _crearLogo(context),
+              _crearCUI(context,bloc),
+              SizedBox(height: 15.0,),
+              _crearPassword(context,bloc),
+                SizedBox(height: 25.0,),
+                _crearOlvido(context),
                 SizedBox(height: 20.0),
+                _crearIngreso(context,bloc),
+                SizedBox(width: 50.0,),
+                _crearInvitado(context),
+                SizedBox(height: 30.0),
                 _crearRegistro(context),
                 SizedBox(height: 30.0,),
               ],
@@ -83,7 +75,7 @@ class LoginPage extends StatelessWidget {
 Widget _crearLogo(BuildContext context){
   final size=MediaQuery.of(context).size;
   return Container(
-    child: Image.asset('assets/mapa3.jpg',height: size.height*0.30,),
+    child: Image.asset('assets/logo.png',height: size.height*0.10),
   );
 }
   Widget _crearCUI(BuildContext context,LoginBloc bloc){
@@ -132,9 +124,10 @@ Widget _crearLogo(BuildContext context){
   Widget _crearIngreso(BuildContext context,LoginBloc bloc){
     final size=MediaQuery.of(context).size;
   return RaisedButton(
+    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
     color: Color.fromRGBO(42,26,94,1.0),
     child: Container(
-      width:size.width*0.35,
+      width:size.width*0.65,
       child: Center(
         child: Text('INICIAR SESION',style: TextStyle(color:Colors.white)),
       )
@@ -145,52 +138,59 @@ Widget _crearLogo(BuildContext context){
   );
 }
 
-_login(LoginBloc bloc, BuildContext context){
-  usuarioProvider.iniciarSesion(bloc.cui,bloc.password);
-  print('Que lleva aqui'+ bloc.cui.toString());
-  //Navigator.pushReplacementNamed(context,'mapa'); para que funcione tengo que eliminar lo de arriba
+_login(LoginBloc bloc, BuildContext context) async{
+  Map info= await usuarioProvider.iniciarSesion(bloc.cui,bloc.password);
+  if(info['codigo']==200){
+    Navigator.pushReplacementNamed(context,'mapa');
+  }else{
+    mostrarAlerta(context,info['mensaje']);
+  }
+
 }
 Widget _crearInvitado(BuildContext context){
   final size=MediaQuery.of(context).size;
   return RaisedButton(
+    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
     color: Color.fromRGBO(244,89,5,1.0),
     child: Container(
-      width:size.width*0.25,
+      width:size.width*0.65,
       child: Center(
         child: Text('INVITADO',style: TextStyle(color:Colors.white)),
       )
     ),
     onPressed: (){
+      Navigator.pop(context);
       Navigator.pushReplacementNamed(context,'mapa');
     },
   );
 }
 
- Widget _crearOlvido(BuildContext context,String texto){
-    return Center(
+ Widget _crearRegistro(BuildContext context){
+    return Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('¿Aun no tienes cuenta? ',style: TextStyle(fontWeight:FontWeight.bold,color: Color.fromRGBO(42,26,94,1.0),fontSize:12.0, ),),
+            GestureDetector(
+              child: Text('Registrate',style:TextStyle(fontWeight:FontWeight.bold,color: Color.fromRGBO(244,89,5,1.0),fontSize:13.0, )),
+              onTap: (){
+                Navigator.pushNamed(context,'registro');
+              },
+            )
+          ],
+        ) 
+      );
+  }
+Widget _crearOlvido(BuildContext context){
+  return Center(
       child: Container(
         child: GestureDetector(
-          child: Text(texto,style:TextStyle(fontWeight:FontWeight.bold,color: Color.fromRGBO(42,26,94,1.0),fontSize:12.0, )),
+          child: Text('¿Olvidaste tu contraseña?',style:TextStyle(fontWeight:FontWeight.bold,color: Color.fromRGBO(42,26,94,1.0),fontSize:12.0, )),
           onTap: (){
             Navigator.pushNamed(context,'recuperar');
           },
         )
       ),
     );
-  }
-Widget _crearRegistro(BuildContext context){
-  final size=MediaQuery.of(context).size;
-  return RaisedButton(
-    color: Color.fromRGBO(42,26,94,1.0),
-    child: Container(
-      width:size.width*0.65,
-      child: Center(
-        child: Text('REGISTRO',style: TextStyle(color:Colors.white)),
-      )
-    ),
-    onPressed: (){
-      Navigator.pushNamed(context,'registro');
-    },
-  );
 }
 }

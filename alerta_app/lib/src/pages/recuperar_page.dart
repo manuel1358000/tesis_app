@@ -87,6 +87,7 @@ Widget _recuperarForm(BuildContext context){
   Widget _crearRecuperar(BuildContext context){
     final size=MediaQuery.of(context).size;
     return RaisedButton(
+      shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
       color: Color.fromRGBO(42,26,94,1.0),
       child: Container(
         width:size.width*0.65,

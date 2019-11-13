@@ -1,8 +1,13 @@
 
 import 'dart:convert';
+import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
+import 'package:alerta_app/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
 class UsuarioProvider{
-  Future nuevoUsuario(int cui,String password,String nombre,int tipo,int estado)async{
+
+  final _prefs = new PreferenciasUsuario();
+
+  Future<Map<String,dynamic>> nuevoUsuario(int cui,String password,String nombre,int tipo,int estado)async{
     final authData={
       'CUI':cui,
       'PASSWORD':password,
@@ -16,11 +21,10 @@ class UsuarioProvider{
       headers: {"Content-Type": "application/json"}
     );
     Map<String,dynamic> decodedResp=json.decode(resp.body);
-    print(decodedResp);
+    return decodedResp;
   }
 
-  Future iniciarSesion(int cui,String password)async{
-    print('Dentro del provider '+cui.toString());
+  Future<Map<String,dynamic>> iniciarSesion(int cui,String password)async{
     final authData={
       'CUI':cui,
       'PASSWORD':password
@@ -31,7 +35,13 @@ class UsuarioProvider{
       headers: {"Content-Type": "application/json"}
     );
     Map<String,dynamic> decodedResp=json.decode(resp.body);
-    print(decodedResp);
+    if(decodedResp.containsKey('token')){
+      _prefs.token=decodedResp['token'];
+      _prefs.cui=cui;
+      _prefs.password=password;
+      _prefs.tipo=decodedResp['tipo'];
+      _prefs.nombre=decodedResp['nombre'];
+    }
+    return decodedResp;
   }
-
 }
