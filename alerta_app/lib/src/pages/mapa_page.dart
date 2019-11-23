@@ -5,10 +5,16 @@ import 'package:alerta_app/src/bloc/provider.dart';
 import 'package:alerta_app/src/utils/utils.dart';
 import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:alerta_app/src/widgets/menu_widget.dart';
-import 'package:alerta_app/src/widgets/bottom_navigation_bar_widget.dart';
-class MapaPage extends StatelessWidget {
+import 'package:geolocator/geolocator.dart';
+class MapaPage extends StatefulWidget {
   
+  @override
+  _MapaPageState createState() => _MapaPageState();
+}
+
+class _MapaPageState extends State<MapaPage> {
   final prefs = new PreferenciasUsuario();
+
   @override
   Widget build(BuildContext context) {
 
@@ -35,16 +41,34 @@ class MapaPage extends StatelessWidget {
       floatingActionButton: _crearBotonPublicacion(context),
     );
   }
+
   Widget _crearBotonPublicacion(BuildContext context){
     return FloatingActionButton(
       splashColor: Colors.red,
       backgroundColor: Color.fromRGBO(42,26,94,1.0),
       child: Icon(Icons.location_on),
       onPressed: (){
-        mostrarAlerta(context,'Realizar Publicacion');
+        print('rayos');
+        _getCurrentLocation();
       },
     );
   }
+
+ _getCurrentLocation() {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager=true;
+
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        mostrarAlerta(context,position.latitude.toString()+'-'+position.longitude.toString());
+        print(position.latitude.toString()+'-'+position.longitude.toString());
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
   Widget _crearCarrete(BuildContext context){
     final _screenSize=MediaQuery.of(context).size;
     return Container(
@@ -57,6 +81,7 @@ class MapaPage extends StatelessWidget {
       ),
     );
   }
+
   Widget _tarjeta(BuildContext context){
     return Container(
         padding: EdgeInsets.only(left:10.0),
@@ -76,7 +101,7 @@ class MapaPage extends StatelessWidget {
         )
   );
 }
-  
+
   Widget _crearFlutterMap(BuildContext context, LoginBloc bloc){
     
     return Container(
@@ -87,10 +112,12 @@ class MapaPage extends StatelessWidget {
         ),
         layers:[
           _crearMapa(),
+          _crearMarcador()
         ]
       ),
     );
   }
+
   _crearMapa(){
     return TileLayerOptions(
       urlTemplate: 'https://api.mapbox.com/v4/'
@@ -101,5 +128,20 @@ class MapaPage extends StatelessWidget {
         //streets, dark, light, outdoors, satellite
       }
     );
+  }
+
+  _crearMarcador(){
+    return MarkerLayerOptions(
+      markers: <Marker>[
+        Marker(
+          width: 100.0,
+          height: 100.0,
+          point: LatLng(14.586493,-90.552185),
+          builder: (context)=>Container(
+            child: Icon(Icons.location_on,size:45.0),
+          )
+        )
+      ]
+    );   
   }
 }
