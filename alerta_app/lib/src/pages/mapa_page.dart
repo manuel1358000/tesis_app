@@ -3,154 +3,80 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:alerta_app/src/bloc/provider.dart';
 import 'package:alerta_app/src/utils/utils.dart';
+import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:alerta_app/src/widgets/menu_widget.dart';
+import 'package:alerta_app/src/widgets/bottom_navigation_bar_widget.dart';
 class MapaPage extends StatelessWidget {
-  const MapaPage({Key key}) : super(key: key);
-
+  
+  final prefs = new PreferenciasUsuario();
   @override
   Widget build(BuildContext context) {
+
     final bloc = Provider.ofLogin(context);
     return Scaffold(
-      appBar: AppBar(
-        title:Center(
-          child: Text('Alertas'),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.my_location),
-            onPressed: (){},
-          )
-        ],
-      ),
-      body:Stack(
+      appBar:PreferredSize(
+          preferredSize: Size.fromHeight(50.0), // here the desired height 
+          child: AppBar(
+            title: Text('AlertaUSAC'),
+            centerTitle: true,
+            elevation: 0.0,
+            actions: <Widget>[
+            ],
+          ),
+        ), 
+        body:Stack(
         children: <Widget>[
            _crearFlutterMap(context,bloc),
+           _crearCarrete(context)
         ],
       ),
       drawer: MenuWidget(),
-      bottomNavigationBar: _bottomNavigationBar(context),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: _crearBotonPublicacion(context),
     );
   }
-
-  Widget _bottomNavigationBar(BuildContext context) {
-
-    return Theme(
-      data: Theme.of(context).copyWith(
-        canvasColor: Color.fromRGBO(42,26,94,1.0),
-        primaryColor: Colors.pinkAccent,
-        textTheme: Theme.of(context).textTheme
-          .copyWith( caption: TextStyle( color: Colors.white ) )
-      ),
-      child: BottomNavigationBar(
-        
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon( Icons.calendar_today, size: 30.0 ),
-            title: Text('MIS PUBLICACIONES',style: TextStyle(fontSize: 8),)
-          ),
-          BottomNavigationBarItem(
-            icon: Icon( Icons.gps_fixed, size: 35.0 ),
-            title: Text('CREAR',style: TextStyle(fontSize: 10))
-          ),
-          BottomNavigationBarItem(
-            icon: Icon( Icons.supervised_user_circle, size: 30.0 ),
-            title: Text('USUARIOS',style:TextStyle(fontSize: 10))
-          ),
-        ],
+  Widget _crearBotonPublicacion(BuildContext context){
+    return FloatingActionButton(
+      splashColor: Colors.red,
+      backgroundColor: Color.fromRGBO(42,26,94,1.0),
+      child: Icon(Icons.location_on),
+      onPressed: (){
+        mostrarAlerta(context,'Realizar Publicacion');
+      },
+    );
+  }
+  Widget _crearCarrete(BuildContext context){
+    final _screenSize=MediaQuery.of(context).size;
+    return Container(
+      height: _screenSize.height * 0.10,
+      child: PageView.builder(
+        pageSnapping: false,
+        // children: _tarjetas(context),
+        itemCount: 1,
+        itemBuilder: ( context, i ) =>_tarjeta(context),
       ),
     );
   }
-
-  Widget _itemPerfil(int perfil,BuildContext context){
-    //perfil 1 es usuario normal
-    //perfil 2 es usuario administrador
-    //perfil 3 es usuario invitado
-    if(perfil==1){
-      return Container(
-        child: Column(
+  Widget _tarjeta(BuildContext context){
+    return Container(
+        padding: EdgeInsets.only(left:10.0),
+        color:Color.fromRGBO(42,26,94,1.0) ,
+        child: Row(
           children: <Widget>[
-            ListTile(
-              leading: Icon(Icons.person,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('MI PERFIL',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
-              onTap: (){
-                Navigator.pop(context);
-                Navigator.pushReplacementNamed(context,'perfil');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.format_list_bulleted,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('MIS PUBLICACIONES',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
-            ), 
-            ListTile(
-              leading: Icon(Icons.map,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('MAPA',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
-              onTap: (){
-                Navigator.pushReplacementNamed(context,'mapa');
-              },
-            ),
-            Divider(),
-            ListTile(
-              leading: Icon(Icons.close,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('CERRAR SESION',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
-            ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(40.0),
+                child: FadeInImage(
+                  image: NetworkImage('assets/mapa2.jpg'),
+                  placeholder: AssetImage('assets/mapa2.jpg'),
+                  fit: BoxFit.cover,
+                  height: 50.0,
+                ),
+              ),
           ],
-        ),
-      );
-    }else if(perfil==2){
-      return Container(
-        child: Column(
-          children: <Widget>[
-            ListTile(
-              leading: Icon(Icons.person,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('MI PERFIL',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
-            ),
-            ListTile(
-              leading: Icon(Icons.format_list_bulleted,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('MIS PUBLICACIONES',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
-            ), 
-            ListTile(
-              leading: Icon(Icons.format_list_bulleted,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('PUBLICACIONES',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
-            ),
-            ListTile(
-              leading: Icon(Icons.group,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('USUARIOS',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
-            ),
-            ListTile(
-              leading: Icon(Icons.map,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('MAPA',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
-              onTap: (){
-                Navigator.pushReplacementNamed(context,'mapa');
-              },
-            ),
-            Divider(),
-            ListTile(
-              leading: Icon(Icons.close,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('CERRAR SESION',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
-            ),
-          ],
-        ),
-      );
-    }else{
-      return Container(
-        child: Column(
-          children: <Widget>[
-            ListTile(
-              leading: Icon(Icons.map,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('MAPA',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
-              onTap: (){
-                Navigator.pushReplacementNamed(context,'mapa');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.close,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('CERRAR SESION',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
-            ),
-          ],
-        ),
-      );
-    }
-  }
+        )
+  );
+}
+  
   Widget _crearFlutterMap(BuildContext context, LoginBloc bloc){
     
     return Container(

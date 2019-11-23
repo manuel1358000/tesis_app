@@ -36,10 +36,11 @@ class LoginPage extends StatelessWidget {
         children: <Widget>[
         SafeArea(
           child: Container(
-            height: size.height*0.10,
+            height: size.height*0.15,
           ), 
         ),
         Container(
+          height: size.height*0.70,
           width: size.width*0.85,
           decoration:BoxDecoration(
             boxShadow: [new BoxShadow(
