@@ -1,4 +1,4 @@
-package com.example.alerta_app
+package com.manuelfuentes.alerta_app
 
 import android.os.Bundle
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:latlong/latlong.dart';
 import 'package:alerta_app/src/bloc/provider.dart';
 import 'package:alerta_app/src/utils/utils.dart';
@@ -7,7 +8,6 @@ import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:alerta_app/src/widgets/menu_widget.dart';
 import 'package:geolocator/geolocator.dart';
 class MapaPage extends StatefulWidget {
-  
   @override
   _MapaPageState createState() => _MapaPageState();
 }
@@ -43,25 +43,51 @@ class _MapaPageState extends State<MapaPage> {
   }
 
   Widget _crearBotonPublicacion(BuildContext context){
-    return FloatingActionButton(
-      splashColor: Colors.red,
-      backgroundColor: Color.fromRGBO(42,26,94,1.0),
-      child: Icon(Icons.location_on),
-      onPressed: (){
-        print('rayos');
-        _getCurrentLocation();
-      },
-    );
+    return SpeedDial(
+          // both default to 16
+          marginRight: 18,
+          marginBottom: 20,
+          animatedIcon: AnimatedIcons.menu_close,
+          animatedIconTheme: IconThemeData(size: 22.0),
+          // this is ignored if animatedIcon is non null
+          // child: Icon(Icons.add),
+          visible: true,
+          // If true user is forced to close dial manually 
+          // by tapping main button and overlay is not rendered.
+          closeManually: false,
+          curve: Curves.bounceIn,
+          overlayColor: Colors.black,
+          overlayOpacity: 0.5,
+          tooltip: 'Speed Dial',
+          heroTag: 'speed-dial-hero-tag',
+          backgroundColor: Color.fromRGBO(42,26,94,1.0),
+          foregroundColor: Colors.white,
+          elevation: 8.0,
+          shape: CircleBorder(),
+          children: [
+            SpeedDialChild(
+              child: Icon(Icons.report_problem),
+              backgroundColor: Color.fromRGBO(244,89,5,1.0),
+              label: 'ALERTA',
+              labelStyle: TextStyle(fontSize: 18.0),
+              onTap: () =>  Navigator.pushNamed(context,'alerta')
+            ),
+            SpeedDialChild(
+              child: Icon(Icons.calendar_today),
+              backgroundColor: Color.fromRGBO(251, 229, 85,1.0),
+              label: 'EVENTO',
+              labelStyle: TextStyle(fontSize: 18.0),
+              onTap: () =>  Navigator.pushNamed(context,'evento'),
+            ),
+          ],
+        );
   }
 
  _getCurrentLocation() {
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager=true;
-
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
+    geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+    .then((Position position) {
       setState(() {
-        mostrarAlerta(context,position.latitude.toString()+'-'+position.longitude.toString());
         print(position.latitude.toString()+'-'+position.longitude.toString());
       });
     }).catchError((e) {
@@ -138,7 +164,7 @@ class _MapaPageState extends State<MapaPage> {
           height: 100.0,
           point: LatLng(14.586493,-90.552185),
           builder: (context)=>Container(
-            child: Icon(Icons.location_on,size:45.0),
+            child: Icon(Icons.location_on,size:45.0,color: Colors.red,),
           )
         )
       ]

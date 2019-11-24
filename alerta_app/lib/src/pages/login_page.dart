@@ -40,7 +40,6 @@ class LoginPage extends StatelessWidget {
           ), 
         ),
         Container(
-          height: size.height*0.70,
           width: size.width*0.85,
           decoration:BoxDecoration(
             boxShadow: [new BoxShadow(

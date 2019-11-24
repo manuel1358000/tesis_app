@@ -9,6 +9,8 @@ import 'package:alerta_app/src/pages/perfil_page.dart';
 import 'package:alerta_app/src/pages/publicaciones_page.dart';
 import 'package:alerta_app/src/pages/usuarios_page.dart';
 import 'package:alerta_app/src/bloc/provider.dart';
+import 'package:alerta_app/src/pages/alerta_page.dart';
+import 'package:alerta_app/src/pages/evento_page.dart';
 import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 void main()async{
   final prefs = new PreferenciasUsuario();
@@ -42,6 +44,8 @@ class MyApp extends StatelessWidget {
           'mispublicaciones': (BuildContext context) =>MisPublicacionesPage(),
           'publicaciones': (BuildContext context) =>PublicacionesPage(),
           'usuarios': (BuildContext context) =>UsuariosPage(),
+          'alerta': (BuildContext context) =>AlertaPage(),
+          'evento': (BuildContext context) =>EventoPage(),
         },
         theme:ThemeData(
           primaryColor: Color.fromRGBO(42,26,94,1.0),

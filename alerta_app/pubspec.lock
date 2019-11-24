@@ -104,6 +104,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.3"
+  flutter_speed_dial:
+    dependency: "direct main"
+    description:
+      name: flutter_speed_dial
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.4"
   flutter_swiper:
     dependency: "direct main"
     description:
@@ -221,13 +228,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
-  qrcode_reader:
-    dependency: "direct main"
-    description:
-      name: qrcode_reader
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.4"
   quiver:
     dependency: transitive
     description:
