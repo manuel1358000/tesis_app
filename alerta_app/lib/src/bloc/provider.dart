@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:alerta_app/src/bloc/login_bloc.dart';
 import 'package:alerta_app/src/bloc/registro_bloc.dart';
+import 'package:alerta_app/src/bloc/publicacion_bloc.dart';
 export 'package:alerta_app/src/bloc/login_bloc.dart';
 export 'package:alerta_app/src/bloc/registro_bloc.dart';
 class Provider extends InheritedWidget{
@@ -19,6 +20,7 @@ class Provider extends InheritedWidget{
 
   final loginBloc= LoginBloc();
   final registroBloc= RegistroBloc();
+  final publicacionBloc= PublicacionBloc();
 
 
 
@@ -33,5 +35,8 @@ class Provider extends InheritedWidget{
   }
   static RegistroBloc ofRegistro(BuildContext context){
     return (context.inheritFromWidgetOfExactType(Provider)as Provider).registroBloc;
+  }
+  static PublicacionBloc ofPublicacion(BuildContext context){
+    return (context.inheritFromWidgetOfExactType(Provider)as Provider).publicacionBloc;
   }
 }

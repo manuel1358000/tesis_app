@@ -44,4 +44,21 @@ class UsuarioProvider{
     }
     return decodedResp;
   }
+  Future<Map<String,dynamic>> publicacion(int tipo,String nombre,String descripcion,double posicionX, double posicionY, int estado)async{
+    final authData={
+      'TIPO':tipo,
+      'NOMBRE':nombre,
+      'DESCRIPCION':descripcion,
+      'POSICIONX':posicionX,
+      'POSICIONY':posicionY,
+      'ESTADO':estado
+    };
+    final resp=await http.post(
+      'http://192.168.0.17:8080/post/publicacionAU',
+      body:json.encode(authData),
+      headers: {"Content-Type": "application/json"}
+    );
+    Map<String,dynamic> decodedResp=json.decode(resp.body);
+    return decodedResp;
+  }
 }
