@@ -69,6 +69,7 @@ class UsuarioProvider{
         await publicacion(tipo,nombre,descripcion,posicionX,posicionY,estado,subtipo);
       }
     }
+    print('Paso por aqui');
     return decodedResp;
   }
 }

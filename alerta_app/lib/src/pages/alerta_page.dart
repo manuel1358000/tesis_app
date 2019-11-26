@@ -12,11 +12,8 @@ class AlertaPage extends StatefulWidget {
 
 class _AlertaPageState extends State<AlertaPage> {
   final _prefs = new PreferenciasUsuario();
-
   final usuarioProvider=new UsuarioProvider();
-
   String _opcionSeleccionada='Emergencia Medica';
-
   List<String> _tipos=['Emergencia Medica','Accidente Vehicular','Asalto','Robo Vehiculo','Incendio','Bloqueo','Otro'];
 
   @override
@@ -53,6 +50,7 @@ class _AlertaPageState extends State<AlertaPage> {
 
   Widget _alertaForm(BuildContext context){
     final bloc =Provider.ofPublicacion(context);
+    bloc.setSubtipo=1;
     final size=MediaQuery.of(context).size;
     return SingleChildScrollView(
       padding: EdgeInsets.only(bottom: 30.0),
@@ -177,7 +175,6 @@ class _AlertaPageState extends State<AlertaPage> {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: TextField(
-            minLines: 3,
             maxLines: null,
             decoration: InputDecoration(
               fillColor: Color.fromRGBO(42,26,94,1.0),
@@ -211,31 +208,21 @@ class _AlertaPageState extends State<AlertaPage> {
     );
   }
 
-  Future<Position> _getCurrentLocation(PublicacionBloc bloc,BuildContext context){
+   _getCurrentLocation(PublicacionBloc bloc,BuildContext context){
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager=true;
-    var respuesta = geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+    geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
     .then((Position position) {
       _registrarPublicacion(bloc,position,context);
     }).catchError((e) {
-      print(e);
+      print('error: '+e);
     });
-    return respuesta;
   }
 
   _registrarPublicacion(PublicacionBloc bloc,Position position,BuildContext context)async {
-    print(bloc.subtipo);
-    /*Map info=await usuarioProvider.publicacion(1,bloc.nombre,bloc.descripcion,position.latitude,position.longitude,1,bloc.subtipo);
+    print("aqui1");
+    Map info=await usuarioProvider.publicacion(1,bloc.nombre,bloc.descripcion,position.latitude,position.longitude,1,bloc.subtipo);
     if(info['codigo']==200){
       Navigator.pushReplacementNamed(context,'mapa');
-    }else{
-      mostrarAlerta(context,info['mensaje']);
-    }*/
-  }
-
-  _login(LoginBloc bloc, BuildContext context) async{
-    Map info= await usuarioProvider.iniciarSesion(bloc.cui,bloc.password);
-    if(info['codigo']==200){
-      
     }else{
       mostrarAlerta(context,info['mensaje']);
     }
