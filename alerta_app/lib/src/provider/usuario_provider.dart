@@ -44,21 +44,31 @@ class UsuarioProvider{
     }
     return decodedResp;
   }
-  Future<Map<String,dynamic>> publicacion(int tipo,String nombre,String descripcion,double posicionX, double posicionY, int estado)async{
+  Future<Map<String,dynamic>> publicacion(int tipo,String nombre,String descripcion,double posicionX, double posicionY, int estado,int subtipo)async{
     final authData={
       'TIPO':tipo,
       'NOMBRE':nombre,
       'DESCRIPCION':descripcion,
       'POSICIONX':posicionX,
       'POSICIONY':posicionY,
-      'ESTADO':estado
+      'ESTADO':estado,
+      'CUI':_prefs.cui,
+      'TOKEN':_prefs.token,
+      'SUBTIPO':subtipo
     };
+    print(authData);
     final resp=await http.post(
       'http://192.168.0.17:8080/post/publicacionAU',
       body:json.encode(authData),
       headers: {"Content-Type": "application/json"}
     );
     Map<String,dynamic> decodedResp=json.decode(resp.body);
+    if(decodedResp.containsKey('codigo')){
+      if(decodedResp['codigo']==505){
+        await iniciarSesion(_prefs.cui,_prefs.password);
+        await publicacion(tipo,nombre,descripcion,posicionX,posicionY,estado,subtipo);
+      }
+    }
     return decodedResp;
   }
 }

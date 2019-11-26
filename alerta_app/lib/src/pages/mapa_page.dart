@@ -20,16 +20,23 @@ class _MapaPageState extends State<MapaPage> {
 
     final bloc = Provider.ofLogin(context);
     return Scaffold(
-      appBar:PreferredSize(
-          preferredSize: Size.fromHeight(50.0), // here the desired height 
-          child: AppBar(
+      appBar:AppBar(
+            backgroundColor: Color.fromRGBO(42,26,94,1.0),
             title: Text('AlertaUSAC'),
             centerTitle: true,
             elevation: 0.0,
             actions: <Widget>[
+              Container(
+                margin: EdgeInsets.all(10.0),
+                child:GestureDetector(
+                  child:Icon(Icons.fiber_smart_record,color: Colors.white),
+                  onLongPress: (){
+                    mostrarAlerta(context,'Boton de Panico');
+                  },
+                )
+              )
             ],
           ),
-        ), 
         body:Stack(
         children: <Widget>[
            _crearFlutterMap(context,bloc),
@@ -68,33 +75,20 @@ class _MapaPageState extends State<MapaPage> {
             SpeedDialChild(
               child: Icon(Icons.report_problem),
               backgroundColor: Color.fromRGBO(244,89,5,1.0),
-              label: 'ALERTA',
+              label: 'Alerta',
               labelStyle: TextStyle(fontSize: 18.0),
               onTap: () =>  Navigator.pushNamed(context,'alerta')
             ),
             SpeedDialChild(
               child: Icon(Icons.calendar_today),
               backgroundColor: Color.fromRGBO(251, 229, 85,1.0),
-              label: 'EVENTO',
+              label: 'Evento',
               labelStyle: TextStyle(fontSize: 18.0),
               onTap: () =>  Navigator.pushNamed(context,'evento'),
             ),
           ],
         );
   }
-
- _getCurrentLocation() {
-    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager=true;
-    geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-    .then((Position position) {
-      setState(() {
-        print(position.latitude.toString()+'-'+position.longitude.toString());
-      });
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
   Widget _crearCarrete(BuildContext context){
     final _screenSize=MediaQuery.of(context).size;
     return Container(
@@ -133,8 +127,8 @@ class _MapaPageState extends State<MapaPage> {
     return Container(
       child: FlutterMap(
         options: MapOptions(
-          center: LatLng(14.586493,-90.552185),
-          zoom: 17
+          center: LatLng(14.611468, -90.545515),
+          zoom: 18
         ),
         layers:[
           _crearMapa(),
@@ -162,10 +156,15 @@ class _MapaPageState extends State<MapaPage> {
         Marker(
           width: 100.0,
           height: 100.0,
-          point: LatLng(14.586493,-90.552185),
+          point: LatLng(14.611468, -90.545515),
           builder: (context)=>Container(
-            child: Icon(Icons.location_on,size:45.0,color: Colors.red,),
-          )
+            child: GestureDetector(
+              child:  Icon(Icons.location_on,size:45.0,color: Colors.red,),
+              onTap:(){
+                print('Accion del icono');
+              },
+            ),
+          ),
         )
       ]
     );   

@@ -88,7 +88,7 @@ Widget _crearLogo(BuildContext context){
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               fillColor: Colors.black26,
-              labelText: 'CUI',
+              labelText: 'Cui',
               hintText: 'Ej. 20000000010101',
               labelStyle: TextStyle(
                 color: Color.fromRGBO(42,26,94,1.0)
@@ -110,7 +110,7 @@ Widget _crearLogo(BuildContext context){
             obscureText: true,
             decoration: InputDecoration(
               fillColor: Colors.black26,
-              labelText: 'CONTRASEÑA',
+              labelText: 'Contraseña',
               labelStyle: TextStyle(
                 color: Color.fromRGBO(42,26,94,1.0)
               )
@@ -129,7 +129,7 @@ Widget _crearLogo(BuildContext context){
     child: Container(
       width:size.width*0.65,
       child: Center(
-        child: Text('INICIAR SESION',style: TextStyle(color:Colors.white)),
+        child: Text('Iniciar Sesion',style: TextStyle(color:Colors.white)),
       )
     ),
     onPressed: (){
