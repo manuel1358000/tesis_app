@@ -53,6 +53,7 @@ class LoginPage extends StatelessWidget {
             children: <Widget>[
               SizedBox(height: 15.0,),
               _crearLogo(context),
+              SizedBox(height: 20.0,),
               _crearCUI(context,bloc),
               SizedBox(height: 15.0,),
               _crearPassword(context,bloc),
@@ -87,6 +88,9 @@ Widget _crearLogo(BuildContext context){
           child: TextField(
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.0)
+              ),
               fillColor: Colors.black26,
               labelText: 'Cui',
               hintText: 'Ej. 20000000010101',
@@ -109,6 +113,9 @@ Widget _crearLogo(BuildContext context){
           child: TextField(
             obscureText: true,
             decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.0)
+              ),
               fillColor: Colors.black26,
               labelText: 'Contraseña',
               labelStyle: TextStyle(

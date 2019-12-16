@@ -12,6 +12,8 @@ import 'package:alerta_app/src/bloc/provider.dart';
 import 'package:alerta_app/src/pages/alerta_page.dart';
 import 'package:alerta_app/src/pages/evento_page.dart';
 import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 void main()async{
   final prefs = new PreferenciasUsuario();
   await prefs.initPrefs();
@@ -31,6 +33,15 @@ class MyApp extends StatelessWidget {
     print(prefs.token);
     return Provider(
       child: MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en','US'),
+          const Locale('es','ES'),
+          const Locale.fromSubtags(languageCode: 'zh'),
+        ],
         debugShowCheckedModeBanner: false,
         title: 'Alerta App',
         initialRoute: _verificarSesion(),

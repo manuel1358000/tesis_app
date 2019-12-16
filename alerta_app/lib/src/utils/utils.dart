@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-void mostrarAlerta(BuildContext context,String mensaje){
+mostrarAlerta(BuildContext context,String mensaje){
   showDialog(
     context: context,
     builder: (context){
@@ -16,5 +16,6 @@ void mostrarAlerta(BuildContext context,String mensaje){
     }
   );
 }
+
 
 

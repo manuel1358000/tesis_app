@@ -10,6 +10,7 @@ class PublicacionBloc{
   final _posicionYController   = BehaviorSubject<double>();
   final _estadoController      = BehaviorSubject<int>();
   final _subtipoController     = BehaviorSubject<int>();
+  final _fechaController     = BehaviorSubject<String>();
   
 
   //recuperar los datos del Stream
@@ -20,7 +21,7 @@ class PublicacionBloc{
   Stream<double>   get posicionYStream   => _posicionYController.stream;
   Stream<int>      get estadoStream      => _estadoController.stream;
   Stream<int>      get subtipoStream     => _subtipoController.stream;
-  
+  Stream<String>   get fechaStream       => _fechaController.stream;
   //insertar valores al stream
   Function(int)       get changeTipo        => _tipoController.sink.add;
   Function(String)    get changeNombre      => _nombreController.sink.add;
@@ -29,7 +30,7 @@ class PublicacionBloc{
   Function(double)    get changePosicionY   => _posicionYController.sink.add;
   Function(int)       get changeEstado      => _estadoController.sink.add;  
   Function(int)       get changeSubtipo     => _subtipoController.sink.add;  
-  
+  Function(String)       get changeFecha     => _fechaController.sink.add;  
   //obtener el ultimo valor ingresado a los textinput
   int    get tipo        =>_tipoController.value;
   String get nombre      =>_nombreController.value;
@@ -37,8 +38,8 @@ class PublicacionBloc{
   double get posicionX   =>_posicionXController.value;
   double get posicionY   =>_posicionYController.value;
   int    get estado      =>_estadoController.value;
-  int    get subtipo      =>_subtipoController.value;
-
+  int    get subtipo     =>_subtipoController.value;
+  String get fecha       =>_fechaController.value;
 
   set setTipo(int valor)           =>_tipoController.value=valor;
   set setNombre(String valor)      =>_nombreController.value=valor;
@@ -47,6 +48,7 @@ class PublicacionBloc{
   set setPosicionY(double valor)   =>_posicionYController.value=valor;
   set setEstado(int valor)         =>_estadoController.value=valor;
   set setSubtipo(int valor)         =>_subtipoController.value=valor;
+  set setFecha(String valor)         =>_fechaController.value=valor;
 
   dispose(){
     _tipoController?.close();
@@ -56,5 +58,6 @@ class PublicacionBloc{
     _posicionYController?.close();
     _estadoController?.close();
     _subtipoController?.close();
+    _fechaController?.close();
   }
 }

@@ -44,19 +44,20 @@ class UsuarioProvider{
     }
     return decodedResp;
   }
-  Future<Map<String,dynamic>> publicacion(int tipo,String nombre,String descripcion,double posicionX, double posicionY, int estado,int subtipo)async{
+  Future<Map<String,dynamic>> publicacion(int tipo,String nombre,String descripcion,double posicionX, double posicionY, int estado,int subtipo,String fechahora)async{
     final authData={
       'TIPO':tipo,
       'NOMBRE':nombre,
       'DESCRIPCION':descripcion,
       'POSICIONX':posicionX,
       'POSICIONY':posicionY,
+      'FECHAHORA':fechahora,
       'ESTADO':estado,
       'CUI':_prefs.cui,
       'TOKEN':_prefs.token,
       'SUBTIPO':subtipo
     };
-    print(authData);
+    
     final resp=await http.post(
       'http://192.168.0.17:8080/post/publicacionAU',
       body:json.encode(authData),
@@ -66,10 +67,9 @@ class UsuarioProvider{
     if(decodedResp.containsKey('codigo')){
       if(decodedResp['codigo']==505){
         await iniciarSesion(_prefs.cui,_prefs.password);
-        await publicacion(tipo,nombre,descripcion,posicionX,posicionY,estado,subtipo);
+        await publicacion(tipo,nombre,descripcion,posicionX,posicionY,estado,subtipo,fechahora);
       }
     }
-    print('Paso por aqui');
     return decodedResp;
   }
 }

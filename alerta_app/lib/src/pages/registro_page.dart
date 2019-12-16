@@ -51,7 +51,7 @@ class RegistroPage extends StatelessWidget {
               children: <Widget>[
                 SizedBox(height: 30.0,),
                 _crearTexto(context),
-                SizedBox(height: 5.0,),
+                SizedBox(height:20.0,),
                 _crearCUI(context,bloc),
                 SizedBox(height: 15.0,),
                 _crearNOMBRE(context,bloc),
@@ -73,7 +73,7 @@ class RegistroPage extends StatelessWidget {
   }
   Widget _crearTexto(BuildContext context){
   return Center(
-    child:Text('Registro Usuarios',style:TextStyle(fontWeight:FontWeight.bold,color: Color.fromRGBO(42,26,94,1.0),fontSize:14.0, )),
+    child:Text('Registro Usuarios',style:TextStyle(fontWeight:FontWeight.bold,color: Color.fromRGBO(42,26,94,1.0),fontSize:20.0, )),
     );
 }
   Widget _crearCUI(BuildContext context,RegistroBloc bloc){
@@ -85,6 +85,9 @@ class RegistroPage extends StatelessWidget {
           child: TextField(
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.0)
+              ),
               fillColor: Colors.black26,
               labelText: 'CUI',
               hintText: 'Ej. 2000000000101',
@@ -108,6 +111,9 @@ class RegistroPage extends StatelessWidget {
           child: TextField(
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.0)
+              ),
               fillColor: Colors.black26,
               labelText: 'NOMBRE',
               hintText: 'Ej. Manuel Fuentes',
@@ -134,6 +140,9 @@ class RegistroPage extends StatelessWidget {
               color: Color.fromRGBO(42,26,94,1.0)
             ),
             decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.0)
+              ),
               fillColor: Colors.black26,
               labelText: 'CONTRASEÑA',
               labelStyle: TextStyle(
@@ -156,6 +165,9 @@ class RegistroPage extends StatelessWidget {
           child: TextField(
             obscureText: true,
             decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.0)
+              ),
               fillColor: Colors.black26,
               labelText: 'CONFIRMACION CONTRASEÑA',
               labelStyle: TextStyle(

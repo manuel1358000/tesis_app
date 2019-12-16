@@ -77,6 +77,7 @@ class _AlertaPageState extends State<AlertaPage> {
                 Text('Tipo Alerta',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize:20)),
                 SizedBox(height: 10.0,),
                 _crearTIPO(context,bloc),
+                SizedBox(height: 15.0,),
                 _crearNOMBRE(context,bloc),
                 SizedBox(height: 25.0,),
                 _crearDESCRIPCION(context,bloc),
@@ -155,6 +156,9 @@ class _AlertaPageState extends State<AlertaPage> {
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: TextField(
             decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.0)
+              ),
               fillColor: Color.fromRGBO(42,26,94,1.0),
               labelText: 'Titulo Alerta',
               labelStyle: TextStyle(
@@ -177,6 +181,9 @@ class _AlertaPageState extends State<AlertaPage> {
           child: TextField(
             maxLines: null,
             decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20.0)
+              ),
               fillColor: Color.fromRGBO(42,26,94,1.0),
               labelText: 'Descripcion Alerta',
               labelStyle: TextStyle(
@@ -220,9 +227,11 @@ class _AlertaPageState extends State<AlertaPage> {
 
   _registrarPublicacion(PublicacionBloc bloc,Position position,BuildContext context)async {
     print("aqui1");
-    Map info=await usuarioProvider.publicacion(1,bloc.nombre,bloc.descripcion,position.latitude,position.longitude,1,bloc.subtipo);
+    DateTime now = new DateTime.now();
+    Map info=await usuarioProvider.publicacion(1,bloc.nombre,bloc.descripcion,position.latitude,position.longitude,1,bloc.subtipo,now.toString());
     if(info['codigo']==200){
-      Navigator.pushReplacementNamed(context,'mapa');
+      await mostrarAlerta(context,info['mensaje']);
+      Navigator.pushNamedAndRemoveUntil(context,'mapa',(_)=>false);
     }else{
       mostrarAlerta(context,info['mensaje']);
     }
