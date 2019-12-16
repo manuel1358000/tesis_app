@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'package:alerta_app/src/models/usuario_model.dart';
 import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:alerta_app/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
@@ -71,5 +72,17 @@ class UsuarioProvider{
       }
     }
     return decodedResp;
+  }
+
+  Future<UsuarioModel> cargarUsuario(int cui)async{
+    final resp=await http.get(
+      'http://192.168.0.17:8080/get/usuarioAU?CUI='+cui.toString(),
+      headers: {"Content-Type": "application/json"}
+    );
+    Map<String,dynamic> decodedResp=json.decode(resp.body);
+    if(decodedResp==null)return null;
+    final usuarioTemp=UsuarioModel.fromJson(decodedResp);
+    print(usuarioTemp);
+    return usuarioTemp;
   }
 }
