@@ -14,7 +14,7 @@ class UsuarioModel {
         this.nombre="",
     });
     factory UsuarioModel.fromJson(Map<String, dynamic> json) => UsuarioModel(
-        cui: json["cui"],
+        cui: int.parse(json["cui"]),
         password: json["password"],
         nombre: json["nombre"],
     );

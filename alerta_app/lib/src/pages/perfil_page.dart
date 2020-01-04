@@ -75,8 +75,8 @@ class PerfilPage extends StatelessWidget {
             ),
             child: Column(
               children: <Widget>[
-                SizedBox(height:80.0,),
-                Text(_prefs.nombre,style: TextStyle(fontSize: 20,color:Color.fromRGBO(42,26,94,1.0),),),
+                SizedBox(height:80.0),
+                Text(_prefs.nombre,textAlign: TextAlign.center ,style: TextStyle(fontSize: 20,color:Color.fromRGBO(42,26,94,1.0))), 
                 SizedBox(height:20.0,),
                 _datosPerfil(),
                 SizedBox(height:20.0,),
@@ -92,14 +92,65 @@ class PerfilPage extends StatelessWidget {
       future: usuarioProvider.cargarUsuario(_prefs.cui),
       builder: (BuildContext context, AsyncSnapshot<UsuarioModel> snapshot) {
         if(!snapshot.hasData){
-          Center(child:CircularProgressIndicator());
+         return Center(child:CircularProgressIndicator(backgroundColor: Color.fromRGBO(42,26,94,1.0)));
         }
-        return Container();
+        final usuario=snapshot.data;
+        return Container(
+          child:Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _itemDatos(Icons.format_list_numbered_rtl,'CUI',usuario.cui.toString()),
+              //SizedBox(height: 20),
+              //_itemDatos(Icons.group,'NOMBRE',usuario.nombre),
+              SizedBox(height: 20),
+              _itemDatos(Icons.lock_outline,'PASSWORD',usuario.password),
+              SizedBox(height: 20.0,),
+              _actualizarDatos(context)
+            ],
+          ),
+        );
       },
     );
   }
-
-
+  Widget _itemDatos(IconData icono,String tipo,String datos){
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Container(
+        margin: EdgeInsets.only(left: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Icon(icono,color: Color.fromRGBO(42,26,94,1.0),),
+            SizedBox(width:25),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(tipo,style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, color: Color.fromRGBO(42,26,94,1.0))),
+                SizedBox(height: 10,),
+                Text(datos,style: TextStyle(fontSize: 15.0, color: Color.fromRGBO(42,26,94,1.0)))
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+ Widget _actualizarDatos(BuildContext context){
+    final size=MediaQuery.of(context).size;
+  return RaisedButton(
+    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+    color: Color.fromRGBO(42,26,94,1.0),
+    child: Container(
+      width:size.width*0.65,
+      child: Center(
+        child: Text('Actualizar Datos',style: TextStyle(color:Colors.white)),
+      )
+    ),
+    onPressed: (){
+      print('Actualizar datos');
+    },
+  );
+}
   Widget _crearFondo(BuildContext context){
     final _screenSize=MediaQuery.of(context).size;
     return Column(

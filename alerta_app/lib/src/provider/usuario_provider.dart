@@ -82,7 +82,6 @@ class UsuarioProvider{
     Map<String,dynamic> decodedResp=json.decode(resp.body);
     if(decodedResp==null)return null;
     final usuarioTemp=UsuarioModel.fromJson(decodedResp);
-    print(usuarioTemp);
     return usuarioTemp;
   }
 }
