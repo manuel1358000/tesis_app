@@ -96,7 +96,8 @@ Widget _crearLogo(BuildContext context){
               hintText: 'Ej. 20000000010101',
               labelStyle: TextStyle(
                 color: Color.fromRGBO(42,26,94,1.0)
-              )
+              ),
+              errorText: 'Falta ingresar contenido'
             ),
             onChanged: (value)=>bloc.changeCui(int.parse(value)),
           ),
@@ -120,7 +121,8 @@ Widget _crearLogo(BuildContext context){
               labelText: 'Contraseña',
               labelStyle: TextStyle(
                 color: Color.fromRGBO(42,26,94,1.0)
-              )
+              ),
+              errorText: 'Falta ingresar contenido'
             ),
             onChanged: (value)=>bloc.changePassword(value),
           ),
