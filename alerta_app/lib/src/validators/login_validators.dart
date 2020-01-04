@@ -1,13 +1,22 @@
 import 'dart:async';
 class Validators{
-  final validarContra=StreamTransformer<String,String>.fromHandlers(
-    handleData: (contra,sink){
-      if(contra.length>=6){
-        sink.add(contra);
+  final validarCUI=StreamTransformer<int,int>.fromHandlers(
+    handleData: (cui,sink){
+      if(cui.toString().length!=0){
+        sink.add(cui);
       }else{
-        sink.addError('Mas de 6 caracteres por favor');
+        sink.addError('Ingrese un CUI valido');
+        
       }
     }
   );
-  final validarCUI=StreamTransformer<int,int>.fromHandlers();
+  final validarContra=StreamTransformer<String,String>.fromHandlers(
+    handleData: (contra,sink){
+      if(contra!=''){
+        sink.add(contra);
+      }else{
+        sink.addError('Ingrese una contraseña');
+      }
+    }
+  );
 }

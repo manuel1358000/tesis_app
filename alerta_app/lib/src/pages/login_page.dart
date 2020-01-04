@@ -97,7 +97,7 @@ Widget _crearLogo(BuildContext context){
               labelStyle: TextStyle(
                 color: Color.fromRGBO(42,26,94,1.0)
               ),
-              errorText: 'Falta ingresar contenido'
+              errorText: snapshot.error
             ),
             onChanged: (value)=>bloc.changeCui(int.parse(value)),
           ),
@@ -122,7 +122,7 @@ Widget _crearLogo(BuildContext context){
               labelStyle: TextStyle(
                 color: Color.fromRGBO(42,26,94,1.0)
               ),
-              errorText: 'Falta ingresar contenido'
+              errorText: snapshot.error
             ),
             onChanged: (value)=>bloc.changePassword(value),
           ),
@@ -131,19 +131,24 @@ Widget _crearLogo(BuildContext context){
     );
   }
   Widget _crearIngreso(BuildContext context,LoginBloc bloc){
-    final size=MediaQuery.of(context).size;
-  return RaisedButton(
-    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-    color: Color.fromRGBO(42,26,94,1.0),
-    child: Container(
-      width:size.width*0.65,
-      child: Center(
-        child: Text('Iniciar Sesion',style: TextStyle(color:Colors.white)),
-      )
-    ),
-    onPressed: (){
-      _login(bloc,context);
-    },
+  final size=MediaQuery.of(context).size;
+  return StreamBuilder(
+    stream: bloc.formValidator,
+    builder: (BuildContext context, AsyncSnapshot snapshot){
+      return RaisedButton(
+        shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+        color: Color.fromRGBO(42,26,94,1.0),
+        child: Container(
+          width:size.width*0.65,
+          child: Center(
+            child: Text('Iniciar Sesion',style: TextStyle(color:Colors.white)),
+          )
+        ),
+        onPressed: snapshot.hasData ? (){
+          _login(bloc,context);
+        }:null,
+      );  
+    }
   );
 }
 
