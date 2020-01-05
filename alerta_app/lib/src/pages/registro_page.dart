@@ -210,13 +210,17 @@ Widget _crearREGISTRO(BuildContext context, RegistroBloc bloc){
 }
 
 _registro(RegistroBloc bloc,BuildContext context) async{
-  Map info=await usuarioProvider.nuevoUsuario(bloc.cui, bloc.password, bloc.nombre,1,1);
-  if(info['codigo']==200){
-    final Data data= new Data(contenido:'Usuario registrado de manera exitosa');
-    Navigator.pushNamed(context, 'login',arguments:data);
+  if(bloc.password==bloc.confirmacion){
+    Map info=await usuarioProvider.nuevoUsuario(bloc.cui, bloc.password, bloc.nombre,1,1);
+    if(info['codigo']==200){
+      final Data data= new Data(contenido:'Usuario registrado de manera exitosa');
+      Navigator.pushNamed(context, 'login',arguments:data);
+    }else{
+      mostrarAlerta(context,info['mensaje']);
+    }    
   }else{
-    mostrarAlerta(context,info['mensaje']);
-  }    
+    mostrarAlerta(context,'Las contraseñas no coinciden, por favor intente nuevamente.');
+  }
 }
  Widget _crearLogin(BuildContext context){
     return Container(
