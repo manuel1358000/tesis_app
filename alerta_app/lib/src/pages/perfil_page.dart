@@ -3,6 +3,7 @@ import 'package:alerta_app/src/widgets/menu_widget.dart';
 import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:alerta_app/src/provider/usuario_provider.dart';
 import 'package:alerta_app/src/models/usuario_model.dart';
+import 'package:shimmer/shimmer.dart';
 class PerfilPage extends StatelessWidget {
   final _prefs = new PreferenciasUsuario();
   final usuarioProvider =new UsuarioProvider();
@@ -92,7 +93,11 @@ class PerfilPage extends StatelessWidget {
       future: usuarioProvider.cargarUsuario(_prefs.cui),
       builder: (BuildContext context, AsyncSnapshot<UsuarioModel> snapshot) {
         if(!snapshot.hasData){
-         return Center(child:CircularProgressIndicator(backgroundColor: Color.fromRGBO(42,26,94,1.0)));
+          return Center(
+            child:CircularProgressIndicator(
+              backgroundColor: Color.fromRGBO(42,26,94,1.0)
+            )
+          );
         }
         final usuario=snapshot.data;
         return Container(
@@ -103,6 +108,8 @@ class PerfilPage extends StatelessWidget {
               //SizedBox(height: 20),
               //_itemDatos(Icons.group,'NOMBRE',usuario.nombre),
               SizedBox(height: 20),
+              _itemDatos(Icons.filter_none,'NOMBRE',usuario.password),
+              SizedBox(height: 20.0,),
               _itemDatos(Icons.lock_outline,'PASSWORD',usuario.password),
               SizedBox(height: 20.0,),
               _actualizarDatos(context)
@@ -125,7 +132,7 @@ class PerfilPage extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(tipo,style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, color: Color.fromRGBO(42,26,94,1.0))),
+                Text(tipo,style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, color: Color.fromRGBO(244,89,5,1.0))),
                 SizedBox(height: 10,),
                 Text(datos,style: TextStyle(fontSize: 15.0, color: Color.fromRGBO(42,26,94,1.0)))
               ],
@@ -139,7 +146,7 @@ class PerfilPage extends StatelessWidget {
     final size=MediaQuery.of(context).size;
   return RaisedButton(
     shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-    color: Color.fromRGBO(42,26,94,1.0),
+    color: Color.fromRGBO(244,89,5,1.0),
     child: Container(
       width:size.width*0.65,
       child: Center(
