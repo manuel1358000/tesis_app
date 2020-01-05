@@ -10,7 +10,7 @@ class RegistroBloc with Validators{
 
   //recuperar los datos del Stream
   Stream<int>   get cuiStream          => _cuiController.stream.transform(validarCUI);
-  Stream<String>get nombreStream       => _nombreController.stream.transform(validarNOMBRE);
+  Stream<String>get nombreStream       => _nombreController.stream;
   Stream<String>get passwordStream     => _passwordController.stream.transform(validarCONTRA);
   Stream<String>get confirmacionStream => _confirmacionController.stream.transform(validarCONFIRMACION);
   

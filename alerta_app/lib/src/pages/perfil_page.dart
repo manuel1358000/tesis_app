@@ -1,3 +1,4 @@
+import 'package:alerta_app/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:alerta_app/src/widgets/menu_widget.dart';
 import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
@@ -99,7 +100,7 @@ class PerfilPage extends StatelessWidget {
             )
           );
         }
-        final usuario=snapshot.data;
+        UsuarioModel usuario=snapshot.data;
         return Container(
           child:Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,11 +109,11 @@ class PerfilPage extends StatelessWidget {
               //SizedBox(height: 20),
               //_itemDatos(Icons.group,'NOMBRE',usuario.nombre),
               SizedBox(height: 20),
-              _itemDatos(Icons.filter_none,'NOMBRE',usuario.password),
+              _itemDatos(Icons.filter_none,'NOMBRE',usuario.nombre),
               SizedBox(height: 20.0,),
-              _itemDatos(Icons.lock_outline,'PASSWORD',usuario.password),
+              _itemDatos(Icons.lock_outline,'CONTRASEÑA',usuario.password),
               SizedBox(height: 20.0,),
-              _actualizarDatos(context)
+              _actualizarDatos(context,usuario)
             ],
           ),
         );
@@ -142,8 +143,8 @@ class PerfilPage extends StatelessWidget {
       ),
     );
   }
- Widget _actualizarDatos(BuildContext context){
-    final size=MediaQuery.of(context).size;
+ Widget _actualizarDatos(BuildContext context,UsuarioModel usuario){
+  final size=MediaQuery.of(context).size;
   return RaisedButton(
     shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
     color: Color.fromRGBO(244,89,5,1.0),
@@ -154,7 +155,7 @@ class PerfilPage extends StatelessWidget {
       )
     ),
     onPressed: (){
-      print('Actualizar datos');
+      Navigator.pushNamed(context,'editarusuario',arguments:usuario);
     },
   );
 }

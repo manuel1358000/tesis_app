@@ -24,6 +24,19 @@ class UsuarioProvider{
     Map<String,dynamic> decodedResp=json.decode(resp.body);
     return decodedResp;
   }
+  Future<Map<String,dynamic>> editarUsuario(int cui,String password,String nombre)async{
+    final authData={
+      'CUI':cui,
+      'PASSWORD':password,
+      'NOMBRE':nombre
+    };
+    final resp=await http.put('http://192.168.0.17:8080/put/usuarioAU',
+      body:json.encode(authData),
+      headers: {"Content-Type": "application/json"});
+    Map<String,dynamic> decodedResp=json.decode(resp.body);
+    print(decodedResp);
+    return decodedResp;
+  }
 
   Future<Map<String,dynamic>> iniciarSesion(int cui,String password)async{
     final authData={
@@ -81,7 +94,13 @@ class UsuarioProvider{
     );
     Map<String,dynamic> decodedResp=json.decode(resp.body);
     if(decodedResp==null)return null;
+    print(decodedResp);
     final usuarioTemp=UsuarioModel.fromJson(decodedResp);
     return usuarioTemp;
   }
+
+      
+
+
+
 }

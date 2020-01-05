@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:alerta_app/src/pages/editar_usuario_page.dart';
 import 'package:alerta_app/src/pages/registro_page.dart';
 import 'package:alerta_app/src/pages/info_page.dart';
 import 'package:alerta_app/src/pages/login_page.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
           'mapa': (BuildContext context) =>MapaPage(),
           'info': (BuildContext context) =>InfoPage(),
           'registro': (BuildContext context) =>RegistroPage(),
+          'editarusuario': (BuildContext context) =>EditarUsuarioPage(),
           'perfil': (BuildContext context) =>PerfilPage(),
           'mispublicaciones': (BuildContext context) =>MisPublicacionesPage(),
           'publicaciones': (BuildContext context) =>PublicacionesPage(),
