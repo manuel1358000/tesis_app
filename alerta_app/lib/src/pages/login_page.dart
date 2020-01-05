@@ -1,13 +1,27 @@
-
 import 'package:flutter/material.dart';
+import 'package:alerta_app/src/utils/data.dart';
 import 'package:alerta_app/src/utils/utils.dart';
 import 'package:alerta_app/src/bloc/provider.dart';
 import 'package:alerta_app/src/provider/usuario_provider.dart';
-class LoginPage extends StatelessWidget {
+import 'package:flutter/scheduler.dart';
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
 
+class _LoginPageState extends State<LoginPage> {
   final usuarioProvider=new UsuarioProvider();
+  Data data2;
+  @override
+  void initState() { 
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      mostrarAlerta2(context, data2);
+  });
+  }
   @override
   Widget build(BuildContext context) {
+    data2=ModalRoute.of(context).settings.arguments;
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -27,6 +41,7 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
+
   Widget _loginForm(BuildContext context){
     final bloc =Provider.ofLogin(context);
     final size=MediaQuery.of(context).size;
@@ -73,12 +88,14 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
+
 Widget _crearLogo(BuildContext context){
   final size=MediaQuery.of(context).size;
   return Container(
     child: Image.asset('assets/logo.png',height: size.height*0.10),
   );
 }
+
   Widget _crearCUI(BuildContext context,LoginBloc bloc){
     return StreamBuilder(
       stream: bloc.cuiStream,
@@ -105,6 +122,7 @@ Widget _crearLogo(BuildContext context){
       },
     );
   }
+
   Widget _crearPassword(BuildContext context,LoginBloc bloc){
     return StreamBuilder(
       stream:bloc.passwordStream,
@@ -130,6 +148,7 @@ Widget _crearLogo(BuildContext context){
       }
     );
   }
+
   Widget _crearIngreso(BuildContext context,LoginBloc bloc){
   final size=MediaQuery.of(context).size;
   return StreamBuilder(
@@ -161,6 +180,7 @@ _login(LoginBloc bloc, BuildContext context) async{
   }
 
 }
+
 Widget _crearInvitado(BuildContext context){
   final size=MediaQuery.of(context).size;
   return RaisedButton(
@@ -195,6 +215,7 @@ Widget _crearInvitado(BuildContext context){
         ) 
       );
   }
+
 Widget _crearOlvido(BuildContext context){
   return Center(
       child: Container(

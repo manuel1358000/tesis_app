@@ -1,3 +1,4 @@
+import 'package:alerta_app/src/utils/data.dart';
 import 'package:flutter/material.dart';
 import 'package:alerta_app/src/provider/usuario_provider.dart';
 import 'package:alerta_app/src/utils/utils.dart';
@@ -94,7 +95,8 @@ class RegistroPage extends StatelessWidget {
               labelStyle: TextStyle(
                 fontSize: 12.0,
                 color: Color.fromRGBO(42,26,94,1.0)
-              )
+              ),
+              errorText: snapshot.error
             ),
             onChanged: (value)=>bloc.changeCui(int.parse(value)),
           ),
@@ -120,7 +122,8 @@ class RegistroPage extends StatelessWidget {
               labelStyle: TextStyle(
                 fontSize: 12.0,
                 color: Color.fromRGBO(42,26,94,1.0)
-              )
+              ),
+              errorText: snapshot.error
             ),
             onChanged: (value)=>bloc.changeNombre(value),
           ),
@@ -148,7 +151,8 @@ class RegistroPage extends StatelessWidget {
               labelStyle: TextStyle(
                 fontSize: 12.0,
                 color: Color.fromRGBO(42,26,94,1.0)
-              )
+              ),
+              errorText: snapshot.error
             ),
             onChanged: (value)=>bloc.changePassword(value),
           ),
@@ -173,7 +177,8 @@ class RegistroPage extends StatelessWidget {
               labelStyle: TextStyle(
                 fontSize: 12.0,
                 color: Color.fromRGBO(42,26,94,1.0)
-              )
+              ),
+              errorText: snapshot.error
             ),
             onChanged: (value)=>bloc.changeConfirmacion(value),
           ),
@@ -184,17 +189,22 @@ class RegistroPage extends StatelessWidget {
 
 Widget _crearREGISTRO(BuildContext context, RegistroBloc bloc){
   final size=MediaQuery.of(context).size;
-  return RaisedButton(
-    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-    color: Color.fromRGBO(244,89,5,1.0),
-    child: Container(
-      width:size.width*0.65,
-      child: Center(
-        child: Text('REGISTRAR',style: TextStyle(color:Colors.white)),
-      )
-    ),
-    onPressed: (){
-      _registro(bloc,context);
+  return StreamBuilder(
+    stream: bloc.formValidator2,
+    builder: (BuildContext context, AsyncSnapshot snapshot){
+      return RaisedButton(
+        shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+        color: Color.fromRGBO(244,89,5,1.0),
+        child: Container(
+          width:size.width*0.65,
+          child: Center(
+            child: Text('REGISTRAR',style: TextStyle(color:Colors.white)),
+          )
+        ),
+        onPressed: snapshot.hasData ? (){
+          _registro(bloc,context);
+        }:null,
+      );
     },
   );
 }
@@ -202,8 +212,8 @@ Widget _crearREGISTRO(BuildContext context, RegistroBloc bloc){
 _registro(RegistroBloc bloc,BuildContext context) async{
   Map info=await usuarioProvider.nuevoUsuario(bloc.cui, bloc.password, bloc.nombre,1,1);
   if(info['codigo']==200){
-    mostrarAlerta(context,'Usuario creado exitosamente');
-    Navigator.pushNamedAndRemoveUntil(context, 'login', (_) => true);
+    final Data data= new Data(contenido:'Usuario registrado de manera exitosa');
+    Navigator.pushNamed(context, 'login',arguments:data);
   }else{
     mostrarAlerta(context,info['mensaje']);
   }    

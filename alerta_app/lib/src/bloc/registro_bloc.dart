@@ -1,8 +1,7 @@
 import 'dart:async';
-
+import 'package:alerta_app/src/validators/validators.dart';
 import 'package:rxdart/rxdart.dart';
-
-class RegistroBloc{
+class RegistroBloc with Validators{
 
   final _cuiController          =BehaviorSubject<int>();
   final _nombreController       =BehaviorSubject<String>();
@@ -10,10 +9,14 @@ class RegistroBloc{
   final _confirmacionController =BehaviorSubject<String>();
 
   //recuperar los datos del Stream
-  Stream<int>   get cuiStream          => _cuiController.stream;
-  Stream<String>get nombreStream       => _nombreController.stream;
-  Stream<String>get passwordStream     => _passwordController.stream;
-  Stream<String>get confirmacionStream => _confirmacionController.stream;
+  Stream<int>   get cuiStream          => _cuiController.stream.transform(validarCUI);
+  Stream<String>get nombreStream       => _nombreController.stream.transform(validarNOMBRE);
+  Stream<String>get passwordStream     => _passwordController.stream.transform(validarCONTRA);
+  Stream<String>get confirmacionStream => _confirmacionController.stream.transform(validarCONFIRMACION);
+  
+ Stream<bool> get formValidator2=>
+          Observable.combineLatest4(cuiStream, nombreStream,passwordStream,confirmacionStream,(c,n,p,t)=>true);
+
   //insertar valores al stream
   Function(int)    get changeCui            => _cuiController.sink.add;
   Function(String) get changeNombre         => _nombreController.sink.add;

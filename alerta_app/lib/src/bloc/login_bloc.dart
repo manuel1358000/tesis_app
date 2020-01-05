@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:alerta_app/src/validators/login_validators.dart';
+import 'package:alerta_app/src/validators/validators.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginBloc with Validators{
@@ -9,7 +9,7 @@ class LoginBloc with Validators{
 
   //recuperar los datos del Stream
   Stream<int>   get cuiStream      => _cuiController.stream.transform(validarCUI);
-  Stream<String>get passwordStream => _passwordController.stream.transform(validarContra);
+  Stream<String>get passwordStream => _passwordController.stream.transform(validarCONTRA);
 
   Stream<bool> get formValidator=>
           Observable.combineLatest2(cuiStream, passwordStream,(e,p)=>true);
