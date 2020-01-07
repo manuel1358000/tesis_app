@@ -291,8 +291,7 @@ class _EventoPageState extends State<EventoPage> {
             _getCurrentLocation(bloc,context);
           }else{
             mostrarAlerta(context,'Ingrese una fecha/hora valida');
-          }
-          
+          }  
         }:null,
       );
     },
@@ -329,9 +328,7 @@ class _EventoPageState extends State<EventoPage> {
   }
    _getCurrentLocation(PublicacionBloc bloc,BuildContext context)async{
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager=true;
-    print('print2');
      Position position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print('print3');
     _registrarPublicacion(bloc,position,context);
   }
 

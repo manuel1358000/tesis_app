@@ -27,6 +27,8 @@ class PublicacionBloc with Validators{
 
   Stream<bool> get formValidatorEvento=>
           Observable.combineLatest2(nombreStream,descripcionStream,(n,d)=>true);
+  Stream<bool> get formValidatorAlerta=>
+          Observable.combineLatest2(nombreStream,descripcionStream,(n,d)=>true);
 
   //insertar valores al stream
   Function(int)       get changeTipo        => _tipoController.sink.add;

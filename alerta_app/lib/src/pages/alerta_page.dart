@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:alerta_app/src/utils/data.dart';
 import 'package:alerta_app/src/utils/utils.dart';
 import 'package:alerta_app/src/bloc/provider.dart';
 import 'package:alerta_app/src/provider/usuario_provider.dart';
@@ -163,7 +164,8 @@ class _AlertaPageState extends State<AlertaPage> {
               labelText: 'Titulo Alerta',
               labelStyle: TextStyle(
                 color: Color.fromRGBO(42,26,94,1.0),
-              )
+              ),
+              errorText: snapshot.error
             ),
             onChanged: (value)=>bloc.changeNombre(value),
           ),
@@ -188,7 +190,8 @@ class _AlertaPageState extends State<AlertaPage> {
               labelText: 'Descripcion Alerta',
               labelStyle: TextStyle(
                 color: Color.fromRGBO(42,26,94,1.0),
-              )
+              ),
+              errorText: snapshot.error
             ),
             onChanged: (value)=>bloc.changeDescripcion(value),
           ),
@@ -199,39 +202,39 @@ class _AlertaPageState extends State<AlertaPage> {
 
   Widget _crearIngreso(BuildContext context,PublicacionBloc bloc){
     final size=MediaQuery.of(context).size;
-    return RaisedButton(
-      shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-      color: Color.fromRGBO(244,89,5,1.0),
-      child: Container(
-        width:size.width*0.65,
-        child: Center(
-          child: Text('Publicar',style: TextStyle(color:Colors.white)),
-        )
-      ),
-      onPressed: (){
-        _getCurrentLocation(bloc,context);
-        //_login(bloc,context);
+
+    return StreamBuilder(
+      stream: bloc.formValidatorAlerta,
+      builder: (BuildContext context, AsyncSnapshot snapshot){
+        return RaisedButton(
+          shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+          color: Color.fromRGBO(244,89,5,1.0),
+          child: Container(
+            width:size.width*0.65,
+            child: Center(
+              child: Text('Publicar',style: TextStyle(color:Colors.white)),
+            )
+          ),
+          onPressed: snapshot.hasData ? (){
+            _getCurrentLocation(bloc,context);
+          }:null,
+        );
       },
     );
   }
 
-   _getCurrentLocation(PublicacionBloc bloc,BuildContext context){
+   _getCurrentLocation(PublicacionBloc bloc,BuildContext context)async{
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager=true;
-    geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-    .then((Position position) {
-      _registrarPublicacion(bloc,position,context);
-    }).catchError((e) {
-      print('error: '+e);
-    });
+     Position position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    _registrarPublicacion(bloc,position,context);
   }
 
   _registrarPublicacion(PublicacionBloc bloc,Position position,BuildContext context)async {
-    print("aqui1");
     DateTime now = new DateTime.now();
     Map info=await usuarioProvider.publicacion(1,bloc.nombre,bloc.descripcion,position.latitude,position.longitude,1,bloc.subtipo,now.toString());
     if(info['codigo']==200){
-      await mostrarAlerta(context,info['mensaje']);
-      Navigator.pushNamedAndRemoveUntil(context,'mapa',(_)=>false);
+      final Data data= new Data(contenido:'Alerta creada con exito');
+      Navigator.pushNamed(context,'mapa',arguments: data);
     }else{
       mostrarAlerta(context,info['mensaje']);
     }
