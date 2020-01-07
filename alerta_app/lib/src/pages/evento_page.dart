@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:alerta_app/src/utils/data.dart';
 import 'package:alerta_app/src/utils/utils.dart';
 import 'package:alerta_app/src/bloc/provider.dart';
 import 'package:alerta_app/src/provider/usuario_provider.dart';
@@ -175,7 +176,8 @@ class _EventoPageState extends State<EventoPage> {
               labelText: 'Titulo Evento',
               labelStyle: TextStyle(
                 color: Color.fromRGBO(42,26,94,1.0),
-              )
+              ),
+              errorText: snapshot.error
             ),
             onChanged: (value)=>bloc.changeNombre(value),
           ),
@@ -200,7 +202,8 @@ class _EventoPageState extends State<EventoPage> {
               labelText: 'Descripcion Evento',
               labelStyle: TextStyle(
                 color: Color.fromRGBO(42,26,94,1.0),
-              )
+              ),
+              errorText: snapshot.error
             ),
             onChanged: (value)=>bloc.changeDescripcion(value),
           ),
@@ -226,8 +229,10 @@ class _EventoPageState extends State<EventoPage> {
               labelText: 'Fecha Evento',
               labelStyle: TextStyle(
                 color: Color.fromRGBO(42,26,94,1.0),
-              )
+              ),
+              errorText: snapshot.error
             ),
+            onChanged: (value)=>bloc.changeFecha(_fecha),
             onTap: (){
               FocusScope.of(context).requestFocus(new FocusNode());
               _selectDate(context);
@@ -239,7 +244,7 @@ class _EventoPageState extends State<EventoPage> {
   }
   Widget _crearHORA(BuildContext context, PublicacionBloc bloc){
     return StreamBuilder(
-      stream:bloc.fechaStream,
+      stream:bloc.horaStream,
       builder:(BuildContext context,AsyncSnapshot snapshot){
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -254,8 +259,10 @@ class _EventoPageState extends State<EventoPage> {
               labelText: 'Hora Evento',
               labelStyle: TextStyle(
                 color: Color.fromRGBO(42,26,94,1.0),
-              )
+              ),
+              errorText: snapshot.error
             ),
+            onChanged: (value)=>bloc.changeHora(_hora),
             onTap: (){
               FocusScope.of(context).requestFocus(new FocusNode());
               _selectHour(context);
@@ -267,22 +274,31 @@ class _EventoPageState extends State<EventoPage> {
   }
   Widget _crearIngreso(BuildContext context,PublicacionBloc bloc){
     final size=MediaQuery.of(context).size;
-    return RaisedButton(
-      shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-      color: Color.fromRGBO(244,89,5,1.0),
-      child: Container(
-        width:size.width*0.65,
-        child: Center(
-          child: Text('Publicar',style: TextStyle(color:Colors.white)),
-        )
-      ),
-      onPressed: (){
-        _getCurrentLocation(bloc,context);
-        //_login(bloc,context);
-      },
-    );
+    return StreamBuilder(
+    stream: bloc.formValidatorEvento,
+    builder: (BuildContext context, AsyncSnapshot snapshot){
+      return RaisedButton(
+        shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+        color: Color.fromRGBO(244,89,5,1.0),
+        child: Container(
+          width:size.width*0.65,
+          child: Center(
+            child: Text('Publicar',style: TextStyle(color:Colors.white)),
+          )
+        ),
+        onPressed: snapshot.hasData ? (){
+          if(_fecha!=''&& _hora!=''){
+            _getCurrentLocation(bloc,context);
+          }else{
+            mostrarAlerta(context,'Ingrese una fecha/hora valida');
+          }
+          
+        }:null,
+      );
+    },
+  );
+    
   }
-  
   _selectDate(BuildContext context)async{
     DateTime picker=await showDatePicker(
       context: context,
@@ -306,29 +322,26 @@ class _EventoPageState extends State<EventoPage> {
     );
     if(picker!=null){
       setState(() {
-        
         _hora=picker.format(context);
         _inputFieldTimeController.text=_hora;        
       });
     }
   }
-   _getCurrentLocation(PublicacionBloc bloc,BuildContext context){
+   _getCurrentLocation(PublicacionBloc bloc,BuildContext context)async{
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager=true;
-    geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-    .then((Position position) {
-      _registrarPublicacion(bloc,position,context);
-    }).catchError((e) {
-      print('error: '+e);
-    });
+    print('print2');
+     Position position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print('print3');
+    _registrarPublicacion(bloc,position,context);
   }
 
   _registrarPublicacion(PublicacionBloc bloc,Position position,BuildContext context)async {
     print("aqui1");
-    DateTime now = new DateTime.now();
-    Map info=await usuarioProvider.publicacion(1,bloc.nombre,bloc.descripcion,position.latitude,position.longitude,1,bloc.subtipo,now.toString());
+    bloc.setFecha=_fecha+' '+_hora;
+    Map info=await usuarioProvider.publicacion(1,bloc.nombre,bloc.descripcion,position.latitude,position.longitude,1,bloc.subtipo,bloc.fecha);
     if(info['codigo']==200){
-      await mostrarAlerta(context,info['mensaje']);
-      Navigator.pushNamedAndRemoveUntil(context,'mapa',(_)=>false);
+      final Data data= new Data(contenido:'Evento creado con exito');
+      Navigator.pushNamed(context,'mapa',arguments: data);
     }else{
       mostrarAlerta(context,info['mensaje']);
     }

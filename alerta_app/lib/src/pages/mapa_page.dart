@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:alerta_app/src/utils/data.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:latlong/latlong.dart';
@@ -14,10 +15,17 @@ class MapaPage extends StatefulWidget {
 
 class _MapaPageState extends State<MapaPage> {
   final prefs = new PreferenciasUsuario();
-
+  Data data2;
+  @override
+  void initState() { 
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      mostrarAlerta2(context, data2);
+    });
+  }
   @override
   Widget build(BuildContext context) {
-
+    data2=ModalRoute.of(context).settings.arguments;
     final bloc = Provider.ofLogin(context);
     return Scaffold(
       appBar:AppBar(
