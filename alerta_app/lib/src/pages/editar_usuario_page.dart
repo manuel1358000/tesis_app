@@ -4,17 +4,16 @@ import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:alerta_app/src/utils/data.dart';
 import 'package:alerta_app/src/provider/usuario_provider.dart';
 import 'package:alerta_app/src/utils/utils.dart';
-import 'package:alerta_app/src/bloc/provider.dart';
 class EditarUsuarioPage extends StatefulWidget {
   @override
   _EditarUsuarioPageState createState() => _EditarUsuarioPageState();
 }
 
 class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
+  final _formKey = GlobalKey<FormState>();
   final usuarioProvider=new UsuarioProvider();
   final _prefs = new PreferenciasUsuario();
   UsuarioModel usuariomodel=new UsuarioModel();
-  
   @override
   Widget build(BuildContext context) {
     
@@ -65,25 +64,28 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
               ),],
               borderRadius: new BorderRadius.all(Radius.circular(40.0))
             ),
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 30.0,),
-                _crearTexto(context),
-                SizedBox(height:20.0,),
-                _crearCUI(context),
-                SizedBox(height: 15.0,),
-                _crearNOMBRE(context),
-                SizedBox(height: 15.0,),
-                _crearPASSWORD(context),
-                SizedBox(height: 15.0),
-                _crearCONFIRMACIONPASSWORD(context),
-                SizedBox(height: 20.0),
-                _crearEDITAR(context),
-                SizedBox(height: 30.0,),
-              ],
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 30.0,),
+                  _crearTexto(context),
+                  SizedBox(height:20.0,),
+                  _crearCUI(context),
+                  SizedBox(height: 15.0,),
+                  _crearNOMBRE(context),
+                  SizedBox(height: 15.0,),
+                  _crearPASSWORD(context),
+                  SizedBox(height: 15.0),
+                  _crearCONFIRMACIONPASSWORD(context),
+                  SizedBox(height: 20.0),
+                  _crearEDITAR(context),
+                  SizedBox(height: 30.0,),
+                ],
+              ),
             ),
           )
-        ],
+        ], 
       ),
     );
   }
@@ -106,7 +108,7 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
                 borderRadius: BorderRadius.circular(20.0)
               ),
               fillColor: Colors.black26,
-              labelText: 'CUI',
+              labelText: 'Cui',
               hintText: 'Ej. 2000000000101',
               labelStyle: TextStyle(
                 fontSize: 12.0,
@@ -114,6 +116,12 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
               ),
             ),
             onChanged: (value)=>usuariomodel.cui=int.parse(value),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
           ),
         );
   }
@@ -129,7 +137,7 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
                 borderRadius: BorderRadius.circular(20.0)
               ),
               fillColor: Colors.black26,
-              labelText: 'NOMBRE',
+              labelText: 'Nombre',
               hintText: 'Ej. Manuel Fuentes',
               labelStyle: TextStyle(
                 fontSize: 12.0,
@@ -137,6 +145,12 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
               ),
             ),
             onChanged: (value)=>usuariomodel.nombre=value,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Ingrese un nombre valido';
+              }
+              return null;
+            },
           ),
         );
   }
@@ -155,13 +169,19 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
                 borderRadius: BorderRadius.circular(20.0)
               ),
               fillColor: Colors.black26,
-              labelText: 'CONTRASEÑA',
+              labelText: 'Contraseña',
               labelStyle: TextStyle(
                 fontSize: 12.0,
                 color: Color.fromRGBO(42,26,94,1.0)
               ),
             ),
             onChanged: (value)=>usuariomodel.password=value,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Ingrese una contraseña';
+              }
+              return null;
+            },
           ),
         );
   }
@@ -177,13 +197,19 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
                 borderRadius: BorderRadius.circular(20.0)
               ),
               fillColor: Colors.black26,
-              labelText: 'CONFIRMACION CONTRASEÑA',
+              labelText: 'Confirmacion contraseña',
               labelStyle: TextStyle(
                 fontSize: 12.0,
                 color: Color.fromRGBO(42,26,94,1.0)
               ),
             ),
             onChanged: (value)=>usuariomodel.confirmacion=value,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Ingrese una contraseña';
+              }
+              return null;
+            },
           ),
         );
 
@@ -201,7 +227,9 @@ Widget _crearEDITAR(BuildContext context){
           )
         ),
         onPressed: usuariomodel!=null ? (){
-          _editar(usuariomodel,context);
+          if(_formKey.currentState.validate()){
+            _editar(usuariomodel,context);
+          }
         }:null,
       );
 }
@@ -215,7 +243,8 @@ _editar(UsuarioModel usuario,BuildContext context) async{
     if(info['codigo']==200){
       _prefs.nombre=usuario.nombre;
       _prefs.password=usuario.password;
-      Navigator.pushNamed(context,'perfil');
+      final Data data= new Data(contenido:'Los datos se actualizaron de manera correcta');
+      Navigator.pushReplacementNamed(context,'perfil',arguments:data);
     }else{
       mostrarAlerta(context,info['mensaje']);
     }    

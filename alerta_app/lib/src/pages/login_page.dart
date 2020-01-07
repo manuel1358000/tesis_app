@@ -17,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_){
       mostrarAlerta2(context, data2);
-  });
+    });
   }
   @override
   Widget build(BuildContext context) {

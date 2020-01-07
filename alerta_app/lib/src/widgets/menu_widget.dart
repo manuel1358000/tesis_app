@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
+import 'package:alerta_app/src/utils/data.dart';
 class MenuWidget extends StatelessWidget {
   const MenuWidget({Key key}) : super(key: key);
   @override
@@ -48,7 +49,7 @@ class MenuWidget extends StatelessWidget {
             Divider(),
             ListTile(
               leading: Icon(Icons.person,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('MI PERFIL',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0))),
+              title: Text('Mi perfil',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0))),
               onTap: (){
                 Navigator.pop(context);
                 Navigator.pushReplacementNamed(context,'perfil');
@@ -56,7 +57,7 @@ class MenuWidget extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.format_list_bulleted,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('MIS PUBLICACIONES',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
+              title: Text('Mis publicaciones',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
               onTap: (){
                 Navigator.pop(context);
                 Navigator.pushReplacementNamed(context,'mispublicaciones');
@@ -64,7 +65,7 @@ class MenuWidget extends StatelessWidget {
             ), 
             ListTile(
               leading: Icon(Icons.map,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('MAPA',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
+              title: Text('Mapa',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
               onTap: (){
                 Navigator.pushReplacementNamed(context,'mapa');
               },
@@ -72,14 +73,15 @@ class MenuWidget extends StatelessWidget {
             Divider(),
             ListTile(
               leading: Icon(Icons.close,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('CERRAR SESION',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
+              title: Text('Cerrar Sesion',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
               onTap: (){
                 prefs.token='';
                 prefs.cui=0;
                 prefs.password='';
                 prefs.tipo=0;
                 Navigator.pop(context);
-                Navigator.pushReplacementNamed(context,'login');
+                final Data data= new Data(contenido:'Sesion Cerrrada con exito');
+                Navigator.pushReplacementNamed(context,'login',arguments: data);
               },
             ),
           ],
@@ -92,7 +94,7 @@ class MenuWidget extends StatelessWidget {
             Text('Usuario ADMINISTRADOR'),
             ListTile(
               leading: Icon(Icons.person,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('MI PERFIL',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
+              title: Text('Mi perfil',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
               onTap: (){
                 Navigator.pop(context);
                 Navigator.pushReplacementNamed(context,'perfil');
@@ -100,7 +102,7 @@ class MenuWidget extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.format_list_bulleted,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('MIS PUBLICACIONES',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
+              title: Text('Mis publicaciones',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
               onTap: (){
                 Navigator.pop(context);
                 Navigator.pushReplacementNamed(context,'mispublicaciones');
@@ -108,7 +110,7 @@ class MenuWidget extends StatelessWidget {
             ), 
             ListTile(
               leading: Icon(Icons.format_list_bulleted,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('PUBLICACIONES',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
+              title: Text('Publicaciones',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
               onTap: (){
                 Navigator.pop(context);
                 Navigator.pushReplacementNamed(context,'publicaciones');
@@ -116,7 +118,7 @@ class MenuWidget extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.group,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('USUARIOS',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
+              title: Text('Usuarios',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
               onTap: (){
                 Navigator.pop(context);
                 Navigator.pushReplacementNamed(context,'usuarios');
@@ -124,7 +126,7 @@ class MenuWidget extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.map,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('MAPA',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
+              title: Text('Mapa',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
               onTap: (){
                 Navigator.pushReplacementNamed(context,'mapa');
               },
@@ -132,14 +134,15 @@ class MenuWidget extends StatelessWidget {
             Divider(),
             ListTile(
               leading: Icon(Icons.close,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('CERRAR SESION',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
+              title: Text('Cerrar sesion',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
               onTap: (){
                 prefs.token='';
                 prefs.cui=0;
                 prefs.password='';
                 prefs.tipo=0;
                 Navigator.pop(context);
-                Navigator.pushReplacementNamed(context,'login');
+                final Data data= new Data(contenido:'Sesion Cerrrada con exito');
+                Navigator.pushReplacementNamed(context,'login',arguments: data);
               },
             ),
           ],
@@ -152,7 +155,7 @@ class MenuWidget extends StatelessWidget {
             Text('Usuario INVITADO'),
             ListTile(
               leading: Icon(Icons.map,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('MAPA',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
+              title: Text('Mapa',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
               onTap: (){
                 Navigator.pushReplacementNamed(context,'mapa');
               },
@@ -160,14 +163,15 @@ class MenuWidget extends StatelessWidget {
             Divider(),
             ListTile(
               leading: Icon(Icons.close,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('CERRAR SESION',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
+              title: Text('Cerrar Sesion',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
               onTap: (){
                 prefs.token='';
                 prefs.cui=0;
                 prefs.password='';
                 prefs.tipo=0;
                 Navigator.pop(context);
-                Navigator.pushReplacementNamed(context,'login');
+                final Data data= new Data(contenido:'Sesion Cerrrada con exito');
+                Navigator.pushReplacementNamed(context,'login',arguments: data);
               },
             ),
           ],

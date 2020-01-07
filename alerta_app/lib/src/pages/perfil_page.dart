@@ -1,15 +1,34 @@
-import 'package:alerta_app/src/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:alerta_app/src/utils/data.dart';
+import 'package:alerta_app/src/utils/utils.dart';
 import 'package:alerta_app/src/widgets/menu_widget.dart';
 import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:alerta_app/src/provider/usuario_provider.dart';
 import 'package:alerta_app/src/models/usuario_model.dart';
 import 'package:shimmer/shimmer.dart';
-class PerfilPage extends StatelessWidget {
+class PerfilPage extends StatefulWidget {
+  @override
+  _PerfilPageState createState() => _PerfilPageState();
+}
+
+class _PerfilPageState extends State<PerfilPage> {
   final _prefs = new PreferenciasUsuario();
+
   final usuarioProvider =new UsuarioProvider();
+
+  Data data2;
+
+  @override
+  void initState() { 
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      mostrarAlerta2(context, data2);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+     data2=ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -27,6 +46,7 @@ class PerfilPage extends StatelessWidget {
       drawer: MenuWidget(),
     );
   }
+
   Widget _avatarPerfil(BuildContext context){
     final size=MediaQuery.of(context).size;
     return Column(
@@ -54,6 +74,7 @@ class PerfilPage extends StatelessWidget {
       ],
     );
   }
+
   Widget _infoPerfil(BuildContext context){
     final size=MediaQuery.of(context).size;
     return SingleChildScrollView(
@@ -89,6 +110,7 @@ class PerfilPage extends StatelessWidget {
       ),
     );
   }
+
   Widget _datosPerfil(){
     return FutureBuilder(
       future: usuarioProvider.cargarUsuario(_prefs.cui),
@@ -120,6 +142,7 @@ class PerfilPage extends StatelessWidget {
       },
     );
   }
+
   Widget _itemDatos(IconData icono,String tipo,String datos){
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -143,6 +166,7 @@ class PerfilPage extends StatelessWidget {
       ),
     );
   }
+
  Widget _actualizarDatos(BuildContext context,UsuarioModel usuario){
   final size=MediaQuery.of(context).size;
   return RaisedButton(
@@ -159,6 +183,7 @@ class PerfilPage extends StatelessWidget {
     },
   );
 }
+
   Widget _crearFondo(BuildContext context){
     final _screenSize=MediaQuery.of(context).size;
     return Column(
