@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:alerta_app/src/utils/data.dart';
 import 'package:alerta_app/src/utils/utils.dart';
@@ -202,7 +204,6 @@ class _AlertaPageState extends State<AlertaPage> {
 
   Widget _crearIngreso(BuildContext context,PublicacionBloc bloc){
     final size=MediaQuery.of(context).size;
-
     return StreamBuilder(
       stream: bloc.formValidatorAlerta,
       builder: (BuildContext context, AsyncSnapshot snapshot){
@@ -225,7 +226,7 @@ class _AlertaPageState extends State<AlertaPage> {
 
    _getCurrentLocation(PublicacionBloc bloc,BuildContext context)async{
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager=true;
-     Position position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+     Position position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
     _registrarPublicacion(bloc,position,context);
   }
 
