@@ -77,6 +77,7 @@ class UsuarioProvider{
       body:json.encode(authData),
       headers: {"Content-Type": "application/json"}
     );
+    if(resp.body==null) return null;
     Map<String,dynamic> decodedResp=json.decode(resp.body);
     if(decodedResp.containsKey('codigo')){
       if(decodedResp['codigo']==505){
@@ -92,6 +93,7 @@ class UsuarioProvider{
       'http://192.168.0.17:8080/get/usuarioAU?CUI='+cui.toString(),
       headers: {"Content-Type": "application/json"}
     );
+    if(resp.body==null) return null;
     Map<String,dynamic> decodedResp=json.decode(resp.body);
     if(decodedResp==null)return null;
     print(decodedResp);
