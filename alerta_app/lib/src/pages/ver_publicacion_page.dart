@@ -1,10 +1,13 @@
+import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:alerta_app/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:alerta_app/src/models/publicacion_model.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong/latlong.dart';
 
 class VerPublicacionPage extends StatelessWidget {
   PublicacionModel publicacionData;
-  
+  final _prefs=new PreferenciasUsuario();
   Widget build(BuildContext context) {
     publicacionData=ModalRoute.of(context).settings.arguments;
     return Scaffold(
@@ -39,7 +42,7 @@ class VerPublicacionPage extends StatelessWidget {
   Widget _crearInformacion(BuildContext context){
     final size=MediaQuery.of(context).size;
     return SingleChildScrollView(
-          child: Column(
+      child: Column(
         children: <Widget>[
           SafeArea(
             child: Container(
@@ -65,16 +68,83 @@ class VerPublicacionPage extends StatelessWidget {
                 _crearTipo(),
                 SizedBox(height: 20.0),
                 _crearFechaHora(),
+                SizedBox(height: 20.0,)
               ],            
             ),
+          ),
+          SizedBox(height: 30,),
+          Container(
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 30.0),
+                _crearDescripcion(context),
+                SizedBox(height: 30.0,),
+                _crearEditar(context),
+                SizedBox(height: 30),
+                _crearPosicion(context),
+              ],
+            ),
           ),      
-          SizedBox(height: 30.0),
-          _crearDescripcion(context),
-          SizedBox(height: 30.0,),
-          _crearEditar(context),
         ],
       ),
     );
+  }
+  Widget _crearPosicion(BuildContext context){
+    return Column(
+      children: <Widget>[
+        Container(
+          alignment: Alignment(-0.75,0),
+          child:Text('Ubicacion',style: TextStyle(color:Color.fromRGBO(42,26,94,1.0),fontSize: 20,fontWeight:FontWeight.bold)),
+        ),
+        _crearFlutterMap(context)
+      ],
+    );
+  }
+  Widget _crearFlutterMap(BuildContext context){
+    return Container(
+      height: 400,
+      width: 400,
+      child: FlutterMap(
+        options: MapOptions(
+          center: LatLng(14.611468, -90.545515),
+          zoom: 18
+        ),
+        layers:[
+          _crearMapa(),
+          _crearMarcador()
+        ]
+      ),
+    );
+  }
+
+  _crearMapa(){
+    return TileLayerOptions(
+      urlTemplate: 'https://api.mapbox.com/v4/'
+      '{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}',
+      additionalOptions: {
+        'accessToken':'pk.eyJ1IjoibWFudWVsMTM1ODAiLCJhIjoiY2syYmZ1MGtxMDM5bjNscGpnemRvaHZ0eiJ9.BYcnZMXkIKvvH52ijm9XvA',
+        'id': 'mapbox.streets'
+        //streets, dark, light, outdoors, satellite
+      }
+    );
+  }
+
+  _crearMarcador(){
+    return MarkerLayerOptions(
+      markers: <Marker>[
+        Marker(
+          width: 100.0,
+          height: 100.0,
+          point: LatLng(14.611468, -90.545515),
+          builder: (context)=>Container(
+            child: GestureDetector(
+              child:  Icon(Icons.location_on,size:45.0,color: Colors.red,),
+            ),
+          ),
+        )
+      ]
+    );   
   }
   Widget _crearDescripcion(BuildContext context){
     final size=MediaQuery.of(context).size;
