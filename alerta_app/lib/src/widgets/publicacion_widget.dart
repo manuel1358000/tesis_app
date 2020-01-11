@@ -10,7 +10,7 @@ class PublicacionWidget extends StatelessWidget {
   final List<PublicacionModel> publicaciones;
   final _pageController=new PageController(
     initialPage: 1,
-    viewportFraction: 0.45
+    viewportFraction: 0.40
   );
   @override
   Widget build(BuildContext context) {
@@ -59,17 +59,19 @@ class PublicacionWidget extends StatelessWidget {
                       child: Text(''),
                     ),
                     SizedBox(height: 15.0,),
+                    Text('Tipo',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14,fontWeight: FontWeight.bold)),
+                    Text((publicacion.tipo==1?"Alerta":"Evento"),style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14)),
+                    SizedBox(height: 15.0,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text('Fecha: '+dateTime.day.toString()+'-'+dateTime.month.toString()+'-'+dateTime.year.toString(), style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13)),
+                        Text('Fecha: ', style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13,fontWeight: FontWeight.bold)),
+                        Text(dateTime.day.toString()+'-'+dateTime.month.toString()+'-'+dateTime.year.toString(), style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13)),
                         SizedBox(width: 15.0,),
-                        Text('Hora: '+dateTime.hour.toString()+':'+dateTime.minute.toString(),style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13,)),
+                        Text('Hora: ', style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13,fontWeight: FontWeight.bold)),
+                        Text(dateTime.hour.toString()+':'+dateTime.minute.toString(),style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13,)),
                       ],
                     ),
-                    SizedBox(height: 15.0,),
-                    Text('Tipo',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14,fontWeight: FontWeight.bold)),
-                    Text((publicacion.tipo==1?"Alerta":"Evento"),style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14)),
                     SizedBox(height: 10.0,),
                     Text('Titulo',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14,fontWeight: FontWeight.bold)),
                     Text(publicacion.nombre,style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 15)),
