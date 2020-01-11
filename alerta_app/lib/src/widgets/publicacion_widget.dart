@@ -90,7 +90,7 @@ class PublicacionWidget extends StatelessWidget {
                           FlatButton(
                             child: const Text('Ver', style: TextStyle(color: Color.fromRGBO(42,26,94,1.0))),
                             onPressed: () {
-                              mostrarAlerta(context,'Ver publicacion '+publicacion.nombre);
+                              Navigator.pushNamed(context,'ver_publicacion',arguments:publicacion);
                             },
                           ),
                           FlatButton(
