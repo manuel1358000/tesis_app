@@ -117,7 +117,6 @@ class VerPublicacionPage extends StatelessWidget {
       ),
     );
   }
-
   _crearMapa(){
     return TileLayerOptions(
       urlTemplate: 'https://api.mapbox.com/v4/'
@@ -129,14 +128,13 @@ class VerPublicacionPage extends StatelessWidget {
       }
     );
   }
-
   _crearMarcador(){
     return MarkerLayerOptions(
       markers: <Marker>[
         Marker(
           width: 100.0,
           height: 100.0,
-          point: LatLng(14.611468, -90.545515),
+          point: LatLng(publicacionData.posicionx,publicacionData.posiciony),
           builder: (context)=>Container(
             child: GestureDetector(
               child:  Icon(Icons.location_on,size:45.0,color: Colors.red,),
