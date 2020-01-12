@@ -33,6 +33,7 @@ class PublicacionesPage extends StatelessWidget {
               if(!snapshot.hasData)return CircularProgressIndicator();
               return PublicacionWidget(publicaciones: snapshot.data,
                 siguientePagina: publicacionProvider.getGeneral,
+                actual: 'publicaciones',
               );
             },
           )

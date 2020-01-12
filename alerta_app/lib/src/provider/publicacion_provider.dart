@@ -60,4 +60,15 @@ class PublicacionProvider{
     usuarioSink(_usuario);
     return respuesta;
   }
+
+  Future<Map<String,dynamic>> eliminarPublicacion(int codPublicacion)async{
+    final resp=await http.delete('http://192.168.0.17:8080/delete/publicacionAU?COD_PUBLICACION='+codPublicacion.toString(),
+      headers: {"Content-Type": "application/json"});
+    Map<String,dynamic> decodedResp=json.decode(resp.body);
+    return decodedResp;
+  }
+
+
+
+
 }

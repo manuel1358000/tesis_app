@@ -19,6 +19,7 @@ mostrarAlerta(BuildContext context,String mensaje){
 }
 
 
+
 mostrarAlerta2(BuildContext context,Data data){
   if(data!=null){
     showDialog(

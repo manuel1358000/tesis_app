@@ -1,24 +1,43 @@
+import 'package:alerta_app/src/provider/publicacion_provider.dart';
+import 'package:alerta_app/src/utils/data.dart';
 import 'package:alerta_app/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:alerta_app/src/models/publicacion_model.dart';
 
-class PublicacionWidget extends StatelessWidget {
+class PublicacionWidget extends StatefulWidget {
   final Function siguientePagina;
-  final _prefs=new PreferenciasUsuario();
-  PublicacionWidget({@required this.publicaciones,@required this.siguientePagina});
+  String actual;
   final List<PublicacionModel> publicaciones;
+  PublicacionWidget({@required this.publicaciones,@required this.siguientePagina,@required this.actual});
+  
+  @override
+  _PublicacionWidgetState createState() => _PublicacionWidgetState();
+}
+class _PublicacionWidgetState extends State<PublicacionWidget> {
+  PublicacionProvider publicacionProvider=new PublicacionProvider();
+
+  final _prefs=new PreferenciasUsuario();
+
+  Data data2;
+
   final _pageController=new PageController(
     initialPage: 1,
     viewportFraction: 0.40
   );
   @override
+  void initState() { 
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      mostrarAlerta2(context, data2);
+    });
+  }
+  @override
   Widget build(BuildContext context) {
     final _size=MediaQuery.of(context).size;
-
     _pageController.addListener((){
       if(_pageController.position.pixels>=_pageController.position.maxScrollExtent-200){
-        siguientePagina(_prefs.cui);
+        widget.siguientePagina(_prefs.cui);
       }
     });
 
@@ -32,9 +51,10 @@ class PublicacionWidget extends StatelessWidget {
       )
     );
   }
+
   List<Widget> _tarjetas(BuildContext context){
     final _size=MediaQuery.of(context).size;
-    return publicaciones.map((publicacion){ 
+    return widget.publicaciones.map((publicacion){ 
       String dateWithT = publicacion.fechahora.substring(0,10) + publicacion.fechahora.substring(10);
       DateTime dateTime = DateTime.parse(dateWithT);
       return Container(
@@ -96,13 +116,35 @@ class PublicacionWidget extends StatelessWidget {
                           FlatButton(
                             child: const Text('Editar', style: TextStyle(color: Color.fromRGBO(42,26,94,1.0))),
                             onPressed: () {
-                              mostrarAlerta(context,'Editar publicacion '+publicacion.nombre);
+                              
                             },
                           ),
                           FlatButton(
                             child: const Text('Eliminar', style: TextStyle(color: Colors.red)),
                             onPressed: () {
-                              mostrarAlerta(context,'Eliminar publicacion '+publicacion.nombre);
+                              showDialog(
+                                context: context,
+                                builder: (context){
+                                  return AlertDialog(
+                                    title: new Text('Alerta'),
+                                    content: new Text('¿Desea eliminar la publicacion?'),
+                                    actions: <Widget>[
+                                      new FlatButton(
+                                        child: new Text("Aceptar"),
+                                        onPressed: (){
+                                          _eliminarPublicacion(context,publicacion.codpublicacion);
+                                        },
+                                      ),
+                                      new FlatButton(
+                                        child: new Text("Cerrar"),
+                                        onPressed: (){
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                }
+                              );
                             },
                           ),
                         ],
@@ -118,4 +160,14 @@ class PublicacionWidget extends StatelessWidget {
     }).toList();
   }
 
+  _eliminarPublicacion(BuildContext context,int codPublicacion)async{
+    print(codPublicacion);
+    Map info = await publicacionProvider.eliminarPublicacion(codPublicacion);
+    if(info['codigo']==200){
+      final Data data= new Data(contenido:info['mensaje']);
+      Navigator.pushNamed(context,widget.actual,arguments:data);
+    }else{
+      mostrarAlerta(context,info['mensaje']);
+    }
+  }
 }

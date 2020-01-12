@@ -36,6 +36,7 @@ class MisPublicacionesPage extends StatelessWidget {
               return PublicacionWidget(
                 publicaciones: snapshot.data,
                 siguientePagina: publicacionProvider.getUsuario,
+                actual: 'mispublicaciones',
               );
             },
           )
