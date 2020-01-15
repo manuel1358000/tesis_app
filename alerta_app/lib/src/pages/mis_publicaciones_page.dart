@@ -32,12 +32,15 @@ class MisPublicacionesPage extends StatelessWidget {
           StreamBuilder(
             stream: publicacionProvider.usuarioStream,
             builder: (BuildContext context,AsyncSnapshot snapshot){
-              if(!snapshot.hasData)return CircularProgressIndicator();
-              return PublicacionWidget(
-                publicaciones: snapshot.data,
-                siguientePagina: publicacionProvider.getUsuario,
-                actual: 'mispublicaciones',
-              );
+              if(snapshot.hasData){
+                return PublicacionWidget(
+                  publicaciones: snapshot.data,
+                  siguientePagina: publicacionProvider.getUsuario,
+                  actual: 'mispublicaciones',
+                );
+              }else{
+                return CircularProgressIndicator();
+              }
             },
           )
         ],

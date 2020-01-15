@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:alerta_app/src/pages/emergencia_page.dart';
 import 'package:alerta_app/src/pages/ver_publicacion_page.dart';
 import 'package:alerta_app/src/pages/editar_usuario_page.dart';
 import 'package:alerta_app/src/pages/registro_page.dart';
@@ -61,6 +62,7 @@ class MyApp extends StatelessWidget {
           'alerta': (BuildContext context) =>AlertaPage(),
           'evento': (BuildContext context) =>EventoPage(),
           'ver_publicacion': (BuildContext context) =>VerPublicacionPage(),
+          'emergencia': (BuildContext context) =>EmergenciaPage(),
         },
         theme:ThemeData(
           primaryColor: Color.fromRGBO(42,26,94,1.0),

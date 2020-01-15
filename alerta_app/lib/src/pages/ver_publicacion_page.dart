@@ -50,14 +50,14 @@ class VerPublicacionPage extends StatelessWidget {
             ), 
           ),
           Container(
-            height: size.height*0.25,
+            height: size.height*0.30,
             width: size.width*0.80,
             decoration:BoxDecoration(
               boxShadow: [new BoxShadow(
                 color: Colors.black,
                 blurRadius: 20.0,
               ),],
-              color: Color.fromRGBO(42,26,94,1.0),
+              color: Color.fromRGBO(42,26,94,1),
               borderRadius: new BorderRadius.all(Radius.circular(40.0))
             ),
             child: Column(
@@ -193,6 +193,7 @@ class VerPublicacionPage extends StatelessWidget {
     );
   }
   Widget _crearEditar(BuildContext context){
+    if(_prefs.cui!=publicacionData.cui)return Container();
     final size=MediaQuery.of(context).size;
     return RaisedButton(
       shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),

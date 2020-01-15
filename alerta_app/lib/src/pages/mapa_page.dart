@@ -1,3 +1,5 @@
+import 'package:alerta_app/src/provider/publicacion_provider.dart';
+import 'package:alerta_app/src/widgets/historia_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:alerta_app/src/utils/data.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -16,6 +18,7 @@ class MapaPage extends StatefulWidget {
 class _MapaPageState extends State<MapaPage> {
   final prefs = new PreferenciasUsuario();
   Data data2;
+  final PublicacionProvider publicacionProvider=new PublicacionProvider();
   @override
   void initState() { 
     super.initState();
@@ -100,35 +103,26 @@ class _MapaPageState extends State<MapaPage> {
   Widget _crearCarrete(BuildContext context){
     final _screenSize=MediaQuery.of(context).size;
     return Container(
+      color: Color.fromRGBO(42,26,94,1.0),
       height: _screenSize.height * 0.10,
-      child: PageView.builder(
-        pageSnapping: false,
-        // children: _tarjetas(context),
-        itemCount: 1,
-        itemBuilder: ( context, i ) =>_tarjeta(context),
-      ),
+      width: double.infinity,
+      child: Column(
+        children: <Widget>[
+          FutureBuilder(
+            future: publicacionProvider.getGeneral(0),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if(!snapshot.hasData){
+                return CircularProgressIndicator();
+              }
+              return HistoriaHorizontal(publicaciones: snapshot.data,);
+            },
+          ),
+
+        ],
+      )
     );
   }
 
-  Widget _tarjeta(BuildContext context){
-    return Container(
-        padding: EdgeInsets.only(left:10.0),
-        color:Color.fromRGBO(42,26,94,1.0) ,
-        child: Row(
-          children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(40.0),
-                child: FadeInImage(
-                  image: NetworkImage('assets/mapa2.jpg'),
-                  placeholder: AssetImage('assets/mapa2.jpg'),
-                  fit: BoxFit.cover,
-                  height: 50.0,
-                ),
-              ),
-          ],
-        )
-  );
-}
 
   Widget _crearFlutterMap(BuildContext context, LoginBloc bloc){
     

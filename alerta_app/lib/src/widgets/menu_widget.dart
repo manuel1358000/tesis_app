@@ -70,6 +70,13 @@ class MenuWidget extends StatelessWidget {
                 Navigator.pushReplacementNamed(context,'mapa');
               },
             ),
+            ListTile(
+              leading: Icon(Icons.call,color:Color.fromRGBO(42,26,94,1.0)),
+              title: Text('Numeros emergencia',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
+              onTap: (){
+                Navigator.pushReplacementNamed(context,'emergencia');
+              },
+            ),
             Divider(),
             ListTile(
               leading: Icon(Icons.close,color:Color.fromRGBO(42,26,94,1.0)),
@@ -117,18 +124,17 @@ class MenuWidget extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.group,color:Color.fromRGBO(42,26,94,1.0)),
-              title: Text('Usuarios',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
-              onTap: (){
-                Navigator.pop(context);
-                Navigator.pushReplacementNamed(context,'usuarios');
-              },
-            ),
-            ListTile(
               leading: Icon(Icons.map,color:Color.fromRGBO(42,26,94,1.0)),
               title: Text('Mapa',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
               onTap: (){
                 Navigator.pushReplacementNamed(context,'mapa');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.call,color:Color.fromRGBO(42,26,94,1.0)),
+              title: Text('Numeros emergencia',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
+              onTap: (){
+                Navigator.pushReplacementNamed(context,'emergencia');
               },
             ),
             Divider(),
@@ -158,6 +164,13 @@ class MenuWidget extends StatelessWidget {
               title: Text('Mapa',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
               onTap: (){
                 Navigator.pushReplacementNamed(context,'mapa');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.call,color:Color.fromRGBO(42,26,94,1.0)),
+              title: Text('Numeros emergencia',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
+              onTap: (){
+                Navigator.pushReplacementNamed(context,'emergencia');
               },
             ),
             Divider(),

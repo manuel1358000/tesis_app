@@ -16,6 +16,12 @@ class PreferenciasUsuario {
   set token( String value ) {
     _prefs.setString('token', value);
   }
+  get peticionUsuario {
+    return _prefs.getBool('peticion') ?? true;
+  }
+  set peticionUsuario( bool value ) {
+    _prefs.setBool('peticion', value);
+  }
   get cui {
     return _prefs.getInt('cui') ?? 0;
   }

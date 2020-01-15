@@ -17,7 +17,7 @@ class UsuarioProvider{
       'ESTADO':estado
     };
     final resp=await http.post(
-      'http://192.168.0.17:8080/post/usuarioAU',
+      'http://34.67.241.151:3000/post/usuarioAU',
       body:json.encode(authData),
       headers: {"Content-Type": "application/json"}
     );
@@ -30,7 +30,7 @@ class UsuarioProvider{
       'PASSWORD':password,
       'NOMBRE':nombre
     };
-    final resp=await http.put('http://192.168.0.17:8080/put/usuarioAU',
+    final resp=await http.put('http://34.67.241.151:3000/put/usuarioAU',
       body:json.encode(authData),
       headers: {"Content-Type": "application/json"});
     Map<String,dynamic> decodedResp=json.decode(resp.body);
@@ -44,7 +44,7 @@ class UsuarioProvider{
       'PASSWORD':password
     };
     final resp=await http.post(
-      'http://192.168.0.17:8080/post/iniciar_sesion',
+      'http://34.67.241.151:3000/post/iniciar_sesion',
       body:json.encode(authData),
       headers: {"Content-Type": "application/json"}
     );
@@ -73,7 +73,7 @@ class UsuarioProvider{
     };
     
     final resp=await http.post(
-      'http://192.168.0.17:8080/post/publicacionAU',
+      'http://34.67.241.151:3000/post/publicacionAU',
       body:json.encode(authData),
       headers: {"Content-Type": "application/json"}
     );
@@ -90,7 +90,7 @@ class UsuarioProvider{
 
   Future<UsuarioModel> cargarUsuario(int cui)async{
     final resp=await http.get(
-      'http://192.168.0.17:8080/get/usuarioAU?CUI='+cui.toString(),
+      'http://34.67.241.151:3000/get/usuarioAU?CUI='+cui.toString(),
       headers: {"Content-Type": "application/json"}
     );
     if(resp.body==null) return null;

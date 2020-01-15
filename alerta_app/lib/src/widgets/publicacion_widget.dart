@@ -23,20 +23,21 @@ class _PublicacionWidgetState extends State<PublicacionWidget> {
 
   final _pageController=new PageController(
     initialPage: 1,
-    viewportFraction: 0.40
+    viewportFraction: 0.50
   );
   @override
   void initState() { 
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_){
       mostrarAlerta2(context, data2);
+      _prefs.peticionUsuario=true;
     });
   }
   @override
   Widget build(BuildContext context) {
     final _size=MediaQuery.of(context).size;
     _pageController.addListener((){
-      if(_pageController.position.pixels>=_pageController.position.maxScrollExtent-200){
+      if(_pageController.position.pixels>_pageController.position.maxScrollExtent-100&&_pageController.position.pixels<_pageController.position.maxScrollExtent-90){
         widget.siguientePagina(_prefs.cui);
       }
     });
@@ -75,7 +76,7 @@ class _PublicacionWidgetState extends State<PublicacionWidget> {
                     Container(
                       height: 5,
                       width: _size.width*0.90,
-                      color: publicacion.tipo==1?Colors.red:Colors.yellow,
+                      color: publicacion.tipo==1?Colors.red:Colors.green,
                       child: Text(''),
                     ),
                     SizedBox(height: 15.0,),
@@ -101,7 +102,6 @@ class _PublicacionWidgetState extends State<PublicacionWidget> {
                       child: Text(publicacion.descripcion, overflow: TextOverflow.ellipsis, style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 15)),
                       margin: EdgeInsets.only(right: 20,left: 20),
                     ),
-                    
                     Divider(),
                     ButtonTheme.bar(
                       child: ButtonBar(
