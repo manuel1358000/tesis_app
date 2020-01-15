@@ -33,6 +33,7 @@ dependencies:
   geolocator: ^5.1.5
   flutter_speed_dial: ^1.2.4
   shimmer: ^1.0.1
+  url_launcher: ^5.2.7
 
 dev_dependencies:
   flutter_test:

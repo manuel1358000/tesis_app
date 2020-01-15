@@ -1,6 +1,7 @@
-import 'package:alerta_app/src/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:alerta_app/src/utils/utils.dart';
 import 'package:alerta_app/src/widgets/menu_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 class EmergenciaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -35,9 +36,9 @@ class EmergenciaPage extends StatelessWidget {
             SizedBox(height: 30.0),
             _generarNumero(context,'Policia Nacional Civil','110','assets/policia.png'),
             SizedBox(height: 30.0),
-            _generarNumero(context,'Bomberos Voluntarios','2471-5012','assets/bomberos.jpg'),
+            _generarNumero(context,'Bomberos Voluntarios','24715012','assets/bomberos.jpg'),
             SizedBox(height: 30.0),
-            _generarNumero(context,'Bomberos Municipales','2475-5262','assets/municipales.jpg'),
+            _generarNumero(context,'Bomberos Municipales','24755262','assets/municipales.jpg'),
             SizedBox(height: 30.0),
             _generarNumero(context,'Seguridad CUM','1585','assets/usac.jpg'),
             SizedBox(height: 30.0),
@@ -48,7 +49,7 @@ class EmergenciaPage extends StatelessWidget {
       ),
     );
   }
-  Widget _generarNumero(BuildContext context,String titulo,String contenido,String imagen){
+  Widget _generarNumero(BuildContext context,String titulo,String numero,String imagen){
     final _size=MediaQuery.of(context).size;
     return Container(
       width: _size.width*0.80,
@@ -72,13 +73,13 @@ class EmergenciaPage extends StatelessWidget {
           SizedBox(width: 50.0),
           GestureDetector(
             onTap: (){
-              mostrarAlerta(context,'Llamando a '+titulo);
+              _launchURL('tel:'+numero);
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(titulo,style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14)),
-                Text(contenido,style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 16)),
+                Text(numero,style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 16)),
                 Icon(Icons.call,color: Color.fromRGBO(42,26,94,1.0)),
                 SizedBox(height: 5),
                 Text('Presiona para llamar',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 8)),
@@ -89,4 +90,12 @@ class EmergenciaPage extends StatelessWidget {
       ),
     );
   }
+  _launchURL(String numero) async {
+    const url='tel:+155501099';
+  if (await canLaunch(numero)) {
+    await launch(numero);
+  } else {
+    throw 'Could not launch $numero';
+  }
+}
 }
