@@ -45,119 +45,116 @@ class _PublicacionWidgetState extends State<PublicacionWidget> {
     return Container(
       height: _size.height,
       width: _size.width,
-      child: PageView(
+      child: PageView.builder(
         controller: _pageController,
-        children: _tarjetas(context),
+        itemCount: widget.publicaciones.length,
+        itemBuilder: (context,i)=>_crearTarjetas(context,widget.publicaciones[i]),
         scrollDirection: Axis.vertical,
       )
     );
   }
-
-  List<Widget> _tarjetas(BuildContext context){
+  Widget _crearTarjetas(BuildContext context, PublicacionModel publicacion){
     final _size=MediaQuery.of(context).size;
-    return widget.publicaciones.map((publicacion){ 
-      String dateWithT = publicacion.fechahora.substring(0,10) + publicacion.fechahora.substring(10);
-      DateTime dateTime = DateTime.parse(dateWithT);
-      return Container(
-        child: Column(
-          children: <Widget>[
-             Container(
-              width: _size.width*0.95,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                //color: Color.fromRGBO(244,89,5,1.0),
-                color: Colors.white,
-                elevation: 10,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Container(
-                      height: 5,
-                      width: _size.width*0.90,
-                      color: publicacion.tipo==1?Colors.red:Colors.green,
-                      child: Text(''),
-                    ),
-                    SizedBox(height: 15.0,),
-                    Text('Tipo',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14,fontWeight: FontWeight.bold)),
-                    Text((publicacion.tipo==1?"Alerta":"Evento"),style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14)),
-                    SizedBox(height: 15.0,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+    String dateWithT = publicacion.fechahora.substring(0,10) + publicacion.fechahora.substring(10);
+    DateTime dateTime = DateTime.parse(dateWithT);
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Container(
+            width: _size.width*0.95,
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              //color: Color.fromRGBO(244,89,5,1.0),
+              color: Colors.white,
+              elevation: 10,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Container(
+                    height: 5,
+                    width: _size.width*0.90,
+                    color: publicacion.tipo==1?Colors.red:Colors.green,
+                    child: Text(''),
+                  ),
+                  SizedBox(height: 15.0,),
+                  Text('Tipo',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14,fontWeight: FontWeight.bold)),
+                  Text((publicacion.tipo==1?"Alerta":"Evento"),style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14)),
+                  SizedBox(height: 15.0,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('Fecha: ', style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13,fontWeight: FontWeight.bold)),
+                      Text(dateTime.day.toString()+'-'+dateTime.month.toString()+'-'+dateTime.year.toString(), style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13)),
+                      SizedBox(width: 15.0,),
+                      Text('Hora: ', style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13,fontWeight: FontWeight.bold)),
+                      Text(dateTime.hour.toString()+':'+dateTime.minute.toString(),style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13,)),
+                    ],
+                  ),
+                  SizedBox(height: 10.0,),
+                  Text('Titulo',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14,fontWeight: FontWeight.bold)),
+                  Text(publicacion.nombre,style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 15)),
+                  SizedBox(height: 10.0,),
+                  Text('Descripcion',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14,fontWeight: FontWeight.bold)),
+                  Container(
+                    child: Text(publicacion.descripcion, overflow: TextOverflow.ellipsis, style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 15)),
+                    margin: EdgeInsets.only(right: 20,left: 20),
+                  ),
+                  Divider(),
+                  ButtonTheme.bar(
+                    child: ButtonBar(
+                      alignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text('Fecha: ', style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13,fontWeight: FontWeight.bold)),
-                        Text(dateTime.day.toString()+'-'+dateTime.month.toString()+'-'+dateTime.year.toString(), style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13)),
-                        SizedBox(width: 15.0,),
-                        Text('Hora: ', style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13,fontWeight: FontWeight.bold)),
-                        Text(dateTime.hour.toString()+':'+dateTime.minute.toString(),style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13,)),
+                        FlatButton(
+                          child: const Text('Ver', style: TextStyle(color: Color.fromRGBO(42,26,94,1.0))),
+                          onPressed: () {
+                            Navigator.pushNamed(context,'ver_publicacion',arguments:publicacion);
+                          },
+                        ),
+                        FlatButton(
+                          child: const Text('Editar', style: TextStyle(color: Color.fromRGBO(42,26,94,1.0))),
+                          onPressed: () {    
+                          },
+                        ),
+                        FlatButton(
+                          child: const Text('Eliminar', style: TextStyle(color: Colors.red)),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context){
+                                return AlertDialog(
+                                  title: new Text('Alerta'),
+                                  content: new Text('¿Desea eliminar la publicacion?'),
+                                  actions: <Widget>[
+                                    new FlatButton(
+                                      child: new Text("Aceptar"),
+                                      onPressed: (){
+                                        _eliminarPublicacion(context,publicacion.codpublicacion);
+                                      },
+                                    ),
+                                    new FlatButton(
+                                      child: new Text("Cerrar"),
+                                      onPressed: (){
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              }
+                            );
+                          },
+                        ),
                       ],
                     ),
-                    SizedBox(height: 10.0,),
-                    Text('Titulo',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14,fontWeight: FontWeight.bold)),
-                    Text(publicacion.nombre,style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 15)),
-                    SizedBox(height: 10.0,),
-                    Text('Descripcion',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14,fontWeight: FontWeight.bold)),
-                    Container(
-                      child: Text(publicacion.descripcion, overflow: TextOverflow.ellipsis, style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 15)),
-                      margin: EdgeInsets.only(right: 20,left: 20),
-                    ),
-                    Divider(),
-                    ButtonTheme.bar(
-                      child: ButtonBar(
-                        alignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          FlatButton(
-                            child: const Text('Ver', style: TextStyle(color: Color.fromRGBO(42,26,94,1.0))),
-                            onPressed: () {
-                              Navigator.pushNamed(context,'ver_publicacion',arguments:publicacion);
-                            },
-                          ),
-                          FlatButton(
-                            child: const Text('Editar', style: TextStyle(color: Color.fromRGBO(42,26,94,1.0))),
-                            onPressed: () {
-                              
-                            },
-                          ),
-                          FlatButton(
-                            child: const Text('Eliminar', style: TextStyle(color: Colors.red)),
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context){
-                                  return AlertDialog(
-                                    title: new Text('Alerta'),
-                                    content: new Text('¿Desea eliminar la publicacion?'),
-                                    actions: <Widget>[
-                                      new FlatButton(
-                                        child: new Text("Aceptar"),
-                                        onPressed: (){
-                                          _eliminarPublicacion(context,publicacion.codpublicacion);
-                                        },
-                                      ),
-                                      new FlatButton(
-                                        child: new Text("Cerrar"),
-                                        onPressed: (){
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                }
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      );
-    }).toList();
+          ),
+        ],
+      ),
+    );
   }
 
   _eliminarPublicacion(BuildContext context,int codPublicacion)async{

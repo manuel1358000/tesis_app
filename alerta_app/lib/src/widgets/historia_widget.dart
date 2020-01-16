@@ -5,28 +5,38 @@ import 'package:flutter/material.dart';
 
 class HistoriaHorizontal extends StatelessWidget {
   final List<PublicacionModel> publicaciones;
-  HistoriaHorizontal({@required this.publicaciones});
+  final Function siguientePagina;
+  HistoriaHorizontal({@required this.publicaciones,@required this.siguientePagina});
+  final _pageController=new PageController(
+    initialPage: 1,
+    viewportFraction: 0.25
+  );
   @override
   Widget build(BuildContext context) {
     final _size=MediaQuery.of(context).size;
+    _pageController.addListener((){
+      if(_pageController.position.pixels>=_pageController.position.maxScrollExtent-200){
+        print('SIgueintes datos');
+        siguientePagina(0);
+      }
+    });
     return Container(
       alignment: Alignment.bottomLeft,
       height: _size.height*0.10,
       width: double.infinity,
-      child: PageView(
+      child: PageView.builder(
         dragStartBehavior: DragStartBehavior.start,
         pageSnapping: false,
-        controller: PageController(
-          initialPage: 1,
-          viewportFraction: 0.25
-        ),
-        children: _historias(context),
+        controller: _pageController,
+        //children: _historias(context),
+        itemCount: publicaciones.length,
+        itemBuilder: ( context, i)=> _crearHistoria(context,publicaciones[i]),
       ),
     );
   }
-  List<Widget> _historias(BuildContext context){
-    return publicaciones.map((publicacion){
-      return Row(
+
+  Widget _crearHistoria(BuildContext context,PublicacionModel publicacion){
+    return Row(
         children: <Widget>[
           SizedBox(width: 3),
           GestureDetector(
@@ -45,8 +55,5 @@ class HistoriaHorizontal extends StatelessWidget {
           ),
         ],
       );
-    }).toList();
-
   }
-
 }

@@ -30,6 +30,7 @@ class _MapaPageState extends State<MapaPage> {
   Widget build(BuildContext context) {
     data2=ModalRoute.of(context).settings.arguments;
     final bloc = Provider.ofLogin(context);
+    publicacionProvider.getGeneral(0);
     return Scaffold(
       appBar:AppBar(
             backgroundColor: Color.fromRGBO(42,26,94,1.0),
@@ -67,11 +68,7 @@ class _MapaPageState extends State<MapaPage> {
           marginBottom: 20,
           animatedIcon: AnimatedIcons.menu_close,
           animatedIconTheme: IconThemeData(size: 22.0),
-          // this is ignored if animatedIcon is non null
-          // child: Icon(Icons.add),
           visible: true,
-          // If true user is forced to close dial manually 
-          // by tapping main button and overlay is not rendered.
           closeManually: false,
           curve: Curves.bounceIn,
           overlayColor: Colors.black,
@@ -108,25 +105,21 @@ class _MapaPageState extends State<MapaPage> {
       width: double.infinity,
       child: Column(
         children: <Widget>[
-          FutureBuilder(
-            future: publicacionProvider.getGeneral(0),
+          StreamBuilder(
+            stream: publicacionProvider.generalStream,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if(snapshot.hasData){
-                return HistoriaHorizontal(publicaciones: snapshot.data);
+                return HistoriaHorizontal(publicaciones: snapshot.data,siguientePagina: publicacionProvider.getGeneral,);
               }else{
                 return CircularProgressIndicator();
               }
-              
             },
           ),
         ],
       )
     );
   }
-
-
-  Widget _crearFlutterMap(BuildContext context, LoginBloc bloc){
-    
+  Widget _crearFlutterMap(BuildContext context, LoginBloc bloc){ 
     return Container(
       child: FlutterMap(
         options: MapOptions(
