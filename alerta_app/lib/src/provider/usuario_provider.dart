@@ -7,7 +7,8 @@ import 'package:http/http.dart' as http;
 class UsuarioProvider{
 
   final _prefs = new PreferenciasUsuario();
-
+  final _url='192.168.0.17';
+  final _urlCloud='34.67.241.151';
   Future<Map<String,dynamic>> nuevoUsuario(int cui,String password,String nombre,int tipo,int estado)async{
     final authData={
       'CUI':cui,
@@ -17,7 +18,7 @@ class UsuarioProvider{
       'ESTADO':estado
     };
     final resp=await http.post(
-      'http://34.67.241.151:3000/post/usuarioAU',
+      'http://'+_url+':3000/post/usuarioAU',
       body:json.encode(authData),
       headers: {"Content-Type": "application/json"}
     );
@@ -30,7 +31,7 @@ class UsuarioProvider{
       'PASSWORD':password,
       'NOMBRE':nombre
     };
-    final resp=await http.put('http://34.67.241.151:3000/put/usuarioAU',
+    final resp=await http.put('http://'+_url+':3000/put/usuarioAU',
       body:json.encode(authData),
       headers: {"Content-Type": "application/json"});
     Map<String,dynamic> decodedResp=json.decode(resp.body);
@@ -44,7 +45,7 @@ class UsuarioProvider{
       'PASSWORD':password
     };
     final resp=await http.post(
-      'http://34.67.241.151:3000/post/iniciar_sesion',
+      'http://'+_url+':3000/post/iniciar_sesion',
       body:json.encode(authData),
       headers: {"Content-Type": "application/json"}
     );
@@ -73,7 +74,7 @@ class UsuarioProvider{
     };
     
     final resp=await http.post(
-      'http://34.67.241.151:3000/post/publicacionAU',
+      'http://'+_url+':3000/post/publicacionAU',
       body:json.encode(authData),
       headers: {"Content-Type": "application/json"}
     );
@@ -90,7 +91,7 @@ class UsuarioProvider{
 
   Future<UsuarioModel> cargarUsuario(int cui)async{
     final resp=await http.get(
-      'http://34.67.241.151:3000/get/usuarioAU?CUI='+cui.toString(),
+      'http://'+_url+':3000/get/usuarioAU?CUI='+cui.toString(),
       headers: {"Content-Type": "application/json"}
     );
     if(resp.body==null) return null;

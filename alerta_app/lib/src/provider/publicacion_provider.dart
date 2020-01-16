@@ -9,7 +9,8 @@ class PublicacionProvider{
   final _prefs = new PreferenciasUsuario();
   int _paginacionGeneral = 0;
   int _paginacionUsuario=0;
-
+  final _url='192.168.0.17';
+  final _urlCloud='34.67.241.151';
   List<PublicacionModel> _general=new List();
   List<PublicacionModel> _usuario=new List();
 
@@ -31,7 +32,7 @@ class PublicacionProvider{
   Future<List<PublicacionModel>> getGeneral(int cui)async{
     try{
       final resp=await http.get(
-        'http://34.67.241.151:3000/get/publicacionGAU?PAGINACION='+_paginacionGeneral.toString(),
+        'http://'+_url+':3000/get/publicacionGAU?PAGINACION='+_paginacionGeneral.toString(),
         headers: {"Content-Type": "application/json"}
       );
       final decodedData=json.decode(resp.body);
@@ -51,7 +52,7 @@ class PublicacionProvider{
   Future<List<PublicacionModel>> getUsuario(int cui)async{
       try{
       final resp=await http.get(
-        'http://34.67.241.151:3000/get/publicacionUAU?PAGINACION='+_paginacionUsuario.toString()+'&CUI='+cui.toString(),
+        'http://'+_url+':3000/get/publicacionUAU?PAGINACION='+_paginacionUsuario.toString()+'&CUI='+cui.toString(),
         headers: {"Content-Type": "application/json"}
       );
       final decodedData=json.decode(resp.body);
@@ -72,7 +73,7 @@ class PublicacionProvider{
   }
 
   Future<Map<String,dynamic>> eliminarPublicacion(int codPublicacion)async{
-    final resp=await http.delete('http://34.67.241.151:3000/delete/publicacionAU?COD_PUBLICACION='+codPublicacion.toString(),
+    final resp=await http.delete('http://'+_url+':3000/delete/publicacionAU?COD_PUBLICACION='+codPublicacion.toString(),
       headers: {"Content-Type": "application/json"});
     Map<String,dynamic> decodedResp=json.decode(resp.body);
     return decodedResp;

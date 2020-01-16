@@ -18,6 +18,7 @@ import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main()async{
+  WidgetsFlutterBinding.ensureInitialized();
   final prefs = new PreferenciasUsuario();
   await prefs.initPrefs();
   runApp(MyApp());

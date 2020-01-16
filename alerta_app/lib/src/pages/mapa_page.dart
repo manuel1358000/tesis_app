@@ -1,15 +1,15 @@
+import 'package:flutter/material.dart';
 import 'package:alerta_app/src/provider/publicacion_provider.dart';
 import 'package:alerta_app/src/widgets/historia_widget.dart';
-import 'package:flutter/material.dart';
 import 'package:alerta_app/src/utils/data.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:latlong/latlong.dart';
 import 'package:alerta_app/src/bloc/provider.dart';
 import 'package:alerta_app/src/utils/utils.dart';
 import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:alerta_app/src/widgets/menu_widget.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:latlong/latlong.dart';
 class MapaPage extends StatefulWidget {
   @override
   _MapaPageState createState() => _MapaPageState();
@@ -111,13 +111,14 @@ class _MapaPageState extends State<MapaPage> {
           FutureBuilder(
             future: publicacionProvider.getGeneral(0),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if(!snapshot.hasData){
+              if(snapshot.hasData){
+                return HistoriaHorizontal(publicaciones: snapshot.data);
+              }else{
                 return CircularProgressIndicator();
               }
-              return HistoriaHorizontal(publicaciones: snapshot.data,);
+              
             },
           ),
-
         ],
       )
     );
@@ -129,7 +130,7 @@ class _MapaPageState extends State<MapaPage> {
     return Container(
       child: FlutterMap(
         options: MapOptions(
-          center: LatLng(14.611468, -90.545515),
+          center:  new LatLng(14.611468, -90.545515),
           zoom: 18
         ),
         layers:[

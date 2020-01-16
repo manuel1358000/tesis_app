@@ -4,11 +4,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class HistoriaHorizontal extends StatelessWidget {
-  
   final List<PublicacionModel> publicaciones;
-
   HistoriaHorizontal({@required this.publicaciones});
-
   @override
   Widget build(BuildContext context) {
     final _size=MediaQuery.of(context).size;
@@ -34,7 +31,7 @@ class HistoriaHorizontal extends StatelessWidget {
           SizedBox(width: 3),
           GestureDetector(
             onTap: (){
-              mostrarAlerta(context,'Publicacion '+publicacion.nombre);
+              Navigator.pushNamed(context,'ver_publicacion',arguments:publicacion);
             },
             child: Container(
               width: 50,

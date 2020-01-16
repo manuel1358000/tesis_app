@@ -28,8 +28,8 @@ class EmergenciaPage extends StatelessWidget {
   }
   Widget _generarEstructura(BuildContext context){
     return SingleChildScrollView(
-          child: Container(
-            width: double.infinity,
+      child: Container(
+        width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
