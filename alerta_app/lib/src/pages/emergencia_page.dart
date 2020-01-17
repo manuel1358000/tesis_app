@@ -34,13 +34,15 @@ class EmergenciaPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(height: 30.0),
-            _generarNumero(context,'Policia Nacional Civil','110','assets/policia.png'),
+            _generarNumero(context,'Denuncias USAC','1592','assets/usac.jpg'),
+            SizedBox(height: 30.0),
+            _generarNumero(context,'PNC Comisaria 14','24398432','assets/policia.png'),
             SizedBox(height: 30.0),
             _generarNumero(context,'Bomberos Voluntarios','24715012','assets/bomberos.jpg'),
             SizedBox(height: 30.0),
             _generarNumero(context,'Bomberos Municipales','24755262','assets/municipales.jpg'),
             SizedBox(height: 30.0),
-            _generarNumero(context,'Seguridad CUM','1585','assets/usac.jpg'),
+            _generarNumero(context,'CUM','24851900','assets/usac.jpg'),
             SizedBox(height: 30.0),
             _generarNumero(context,'Denuncias USAC','1514','assets/usac.jpg'),
             SizedBox(height: 30.0),
@@ -68,9 +70,9 @@ class EmergenciaPage extends StatelessWidget {
           CircleAvatar(
             backgroundImage: AssetImage(imagen),
             backgroundColor: Colors.white,
-            radius: 50,
+            radius: 30,
           ),
-          SizedBox(width: 50.0),
+          SizedBox(width: _size.width*0.05),
           GestureDetector(
             onTap: (){
               _launchURL('tel:'+numero);

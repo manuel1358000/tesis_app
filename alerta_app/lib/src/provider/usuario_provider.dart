@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 class UsuarioProvider{
 
   final _prefs = new PreferenciasUsuario();
-  final _url='192.168.0.17';
-  final _urlCloud='34.67.241.151';
+  //final _url='192.168.0.17';
+  final _url='34.67.241.151';
   Future<Map<String,dynamic>> nuevoUsuario(int cui,String password,String nombre,int tipo,int estado)async{
     final authData={
       'CUI':cui,

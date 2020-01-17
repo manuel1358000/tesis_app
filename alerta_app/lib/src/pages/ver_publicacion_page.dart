@@ -50,7 +50,7 @@ class VerPublicacionPage extends StatelessWidget {
             ), 
           ),
           Container(
-            height: size.height*0.30,
+            height: size.height*0.35,
             width: size.width*0.80,
             decoration:BoxDecoration(
               boxShadow: [new BoxShadow(
