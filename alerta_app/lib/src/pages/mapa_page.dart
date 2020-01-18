@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:alerta_app/src/provider/usuario_provider.dart';
 import 'package:alerta_app/src/provider/publicacion_provider.dart';
 import 'package:alerta_app/src/widgets/historia_widget.dart';
 import 'package:alerta_app/src/utils/data.dart';
@@ -18,6 +19,7 @@ class MapaPage extends StatefulWidget {
 class _MapaPageState extends State<MapaPage> {
   final prefs = new PreferenciasUsuario();
   Data data2;
+  final usuarioProvider=new UsuarioProvider();
   final PublicacionProvider publicacionProvider=new PublicacionProvider();
   @override
   void initState() { 
@@ -38,14 +40,16 @@ class _MapaPageState extends State<MapaPage> {
             centerTitle: true,
             elevation: 0.0,
             actions: <Widget>[
-              Container(
-                margin: EdgeInsets.all(10.0),
-                child:GestureDetector(
-                  child:Icon(Icons.fiber_smart_record,color: Colors.white),
-                  onLongPress: (){
-                    mostrarAlerta(context,'Boton de Panico');
-                  },
-                )
+              GestureDetector(
+                child: Container(
+                  height: 50.0,
+                  width: 50.0,
+                  margin: EdgeInsets.all(14.0),
+                  child:Icon(Icons.fiber_smart_record,color: Colors.white)
+                ),
+                onLongPress: (){
+                      _getCurrentLocation(context);
+                    },
               )
             ],
           ),
@@ -60,7 +64,21 @@ class _MapaPageState extends State<MapaPage> {
       floatingActionButton: _crearBotonPublicacion(context),
     );
   }
+  _getCurrentLocation(BuildContext context)async{
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager=true;
+    Position position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    _registrarPublicacion(position,context);
+  }
 
+  _registrarPublicacion(Position position,BuildContext context)async {
+    DateTime now = new DateTime.now();
+    Map info=await usuarioProvider.publicacion(1,'Alerta Seguridad','Boton de panico activado por el usuario '+prefs.nombre,position.latitude,position.longitude,1,7,now.toString());
+    if(info['codigo']==200){
+      mostrarAlerta(context,"Alerta Boton de Panico Enviada");
+    }else{
+      mostrarAlerta(context,info['mensaje']);
+    }
+  }
   Widget _crearBotonPublicacion(BuildContext context){
     return SpeedDial(
           // both default to 16
