@@ -232,7 +232,7 @@ class _AlertaPageState extends State<AlertaPage> {
 
   _registrarPublicacion(PublicacionBloc bloc,Position position,BuildContext context)async {
     DateTime now = new DateTime.now();
-    Map info=await usuarioProvider.publicacion(1,bloc.nombre,bloc.descripcion,position.latitude,position.longitude,1,bloc.subtipo,now.toString());
+    Map info=await usuarioProvider.publicacion(1,bloc.nombre,bloc.descripcion,position.latitude,position.longitude,1,_valueDropdown(_opcionSeleccionada),now.toString());
     if(info['codigo']==200){
       final Data data= new Data(contenido:'Alerta creada con exito');
       Navigator.pushNamed(context,'mapa',arguments: data);

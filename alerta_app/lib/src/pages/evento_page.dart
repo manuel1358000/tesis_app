@@ -141,6 +141,7 @@ class _EventoPageState extends State<EventoPage> {
         onChanged: (opt){
           setState((){
             bloc.setSubtipo=_valueDropdown(opt);
+            print(bloc.subtipo.toString());
             _opcionSeleccionada=opt;
           });
         },
@@ -148,6 +149,7 @@ class _EventoPageState extends State<EventoPage> {
     );
   }
   int _valueDropdown(String tipo){
+    print('tipo '+tipo);
     switch(tipo){
       case "Academico": return 7;
       case "Educativo": return 8;
@@ -328,15 +330,16 @@ class _EventoPageState extends State<EventoPage> {
   }
    _getCurrentLocation(PublicacionBloc bloc,BuildContext context)async{
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager=true;
-    print('Aqui');
     Position position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
     _registrarPublicacion(bloc,position,context);
   }
 
   _registrarPublicacion(PublicacionBloc bloc,Position position,BuildContext context)async {
-    print("aqui1");
     bloc.setFecha=_fecha+' '+_hora;
-    Map info=await usuarioProvider.publicacion(1,bloc.nombre,bloc.descripcion,position.latitude,position.longitude,2,bloc.subtipo,bloc.fecha);
+
+    print(bloc.subtipo);
+    print('opcion seleccionada '+_opcionSeleccionada);
+    Map info=await usuarioProvider.publicacion(1,bloc.nombre,bloc.descripcion,position.latitude,position.longitude,2,_valueDropdown(_opcionSeleccionada),bloc.fecha);
     if(info['codigo']==200){
       final Data data= new Data(contenido:'Evento creado con exito');
       Navigator.pushNamed(context,'mapa',arguments: data);
