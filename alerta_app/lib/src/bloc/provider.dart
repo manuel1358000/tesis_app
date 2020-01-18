@@ -1,3 +1,4 @@
+import 'package:alerta_app/src/bloc/recuperar_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:alerta_app/src/bloc/login_bloc.dart';
 import 'package:alerta_app/src/bloc/registro_bloc.dart';
@@ -21,7 +22,7 @@ class Provider extends InheritedWidget{
   final loginBloc= LoginBloc();
   final registroBloc= RegistroBloc();
   final publicacionBloc= PublicacionBloc();
-
+  final recuperarBloc= RecuperarBloc();
 
 
   
@@ -38,5 +39,8 @@ class Provider extends InheritedWidget{
   }
   static PublicacionBloc ofPublicacion(BuildContext context){
     return (context.inheritFromWidgetOfExactType(Provider)as Provider).publicacionBloc;
+  }
+  static RecuperarBloc ofRecuperar(BuildContext context){
+    return (context.inheritFromWidgetOfExactType(Provider)as Provider).recuperarBloc;
   }
 }

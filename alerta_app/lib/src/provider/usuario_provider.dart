@@ -102,8 +102,16 @@ class UsuarioProvider{
     return usuarioTemp;
   }
 
-      
-
-
-
+  Future<Map<String,dynamic>> recuperarContra(int cui)async{
+    final authData={
+      'CUI':cui
+    };
+    final resp=await http.post(
+      'http://'+_url+':3000/post/recuperar_contra',
+      body:json.encode(authData),
+      headers: {"Content-Type": "application/json"}
+    );
+    Map<String,dynamic> decodedResp=json.decode(resp.body);
+    return decodedResp;
+  }
 }
