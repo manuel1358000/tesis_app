@@ -86,7 +86,7 @@ class MenuWidget extends StatelessWidget {
                 prefs.cui=0;
                 prefs.password='';
                 prefs.tipo=0;
-                Navigator.pop(context);
+                //Navigator.pop(context);
                 final Data data= new Data(contenido:'Sesion Cerrrada con exito');
                 Navigator.pushReplacementNamed(context,'login',arguments: data);
               },
@@ -142,11 +142,11 @@ class MenuWidget extends StatelessWidget {
               leading: Icon(Icons.close,color:Color.fromRGBO(42,26,94,1.0)),
               title: Text('Cerrar sesion',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
               onTap: (){
+                //Navigator.pop(context);
                 prefs.token='';
                 prefs.cui=0;
                 prefs.password='';
                 prefs.tipo=0;
-                Navigator.pop(context);
                 final Data data= new Data(contenido:'Sesion Cerrrada con exito');
                 Navigator.pushReplacementNamed(context,'login',arguments: data);
               },
@@ -182,7 +182,7 @@ class MenuWidget extends StatelessWidget {
                 prefs.cui=0;
                 prefs.password='';
                 prefs.tipo=0;
-                Navigator.pop(context);
+                //Navigator.pop(context);
                 final Data data= new Data(contenido:'Sesion Cerrrada con exito');
                 Navigator.pushReplacementNamed(context,'login',arguments: data);
               },
