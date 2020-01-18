@@ -11,8 +11,8 @@ class PublicacionProvider{
   int _paginacionUsuario=0;
   bool _cargandoGeneral=false;
   bool _cargandoUsuario=false;
-  //final _url='192.168.0.17';
-  final _url='34.67.241.151';
+  final _url='192.168.0.17';
+  //final _url='34.67.241.151';
   List<PublicacionModel> _general=new List();
   List<PublicacionModel> _usuario=new List();
 
