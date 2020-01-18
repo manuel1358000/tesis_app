@@ -69,7 +69,6 @@ class _MapaPageState extends State<MapaPage> {
     Position position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     _registrarPublicacion(position,context);
   }
-
   _registrarPublicacion(Position position,BuildContext context)async {
     DateTime now = new DateTime.now();
     Map info=await usuarioProvider.publicacion(1,'Alerta Seguridad','Boton de panico activado por el usuario '+prefs.nombre,position.latitude,position.longitude,1,7,now.toString());
