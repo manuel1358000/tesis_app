@@ -53,6 +53,37 @@ class _PublicacionWidgetState extends State<PublicacionWidget> {
       )
     );
   }
+
+  Widget _iconoDropdown(int tipo){
+    switch(tipo.toString()){
+      case "1": return _formarIcono(Icons.local_hospital,Colors.red,"Emergencia Medica");
+      case "2": return _formarIcono(Icons.directions_run,Colors.blue,"Asalto");
+      case "3": return _formarIcono(Icons.directions_run,Colors.blue,"Robo Vehiculo");
+      case "4": return _formarIcono(Icons.local_hospital,Colors.red,"Accidente Vehicular");
+      case "5": return _formarIcono(Icons.block,Colors.green,"Bloqueo");
+      case "6": return _formarIcono(Icons.priority_high,Colors.green,"Incendio");
+      case "7": return _formarIcono(Icons.local_library,Colors.green,"Academico");
+      case "8": return _formarIcono(Icons.local_library,Colors.green,"Educativo");
+      case "9": return _formarIcono(Icons.insert_comment,Colors.red,"Informativo");
+      case "10": return _formarIcono(Icons.security,Colors.red,"Seguridad");
+      case "11": return _formarIcono(Icons.sms,Colors.blue,"Cultural");
+      case "12": return _formarIcono(Icons.sms,Colors.blue,"Social");
+      case "13": return _formarIcono(Icons.directions_bike,Colors.purple,"Deportipo");
+      case "14": return _formarIcono(Icons.supervisor_account,Colors.purple,"Recreativo");
+      case "15": return _formarIcono(Icons.security,Colors.white,"Boton de Panico");      
+      default: return _formarIcono(Icons.outlined_flag,Colors.yellow,"");
+    }
+  }
+  Widget _formarIcono(IconData icono,Color color,String texto){
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(icono,color:color),
+          Text(texto,style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14)),
+        ],
+      );
+  }
+
   Widget _crearTarjetas(BuildContext context, PublicacionModel publicacion){
     final _size=MediaQuery.of(context).size;
     String dateWithT = publicacion.fechahora.substring(0,10) + publicacion.fechahora.substring(10);
@@ -67,7 +98,7 @@ class _PublicacionWidgetState extends State<PublicacionWidget> {
                 borderRadius: BorderRadius.circular(15.0),
               ),
               //color: Color.fromRGBO(244,89,5,1.0),
-              color: Colors.white,
+              color: publicacion.subtipo==15?Colors.red:Colors.white,
               elevation: 10,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -79,26 +110,29 @@ class _PublicacionWidgetState extends State<PublicacionWidget> {
                     child: Text(''),
                   ),
                   SizedBox(height: 15.0,),
-                  Text('Tipo',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14,fontWeight: FontWeight.bold)),
-                  Text((publicacion.tipo==1?"Alerta":"Evento"),style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14)),
+                  Text('Clase Publicacion',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14,fontWeight: FontWeight.bold)),
+                  Text((publicacion.tipo==1?"Alerta":"Evento"),style: TextStyle(color: publicacion.subtipo==15?Colors.white:Color.fromRGBO(42,26,94,1.0),fontSize: 14)),
+                  SizedBox(height: 10.0,),
+                  Text('Tipo de Publicacion',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14,fontWeight: FontWeight.bold)),
+                  _iconoDropdown(publicacion.subtipo),
                   SizedBox(height: 15.0,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text('Fecha: ', style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13,fontWeight: FontWeight.bold)),
-                      Text(dateTime.day.toString()+'-'+dateTime.month.toString()+'-'+dateTime.year.toString(), style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13)),
+                      Text(dateTime.day.toString()+'-'+dateTime.month.toString()+'-'+dateTime.year.toString(), style: TextStyle(color: publicacion.subtipo==15?Colors.white:Color.fromRGBO(42,26,94,1.0),fontSize: 13)),
                       SizedBox(width: 15.0,),
                       Text('Hora: ', style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13,fontWeight: FontWeight.bold)),
-                      Text(dateTime.hour.toString()+':'+dateTime.minute.toString(),style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 13,)),
+                      Text(dateTime.hour.toString()+':'+dateTime.minute.toString(),style: TextStyle(color: publicacion.subtipo==15?Colors.white:Color.fromRGBO(42,26,94,1.0),fontSize: 13,)),
                     ],
                   ),
                   SizedBox(height: 10.0,),
                   Text('Titulo',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14,fontWeight: FontWeight.bold)),
-                  Text(publicacion.nombre,style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 15)),
+                  Text(publicacion.nombre,style: TextStyle(color: publicacion.subtipo==15?Colors.white:Color.fromRGBO(42,26,94,1.0),fontSize: 15)),
                   SizedBox(height: 10.0,),
                   Text('Descripcion',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 14,fontWeight: FontWeight.bold)),
                   Container(
-                    child: Text(publicacion.descripcion, overflow: TextOverflow.ellipsis, style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 15)),
+                    child: Text(publicacion.descripcion, overflow: TextOverflow.ellipsis, style: TextStyle(color: publicacion.subtipo==15?Colors.white:Color.fromRGBO(42,26,94,1.0),fontSize: 15)),
                     margin: EdgeInsets.only(right: 20,left: 20),
                   ),
                   Divider(),
@@ -118,7 +152,7 @@ class _PublicacionWidgetState extends State<PublicacionWidget> {
                           },
                         ),
                         FlatButton(
-                          child: const Text('Eliminar', style: TextStyle(color: Colors.red)),
+                          child: const Text('Eliminar', style: TextStyle(color: Color.fromRGBO(42,26,94,1.0))),
                           onPressed: () {
                             showDialog(
                               context: context,

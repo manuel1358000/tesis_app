@@ -71,7 +71,7 @@ class _MapaPageState extends State<MapaPage> {
   }
   _registrarPublicacion(Position position,BuildContext context)async {
     DateTime now = new DateTime.now();
-    Map info=await usuarioProvider.publicacion(1,'Alerta Seguridad','Boton de panico activado por el usuario '+prefs.nombre,position.latitude,position.longitude,1,7,now.toString());
+    Map info=await usuarioProvider.publicacion(1,'Alerta Seguridad','Boton de panico activado por el usuario '+prefs.nombre,position.latitude,position.longitude,1,15,now.toString());
     if(info['codigo']==200){
       mostrarAlerta(context,"Alerta Boton de Panico Enviada");
     }else{
