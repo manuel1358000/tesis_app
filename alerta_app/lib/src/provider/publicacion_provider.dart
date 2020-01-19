@@ -53,6 +53,20 @@ class PublicacionProvider{
       return [];
     }
   }
+  Future<List<PublicacionModel>> getMarcador()async{
+    try{
+      final resp=await http.get(
+        'http://'+_url+':3000/get/publicacionGAU?PAGINACION=-13',
+        headers: {"Content-Type": "application/json"}
+      );
+      final decodedData=json.decode(resp.body);
+      if(decodedData['codigo']==200) return null;
+      final publicaciones=new Publicaciones.fromJsonList(decodedData['data']);
+      return publicaciones.items;
+    }catch(e){
+      return [];
+    }
+  }
 
   Future<List<PublicacionModel>> getUsuario(int cui)async{
       try{

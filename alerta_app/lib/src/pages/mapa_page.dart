@@ -1,4 +1,6 @@
+import 'package:alerta_app/src/widgets/mapa_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:alerta_app/src/models/publicacion_model.dart';
 import 'package:alerta_app/src/provider/usuario_provider.dart';
 import 'package:alerta_app/src/provider/publicacion_provider.dart';
 import 'package:alerta_app/src/widgets/historia_widget.dart';
@@ -54,14 +56,14 @@ class _MapaPageState extends State<MapaPage> {
             ],
           ),
         body:Stack(
-        children: <Widget>[
-           _crearFlutterMap(context,bloc),
-           _crearCarrete(context)
-        ],
-      ),
-      drawer: MenuWidget(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: _crearBotonPublicacion(context),
+          children: <Widget>[
+            _crearFlutterMap(context,bloc),
+            _crearCarrete(context)
+          ],
+        ),
+        drawer: MenuWidget(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: _crearBotonPublicacion(context),
     );
   }
   _getCurrentLocation(BuildContext context)async{
@@ -78,6 +80,22 @@ class _MapaPageState extends State<MapaPage> {
       mostrarAlerta(context,info['mensaje']);
     }
   }
+
+  Widget _crearFlutterMap(BuildContext context,LoginBloc bloc){
+    return Container(
+      child: FutureBuilder(
+        future:publicacionProvider.getMarcador(),
+        builder: (BuildContext context,AsyncSnapshot<List> snapshot){
+          if(snapshot.hasData){
+            return MapaMarcador(publicaciones: snapshot.data,);
+          }else{
+            return CircularProgressIndicator();
+          } 
+        },
+      ),
+    );
+  }
+
   Widget _crearBotonPublicacion(BuildContext context){
     return SpeedDial(
           // both default to 16
@@ -135,51 +153,5 @@ class _MapaPageState extends State<MapaPage> {
         ],
       )
     );
-  }
-  Widget _crearFlutterMap(BuildContext context, LoginBloc bloc){ 
-    return Container(
-      child: FlutterMap(
-        options: MapOptions(
-          center:  new LatLng(14.611468, -90.545515),
-          zoom: 18
-        ),
-        layers:[
-          _crearMapa(),
-          _crearMarcador()
-        ]
-      ),
-    );
-  }
-
-  _crearMapa(){
-    return TileLayerOptions(
-      urlTemplate: 'https://api.mapbox.com/v4/'
-      '{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}',
-      additionalOptions: {
-        'accessToken':'pk.eyJ1IjoibWFudWVsMTM1ODAiLCJhIjoiY2syYmZ1MGtxMDM5bjNscGpnemRvaHZ0eiJ9.BYcnZMXkIKvvH52ijm9XvA',
-        'id': 'mapbox.streets'
-        //streets, dark, light, outdoors, satellite
-      }
-    );
-  }
-
-  _crearMarcador(){
-    return MarkerLayerOptions(
-      markers: <Marker>[
-        Marker(
-          width: 100.0,
-          height: 100.0,
-          point: LatLng(14.611468, -90.545515),
-          builder: (context)=>Container(
-            child: GestureDetector(
-              child:  Icon(Icons.location_on,size:45.0,color: Colors.red,),
-              onTap:(){
-                print('Accion del icono');
-              },
-            ),
-          ),
-        )
-      ]
-    );   
   }
 }
