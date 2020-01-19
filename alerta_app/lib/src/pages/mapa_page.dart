@@ -1,18 +1,15 @@
-import 'package:alerta_app/src/widgets/mapa_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:alerta_app/src/models/publicacion_model.dart';
+import 'package:alerta_app/src/widgets/marcador_widget.dart';
 import 'package:alerta_app/src/provider/usuario_provider.dart';
 import 'package:alerta_app/src/provider/publicacion_provider.dart';
 import 'package:alerta_app/src/widgets/historia_widget.dart';
 import 'package:alerta_app/src/utils/data.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:alerta_app/src/bloc/provider.dart';
 import 'package:alerta_app/src/utils/utils.dart';
 import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:alerta_app/src/widgets/menu_widget.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:latlong/latlong.dart';
 class MapaPage extends StatefulWidget {
   @override
   _MapaPageState createState() => _MapaPageState();
@@ -87,7 +84,7 @@ class _MapaPageState extends State<MapaPage> {
         future:publicacionProvider.getMarcador(),
         builder: (BuildContext context,AsyncSnapshot<List> snapshot){
           if(snapshot.hasData){
-            return MapaMarcador(publicaciones: snapshot.data,);
+            return MarcadorPage(publicaciones: snapshot.data,);
           }else{
             return CircularProgressIndicator();
           } 

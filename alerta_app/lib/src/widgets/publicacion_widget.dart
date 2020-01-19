@@ -23,7 +23,7 @@ class _PublicacionWidgetState extends State<PublicacionWidget> {
 
   final _pageController=new PageController(
     initialPage: 1,
-    viewportFraction: 0.50
+    viewportFraction: 0.60
   );
   @override
   void initState() { 
@@ -54,26 +54,7 @@ class _PublicacionWidgetState extends State<PublicacionWidget> {
     );
   }
 
-  Widget _iconoDropdown(int tipo){
-    switch(tipo.toString()){
-      case "1": return _formarIcono(Icons.local_hospital,Colors.red,"Emergencia Medica");
-      case "2": return _formarIcono(Icons.directions_run,Colors.blue,"Asalto");
-      case "3": return _formarIcono(Icons.directions_run,Colors.blue,"Robo Vehiculo");
-      case "4": return _formarIcono(Icons.local_hospital,Colors.red,"Accidente Vehicular");
-      case "5": return _formarIcono(Icons.block,Colors.green,"Bloqueo");
-      case "6": return _formarIcono(Icons.priority_high,Colors.green,"Incendio");
-      case "7": return _formarIcono(Icons.local_library,Colors.green,"Academico");
-      case "8": return _formarIcono(Icons.local_library,Colors.green,"Educativo");
-      case "9": return _formarIcono(Icons.insert_comment,Colors.red,"Informativo");
-      case "10": return _formarIcono(Icons.security,Colors.red,"Seguridad");
-      case "11": return _formarIcono(Icons.sms,Colors.blue,"Cultural");
-      case "12": return _formarIcono(Icons.sms,Colors.blue,"Social");
-      case "13": return _formarIcono(Icons.directions_bike,Colors.purple,"Deportipo");
-      case "14": return _formarIcono(Icons.supervisor_account,Colors.purple,"Recreativo");
-      case "15": return _formarIcono(Icons.security,Colors.white,"Boton de Panico");      
-      default: return _formarIcono(Icons.outlined_flag,Colors.yellow,"");
-    }
-  }
+ 
   Widget _formarIcono(IconData icono,Color color,String texto){
     return Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -199,6 +180,26 @@ class _PublicacionWidgetState extends State<PublicacionWidget> {
       Navigator.pushNamed(context,widget.actual,arguments:data);
     }else{
       mostrarAlerta(context,info['mensaje']);
+    }
+  }
+   Widget _iconoDropdown(int tipo){
+    switch(tipo.toString()){
+      case "1": return _formarIcono(Icons.local_hospital,Colors.red,"Emergencia Medica");
+      case "2": return _formarIcono(Icons.directions_run,Colors.blue,"Asalto");
+      case "3": return _formarIcono(Icons.directions_run,Colors.blue,"Robo Vehiculo");
+      case "4": return _formarIcono(Icons.local_hospital,Colors.red,"Accidente Vehicular");
+      case "5": return _formarIcono(Icons.block,Colors.green,"Bloqueo");
+      case "6": return _formarIcono(Icons.priority_high,Colors.green,"Incendio");
+      case "7": return _formarIcono(Icons.local_library,Colors.green,"Academico");
+      case "8": return _formarIcono(Icons.local_library,Colors.green,"Educativo");
+      case "9": return _formarIcono(Icons.insert_comment,Colors.red,"Informativo");
+      case "10": return _formarIcono(Icons.security,Colors.red,"Seguridad");
+      case "11": return _formarIcono(Icons.sms,Colors.blue,"Cultural");
+      case "12": return _formarIcono(Icons.sms,Colors.blue,"Social");
+      case "13": return _formarIcono(Icons.directions_bike,Colors.purple,"Deportipo");
+      case "14": return _formarIcono(Icons.supervisor_account,Colors.purple,"Recreativo");
+      case "15": return _formarIcono(Icons.security,Colors.white,"Boton de Panico");      
+      default: return _formarIcono(Icons.outlined_flag,Colors.yellow,"");
     }
   }
 }
