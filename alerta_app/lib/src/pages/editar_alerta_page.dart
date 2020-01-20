@@ -176,13 +176,13 @@ class _EditarAlertaPageState extends State<EditarAlertaPage> {
       ),
       onPressed: publicacionmodel!=null ? (){
           if(_formKey.currentState.validate()){
-            _editar(publicacionmodel,context);
+            _editarAlerta(publicacionmodel,context);
           }
         }:null,
     );
   }
 
-  _editar(PublicacionModel publicacion,BuildContext context) async{
+  _editarAlerta(PublicacionModel publicacion,BuildContext context) async{
     Map info=await publicacionProvider.editarPublicacion(publicacion.nombre,publicacion.descripcion,publicacion.fechahora,publicacion.codpublicacion,publicacion.subtipo);
     if(info['codigo']==200){
       final Data data= new Data(contenido:'Los datos se actualizaron de manera correcta');
@@ -190,8 +190,7 @@ class _EditarAlertaPageState extends State<EditarAlertaPage> {
     }else{
       mostrarAlerta(context,info['mensaje']);
     }
-  
-}
+  }
   List<DropdownMenuItem<String>> getOpcionesDropdown(){  
     List<DropdownMenuItem<String>> lista=new List();
     _tipos.forEach((tipo){
