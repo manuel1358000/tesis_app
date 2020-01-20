@@ -339,7 +339,7 @@ class _EventoPageState extends State<EventoPage> {
 
     print(bloc.subtipo);
     print('opcion seleccionada '+_opcionSeleccionada);
-    Map info=await usuarioProvider.publicacion(1,bloc.nombre,bloc.descripcion,position.latitude,position.longitude,2,_valueDropdown(_opcionSeleccionada),bloc.fecha);
+    Map info=await usuarioProvider.publicacion(2,bloc.nombre,bloc.descripcion,position.latitude,position.longitude,2,_valueDropdown(_opcionSeleccionada),bloc.fecha);
     if(info['codigo']==200){
       final Data data= new Data(contenido:'Evento creado con exito');
       Navigator.pushNamed(context,'mapa',arguments: data);
