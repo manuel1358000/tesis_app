@@ -5,14 +5,12 @@ import 'package:alerta_app/src/bloc/provider.dart';
 import 'package:alerta_app/src/provider/usuario_provider.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:alerta_app/src/bloc/publicacion_bloc.dart';
-import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 class EventoPage extends StatefulWidget {
   @override
   _EventoPageState createState() => _EventoPageState();
 }
 
 class _EventoPageState extends State<EventoPage> {
-  final _prefs = new PreferenciasUsuario();
   final usuarioProvider=new UsuarioProvider();
   String _fecha='';
   String _hora='';
@@ -43,7 +41,6 @@ class _EventoPageState extends State<EventoPage> {
   }
 
   Widget _crearFondo(BuildContext context){
-    final size=MediaQuery.of(context).size;
     return Container(
       height: double.infinity,
       width: double.infinity,

@@ -5,7 +5,6 @@ import 'package:alerta_app/src/widgets/menu_widget.dart';
 import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:alerta_app/src/provider/usuario_provider.dart';
 import 'package:alerta_app/src/models/usuario_model.dart';
-import 'package:shimmer/shimmer.dart';
 class PerfilPage extends StatefulWidget {
   @override
   _PerfilPageState createState() => _PerfilPageState();

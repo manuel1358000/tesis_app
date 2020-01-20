@@ -25,7 +25,6 @@ class MisPublicacionesPage extends StatelessWidget {
   }
   Widget _listado(BuildContext context){
     print(_prefs.cui);
-    final _size=MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[

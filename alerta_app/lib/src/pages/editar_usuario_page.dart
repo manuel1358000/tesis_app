@@ -33,7 +33,6 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
   }
 
   Widget _crearFondo(BuildContext context){
-    final size=MediaQuery.of(context).size;
     return Container(
       height: double.infinity,
       width: double.infinity,

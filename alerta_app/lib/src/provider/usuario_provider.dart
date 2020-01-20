@@ -2,7 +2,6 @@
 import 'dart:convert';
 import 'package:alerta_app/src/models/usuario_model.dart';
 import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
-import 'package:alerta_app/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
 class UsuarioProvider{
 

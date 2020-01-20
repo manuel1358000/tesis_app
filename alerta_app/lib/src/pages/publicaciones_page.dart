@@ -23,7 +23,6 @@ class PublicacionesPage extends StatelessWidget {
     );
   }
   Widget _listado(BuildContext context){
-    final _size=MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[

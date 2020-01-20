@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:alerta_app/src/models/publicacion_model.dart';
-import 'package:alerta_app/src/utils/utils.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 

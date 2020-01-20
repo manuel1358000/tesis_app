@@ -1,5 +1,4 @@
 import 'package:alerta_app/src/models/publicacion_model.dart';
-import 'package:alerta_app/src/utils/utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 

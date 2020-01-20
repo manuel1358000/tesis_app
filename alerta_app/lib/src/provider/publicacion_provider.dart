@@ -2,11 +2,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:alerta_app/src/models/publicacion_model.dart';
-import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:http/http.dart' as http;
 class PublicacionProvider{
 
-  final _prefs = new PreferenciasUsuario();
   int _paginacionGeneral = 0;
   int _paginacionUsuario=0;
   bool _cargandoGeneral=false;
@@ -43,7 +41,7 @@ class PublicacionProvider{
       if(decodedData['codigo']==200) return null;
       final publicaciones=new Publicaciones.fromJsonList(decodedData['data']);
       _paginacionGeneral++;
-      final respuesta= await publicaciones.items;
+      final respuesta= publicaciones.items;
       _general.addAll(respuesta);
       generalSink(_general);
       _cargandoGeneral=false;
@@ -83,7 +81,7 @@ class PublicacionProvider{
       } 
       final publicaciones=new Publicaciones.fromJsonList(decodedData['data']);
       _paginacionUsuario++;
-      final respuesta=await publicaciones.items;
+      final respuesta=publicaciones.items;
       _usuario.addAll(respuesta);
       usuarioSink(_usuario);
       _cargandoUsuario=false;

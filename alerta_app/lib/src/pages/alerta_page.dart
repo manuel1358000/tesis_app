@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:alerta_app/src/utils/data.dart';
 import 'package:alerta_app/src/utils/utils.dart';
@@ -7,14 +5,12 @@ import 'package:alerta_app/src/bloc/provider.dart';
 import 'package:alerta_app/src/provider/usuario_provider.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:alerta_app/src/bloc/publicacion_bloc.dart';
-import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 class AlertaPage extends StatefulWidget {
   @override
   _AlertaPageState createState() => _AlertaPageState();
 }
 
 class _AlertaPageState extends State<AlertaPage> {
-  final _prefs = new PreferenciasUsuario();
   final usuarioProvider=new UsuarioProvider();
   String _opcionSeleccionada='Emergencia Medica';
   List<String> _tipos=['Emergencia Medica','Accidente Vehicular','Asalto','Robo Vehiculo','Incendio','Bloqueo','Otro'];
@@ -41,7 +37,6 @@ class _AlertaPageState extends State<AlertaPage> {
   }
 
   Widget _crearFondo(BuildContext context){
-    final size=MediaQuery.of(context).size;
     return Container(
       height: double.infinity,
       width: double.infinity,

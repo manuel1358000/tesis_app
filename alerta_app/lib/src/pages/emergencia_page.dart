@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:alerta_app/src/utils/utils.dart';
 import 'package:alerta_app/src/widgets/menu_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 class EmergenciaPage extends StatelessWidget {
@@ -93,7 +92,6 @@ class EmergenciaPage extends StatelessWidget {
     );
   }
   _launchURL(String numero) async {
-    const url='tel:+155501099';
   if (await canLaunch(numero)) {
     await launch(numero);
   } else {

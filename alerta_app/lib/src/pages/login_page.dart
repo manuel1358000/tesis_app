@@ -3,7 +3,6 @@ import 'package:alerta_app/src/utils/data.dart';
 import 'package:alerta_app/src/utils/utils.dart';
 import 'package:alerta_app/src/bloc/provider.dart';
 import 'package:alerta_app/src/provider/usuario_provider.dart';
-import 'package:flutter/scheduler.dart';
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -32,7 +31,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
   Widget _crearFondo(BuildContext context){
-    final size=MediaQuery.of(context).size;
     return Container(
       height: double.infinity,
       width: double.infinity,

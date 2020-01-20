@@ -1,7 +1,7 @@
-class usuario_editar{
+class usuarioEditar{
   int cui=0;
   String nombre='';
   String contra='';
   String confirmacion='';
-  usuario_editar({this.cui,this.nombre,this.contra,this.confirmacion});
+  usuarioEditar({this.cui,this.nombre,this.contra,this.confirmacion});
 }

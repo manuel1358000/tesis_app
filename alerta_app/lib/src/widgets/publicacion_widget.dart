@@ -117,8 +117,7 @@ class _PublicacionWidgetState extends State<PublicacionWidget> {
                     margin: EdgeInsets.only(right: 20,left: 20),
                   ),
                   Divider(),
-                  ButtonTheme.bar(
-                    child: ButtonBar(
+                  ButtonBar(
                       alignment: MainAxisAlignment.center,
                       children: <Widget>[
                         FlatButton(
@@ -162,7 +161,7 @@ class _PublicacionWidgetState extends State<PublicacionWidget> {
                         ),
                       ],
                     ),
-                  ),
+                  
                 ],
               ),
             ),

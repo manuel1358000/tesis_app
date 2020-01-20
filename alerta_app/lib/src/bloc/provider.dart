@@ -32,15 +32,15 @@ class Provider extends InheritedWidget{
   bool updateShouldNotify(InheritedWidget oldWidget)=>true;
 
   static LoginBloc ofLogin(BuildContext context){
-    return (context.inheritFromWidgetOfExactType(Provider)as Provider).loginBloc;
+    return context.dependOnInheritedWidgetOfExactType<Provider>().loginBloc;
   }
   static RegistroBloc ofRegistro(BuildContext context){
-    return (context.inheritFromWidgetOfExactType(Provider)as Provider).registroBloc;
+    return context.dependOnInheritedWidgetOfExactType<Provider>().registroBloc;
   }
   static PublicacionBloc ofPublicacion(BuildContext context){
-    return (context.inheritFromWidgetOfExactType(Provider)as Provider).publicacionBloc;
+    return context.dependOnInheritedWidgetOfExactType<Provider>().publicacionBloc;
   }
   static RecuperarBloc ofRecuperar(BuildContext context){
-    return (context.inheritFromWidgetOfExactType(Provider)as Provider).recuperarBloc;
+    return context.dependOnInheritedWidgetOfExactType<Provider>().recuperarBloc;
   }
 }
