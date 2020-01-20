@@ -137,6 +137,13 @@ class MenuWidget extends StatelessWidget {
                 Navigator.pushReplacementNamed(context,'emergencia');
               },
             ),
+            ListTile(
+              leading: Icon(Icons.donut_small,color:Color.fromRGBO(42,26,94,1.0)),
+              title: Text('Estadisticas',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0)),),
+              onTap: (){
+                Navigator.pushReplacementNamed(context,'estadistica');
+              },
+            ),
             Divider(),
             ListTile(
               leading: Icon(Icons.close,color:Color.fromRGBO(42,26,94,1.0)),

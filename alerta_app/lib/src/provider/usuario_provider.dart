@@ -113,4 +113,17 @@ class UsuarioProvider{
     Map<String,dynamic> decodedResp=json.decode(resp.body);
     return decodedResp;
   }
+  Future<Map<String,dynamic>> getEstadistica()async{
+    try{
+      final resp=await http.get(
+        'http://'+_url+':3000/get/estadisticasAU',
+        headers: {"Content-Type": "application/json"}
+      );
+      Map<String,dynamic> decodedData=json.decode(resp.body);
+      if(decodedData['codigo']!=200) return null;
+      return decodedData;
+    }catch(e){
+      return null;
+    }
+  }
 }
