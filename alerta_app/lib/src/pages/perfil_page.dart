@@ -16,7 +16,8 @@ class _PerfilPageState extends State<PerfilPage> {
   final usuarioProvider =new UsuarioProvider();
 
   Data data2;
-
+   final _url='192.168.0.17';
+  //final _url='34.67.241.151';
   @override
   void initState() { 
     super.initState();
@@ -33,20 +34,33 @@ class _PerfilPageState extends State<PerfilPage> {
         centerTitle: true,
         title: Text('PERFIL'),
       ),
-      body:SingleChildScrollView(
-        child: Stack(
-          children: <Widget>[
-            _crearFondo(context),
-            _infoPerfil(context),
-            _avatarPerfil(context),
-          ],
-        ),
-      ), 
+      body: FutureBuilder(
+        future: usuarioProvider.cargarUsuario(_prefs.cui),
+        builder: (BuildContext context, AsyncSnapshot<UsuarioModel> snapshot) {
+          if(!snapshot.hasData){
+            return Center(
+              child:CircularProgressIndicator(
+                backgroundColor: Color.fromRGBO(42,26,94,1.0)
+              ) 
+            );
+          }
+          UsuarioModel usuario=snapshot.data;
+          return SingleChildScrollView(
+            child: Stack(
+              children: <Widget>[
+                _crearFondo(context),
+                _infoPerfil(context,usuario),
+                _avatarPerfil(context,usuario),
+              ],
+            ),
+          );
+        },
+      ),
       drawer: MenuWidget(),
     );
   }
 
-  Widget _avatarPerfil(BuildContext context){
+  Widget _avatarPerfil(BuildContext context,UsuarioModel usuario){
     final size=MediaQuery.of(context).size;
     return Column(
       children: <Widget>[
@@ -57,7 +71,7 @@ class _PerfilPageState extends State<PerfilPage> {
           ),
           Container(
             child: CircleAvatar(
-              backgroundImage: NetworkImage('https://cdn0.iconfinder.com/data/icons/flat-design-business-set-3/24/people-customers-512.png'),
+              backgroundImage: NetworkImage('http://'+_url+':3000/'+usuario.imagen),
               backgroundColor: Colors.white,
               radius: 60,
             ),
@@ -74,7 +88,7 @@ class _PerfilPageState extends State<PerfilPage> {
     );
   }
 
-  Widget _infoPerfil(BuildContext context){
+  Widget _infoPerfil(BuildContext context,UsuarioModel usuario){
     final size=MediaQuery.of(context).size;
     return SingleChildScrollView(
       padding: EdgeInsets.only(bottom: 30.0),
@@ -100,7 +114,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 SizedBox(height:80.0),
                 Text(_prefs.nombre,textAlign: TextAlign.center ,style: TextStyle(fontSize: 20,color:Color.fromRGBO(42,26,94,1.0))), 
                 SizedBox(height:20.0,),
-                _datosPerfil(),
+                _datosPerfil(usuario),
                 SizedBox(height:20.0,),
               ],
             ),
@@ -110,19 +124,8 @@ class _PerfilPageState extends State<PerfilPage> {
     );
   }
 
-  Widget _datosPerfil(){
-    return FutureBuilder(
-      future: usuarioProvider.cargarUsuario(_prefs.cui),
-      builder: (BuildContext context, AsyncSnapshot<UsuarioModel> snapshot) {
-        if(!snapshot.hasData){
-          return Center(
-            child:CircularProgressIndicator(
-              backgroundColor: Color.fromRGBO(42,26,94,1.0)
-            )
-          );
-        }
-        UsuarioModel usuario=snapshot.data;
-        return Container(
+  Widget _datosPerfil(UsuarioModel usuario){
+      return Container(
           child:Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -138,8 +141,6 @@ class _PerfilPageState extends State<PerfilPage> {
             ],
           ),
         );
-      },
-    );
   }
 
   Widget _itemDatos(IconData icono,String tipo,String datos){

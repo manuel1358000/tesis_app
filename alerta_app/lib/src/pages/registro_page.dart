@@ -1,10 +1,20 @@
-import 'package:alerta_app/src/utils/data.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:alerta_app/src/utils/data.dart';
 import 'package:alerta_app/src/provider/usuario_provider.dart';
 import 'package:alerta_app/src/utils/utils.dart';
 import 'package:alerta_app/src/bloc/provider.dart';
-class RegistroPage extends StatelessWidget {
+import 'package:image_picker/image_picker.dart';
+class RegistroPage extends StatefulWidget {
+  @override
+  _RegistroPageState createState() => _RegistroPageState();
+}
+
+class _RegistroPageState extends State<RegistroPage> {
   final usuarioProvider=new UsuarioProvider();
+
+  File foto;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,6 +26,7 @@ class RegistroPage extends StatelessWidget {
       )
     );
   }
+
   Widget _crearFondo(BuildContext context){
     return Container(
       height: double.infinity,
@@ -25,6 +36,7 @@ class RegistroPage extends StatelessWidget {
       ),
     );
   }
+
   Widget _registroForm(BuildContext context){
     final bloc =Provider.ofRegistro(context);
     final size=MediaQuery.of(context).size;
@@ -60,6 +72,8 @@ class RegistroPage extends StatelessWidget {
                 SizedBox(height: 15.0),
                 _crearCONFIRMACIONPASSWORD(context,bloc),
                 SizedBox(height: 20.0),
+                _seleccionImagenes(context),
+                SizedBox(height: 20.0),
                 _crearREGISTRO(context,bloc),
                 SizedBox(height: 30.0,),
                 _crearLogin(context),
@@ -71,11 +85,17 @@ class RegistroPage extends StatelessWidget {
       ),
     );
   }
+
+  
+
+  
+
   Widget _crearTexto(BuildContext context){
   return Center(
     child:Text('Registro Usuarios',style:TextStyle(fontWeight:FontWeight.bold,color: Color.fromRGBO(42,26,94,1.0),fontSize:20.0, )),
     );
 }
+
   Widget _crearCUI(BuildContext context,RegistroBloc bloc){
     return StreamBuilder(
       stream:bloc.cuiStream,
@@ -103,6 +123,7 @@ class RegistroPage extends StatelessWidget {
       }
     );
   }
+
   Widget _crearNOMBRE(BuildContext context,RegistroBloc bloc){
     return StreamBuilder(
       stream:bloc.nombreStream,
@@ -130,6 +151,7 @@ class RegistroPage extends StatelessWidget {
       }
     );
   }
+
   Widget _crearPASSWORD(BuildContext context,RegistroBloc bloc){
     return StreamBuilder(
       stream:bloc.passwordStream,
@@ -159,6 +181,7 @@ class RegistroPage extends StatelessWidget {
       }
     );
   }
+
   Widget _crearCONFIRMACIONPASSWORD(BuildContext context,RegistroBloc bloc){
     return StreamBuilder(
       stream:bloc.confirmacionStream,
@@ -208,19 +231,52 @@ Widget _crearREGISTRO(BuildContext context, RegistroBloc bloc){
   );
 }
 
+  Widget _seleccionImagenes(BuildContext context){
+    return Column(
+      children: <Widget>[
+        _mostrarFoto(),
+        SizedBox(height: 10.0,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.photo_size_select_actual),
+              onPressed: _seleccionarFoto,
+            ),
+            IconButton(
+              icon:Icon(Icons.camera_alt),
+              onPressed: _seleccionarImagen,
+            ),
+          ],
+        ),
+        Text('Foto Perfil'),
+      ],
+    );
+  }
 _registro(RegistroBloc bloc,BuildContext context) async{
   if(bloc.password==bloc.confirmacion){
-    Map info=await usuarioProvider.nuevoUsuario(bloc.cui, bloc.password, bloc.nombre,1,1);
-    if(info['codigo']==200){
-      final Data data= new Data(contenido:'Usuario registrado de manera exitosa');
-      Navigator.pushNamed(context, 'login',arguments:data);
+    if(foto==null){
+      mostrarAlerta(context,'Ingrese una foto de perfil');
     }else{
-      mostrarAlerta(context,info['mensaje']);
-    }    
+      String urlimagen=await usuarioProvider.subirImagen(foto);
+      if(urlimagen!=null){
+        Map info=await usuarioProvider.nuevoUsuario(bloc.cui, bloc.password, bloc.nombre,1,1,urlimagen);
+        if(info['codigo']==200){
+          final Data data= new Data(contenido:'Usuario registrado de manera exitosa');
+          Navigator.pushNamed(context, 'login',arguments:data);
+        }else{
+          mostrarAlerta(context,info['mensaje']);
+        }
+      }else{
+        mostrarAlerta(context,'Ocurrio un error intente nuevamente');
+      }
+      
+    }  
   }else{
     mostrarAlerta(context,'Las contraseñas no coinciden, por favor intente nuevamente.');
   }
 }
+
  Widget _crearLogin(BuildContext context){
     return Container(
         child: Row(
@@ -236,5 +292,35 @@ _registro(RegistroBloc bloc,BuildContext context) async{
           ],
         ) 
       );
+  }
+  _mostrarFoto(){
+    if(foto!=null){
+      return Image.file(
+        foto,
+        fit: BoxFit.cover,
+        height: 100.0,
+      );
+    }
+    return Image.asset('assets/no-image.png',height: 100,);
+  }
+
+  _seleccionarFoto()async{
+    foto = await ImagePicker.pickImage(
+      source: ImageSource.gallery
+    );
+    if(foto!=null){
+      //limpieza
+    }
+    setState(() {});
+  }
+
+  _seleccionarImagen()async{
+    foto = await ImagePicker.pickImage(
+      source: ImageSource.camera
+    );
+    if(foto!=null){
+      //limpieza
+    }
+    setState(() {});
   }
 }

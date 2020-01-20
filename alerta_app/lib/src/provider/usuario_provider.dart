@@ -1,20 +1,52 @@
 
 import 'dart:convert';
+import 'dart:io';
 import 'package:alerta_app/src/models/usuario_model.dart';
 import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:http/http.dart' as http;
+import 'package:mime_type/mime_type.dart';
+import 'package:http_parser/http_parser.dart';
 class UsuarioProvider{
 
   final _prefs = new PreferenciasUsuario();
   final _url='192.168.0.17';
   //final _url='34.67.241.151';
-  Future<Map<String,dynamic>> nuevoUsuario(int cui,String password,String nombre,int tipo,int estado)async{
+
+  Future<String> subirImagen(File avatar)async {
+    
+    final url=Uri.parse('http://'+_url+':3000/post/imagenAU');
+    final mimeType=mime(avatar.path).split('/');
+    
+    final imageUploadRequest=http.MultipartRequest(
+      'POST',
+      url
+    );
+    
+    final file=await http.MultipartFile.fromPath(
+      'AVATAR',
+      avatar.path,
+      contentType: MediaType(mimeType[0],mimeType[1])
+    );
+    
+    imageUploadRequest.files.add(file);
+    final streamResponse=await imageUploadRequest.send();
+    final resp=await http.Response.fromStream(streamResponse);
+    Map<String,dynamic> decodedResp=json.decode(resp.body);
+    if(decodedResp['codigo']!=200){
+      print('Algo salio mal');
+      return null;
+    }
+    return decodedResp['url'];
+  }
+
+  Future<Map<String,dynamic>> nuevoUsuario(int cui,String password,String nombre,int tipo,int estado,String imagen)async{        
     final authData={
       'CUI':cui,
       'PASSWORD':password,
       'NOMBRE':nombre,
       'TIPO':tipo,
-      'ESTADO':estado
+      'ESTADO':estado,
+      'IMAGEN':imagen
     };
     final resp=await http.post(
       'http://'+_url+':3000/post/usuarioAU',
@@ -24,6 +56,25 @@ class UsuarioProvider{
     Map<String,dynamic> decodedResp=json.decode(resp.body);
     return decodedResp;
   }
+  /*Future<Map<String,dynamic>> nuevoUsuario(int cui,String password,String nombre,int tipo,int estado,File avatar)async{    
+    final url=Uri.parse('http://'+_url+':3000/post/usuarioAU');
+    
+    final authData={
+      'CUI':cui,
+      'PASSWORD':password,
+      'NOMBRE':nombre,
+      'TIPO':tipo,
+      'ESTADO':estado,
+      'AVATAR':avatar
+    };
+    final resp=await http.post(
+      'http://'+_url+':3000/post/usuarioAU',
+      body:json.encode(authData),
+      headers: {"Content-Type": "application/json"}
+    );
+    Map<String,dynamic> decodedResp=json.decode(resp.body);
+    return decodedResp;
+  }*/
   Future<Map<String,dynamic>> editarUsuario(int cui,String password,String nombre)async{
     final authData={
       'CUI':cui,

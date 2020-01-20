@@ -1,3 +1,4 @@
+import 'package:alerta_app/src/pages/foto_page.dart';
 import 'package:flutter/material.dart';
 import 'package:alerta_app/src/pages/editar_alerta_page.dart';
 import 'package:alerta_app/src/pages/editar_evento_page.dart';
@@ -70,6 +71,7 @@ class MyApp extends StatelessWidget {
           'estadistica': (BuildContext context) =>EstadisticaPage(),
           'editarevento': (BuildContext context) =>EditarEventoPage(),
           'editaralerta': (BuildContext context) =>EditarAlertaPage(),
+          'foto': (BuildContext context) =>FotoPage(),
         },
         theme:ThemeData(
           primaryColor: Color.fromRGBO(42,26,94,1.0),
