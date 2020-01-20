@@ -132,15 +132,25 @@ class VerPublicacionPage extends StatelessWidget {
     return MarkerLayerOptions(
       markers: <Marker>[
         Marker(
-          width: 100.0,
-          height: 100.0,
-          point: LatLng(publicacionData.posicionx,publicacionData.posiciony),
-          builder: (context)=>Container(
-            child: GestureDetector(
-              child:  Icon(Icons.location_on,size:45.0,color: Colors.red,),
+        width: 25.0,
+        height: 25.0,
+        point: LatLng(publicacionData.posicionx,publicacionData.posiciony),
+        builder: (context)=>Container(
+          child: GestureDetector(
+            child: Container(
+              child: _iconoDropdown(publicacionData.subtipo),
+              decoration:BoxDecoration(
+                boxShadow: [new BoxShadow(
+                  color: Colors.black,
+                  blurRadius: 10.0,
+                ),],
+                color: Colors.white,
+                borderRadius: new BorderRadius.all(Radius.circular(35.0))
+              )
             ),
           ),
-        )
+        ),
+      )
       ]
     );   
   }
@@ -209,5 +219,26 @@ class VerPublicacionPage extends StatelessWidget {
         mostrarAlerta(context,'Editar Publicacion');
       },
     );
+  }
+   Widget _iconoDropdown(int tipo){
+    double tam=18;
+    switch(tipo.toString()){
+      case "1": return Icon(Icons.local_hospital,color:Colors.red,size: tam);
+      case "2": return Icon(Icons.directions_run,color:Colors.blue,size:tam);
+      case "3": return Icon(Icons.directions_run,color:Colors.blue,size:tam);
+      case "4": return Icon(Icons.local_hospital,color:Colors.red,size: tam);
+      case "5": return Icon(Icons.block,color:Colors.green,size: tam);
+      case "6": return Icon(Icons.priority_high,color:Colors.green,size: tam);
+      case "7": return Icon(Icons.local_library,color:Colors.green,size: tam);
+      case "8": return Icon(Icons.local_library,color:Colors.green,size: tam);
+      case "9": return Icon(Icons.insert_comment,color:Colors.red,size: tam);
+      case "10": return Icon(Icons.security,color:Colors.red,size: tam);
+      case "11": return Icon(Icons.sms,color:Colors.blue,size: tam);
+      case "12": return Icon(Icons.sms,color:Colors.blue,size: tam);
+      case "13": return Icon(Icons.directions_bike,color:Colors.purple,size: tam);
+      case "14": return Icon(Icons.supervisor_account,color:Colors.purple,size: tam);
+      case "15": return Icon(Icons.security,color:Colors.red,size: tam);      
+      default: return Icon(Icons.outlined_flag,color:Colors.yellow,size: tam);
+    }
   }
 }
