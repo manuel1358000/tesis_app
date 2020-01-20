@@ -15,8 +15,7 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
   final _prefs = new PreferenciasUsuario();
   UsuarioModel usuariomodel=new UsuarioModel();
   @override
-  Widget build(BuildContext context) {
-    
+  Widget build(BuildContext context) {   
     UsuarioModel usuarioData=ModalRoute.of(context).settings.arguments;
     if(usuarioData!=null&&usuariomodel.estado==true){
       usuariomodel=usuarioData;

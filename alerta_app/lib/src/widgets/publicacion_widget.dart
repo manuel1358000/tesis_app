@@ -128,7 +128,10 @@ class _PublicacionWidgetState extends State<PublicacionWidget> {
                         ),
                         FlatButton(
                           child: const Text('Editar', style: TextStyle(color: Color.fromRGBO(42,26,94,1.0))),
-                          onPressed: () {    
+                          onPressed: () {
+                            publicacion.anterior=widget.actual;    
+                            if(publicacion.tipo==1)Navigator.pushNamed(context,'editaralerta',arguments:publicacion);
+                            if(publicacion.tipo==2) Navigator.pushNamed(context,'editarevento',arguments:publicacion);
                           },
                         ),
                         FlatButton(

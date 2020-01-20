@@ -29,6 +29,8 @@ class PublicacionModel {
     double posiciony;
     String fechahora;
     int subtipo;
+    bool estado;
+    String anterior;
     
     PublicacionModel({
         this.cui=0,
@@ -40,6 +42,8 @@ class PublicacionModel {
         this.posiciony=0.0,
         this.fechahora="",
         this.subtipo=1,
+        this.estado=true,
+        this.anterior=""
     });
 
     factory PublicacionModel.fromJson(Map<String, dynamic> json) => PublicacionModel(
@@ -51,7 +55,9 @@ class PublicacionModel {
         posicionx:json["posicion_x"].toDouble(),
         posiciony: json["posicion_y"].toDouble(),
         fechahora: json["fechahora"],
-        subtipo: json["subtipo"]
+        subtipo: json["subtipo"],
+        estado:true,
+        anterior: ""
     );
 
     Map<String, dynamic> toJson() => {
@@ -63,6 +69,8 @@ class PublicacionModel {
         "posicionx":posicionx,
         "posiciony":posiciony,
         "fechahora":fechahora,
-        "subtipo":subtipo   
+        "subtipo":subtipo,
+        "estado":true,
+        "anterior":anterior 
     };
 }

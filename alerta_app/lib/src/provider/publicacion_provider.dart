@@ -98,8 +98,22 @@ class PublicacionProvider{
     Map<String,dynamic> decodedResp=json.decode(resp.body);
     return decodedResp;
   }
-
-
+  Future<Map<String,dynamic>> editarPublicacion(String nombre,String descripcion,String fechahora,int codpublicacion,int subtipo)async{
+    final authData={
+      'NOMBRE':nombre,
+      'SUBTIPO':subtipo,
+      'DESCRIPCION':descripcion,
+      'FECHAHORA':fechahora,
+      'CODPUBLICACION':codpublicacion,
+      'SUBTIPO':subtipo
+    };
+    final resp=await http.put('http://'+_url+':3000/put/publicacionAU',
+      body:json.encode(authData),
+      headers: {"Content-Type": "application/json"});
+    Map<String,dynamic> decodedResp=json.decode(resp.body);
+    print(decodedResp);
+    return decodedResp;
+  }
 
 
 }
