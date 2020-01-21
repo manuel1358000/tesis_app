@@ -56,30 +56,13 @@ class UsuarioProvider{
     Map<String,dynamic> decodedResp=json.decode(resp.body);
     return decodedResp;
   }
-  /*Future<Map<String,dynamic>> nuevoUsuario(int cui,String password,String nombre,int tipo,int estado,File avatar)async{    
-    final url=Uri.parse('http://'+_url+':3000/post/usuarioAU');
-    
+ 
+  Future<Map<String,dynamic>> editarUsuario(int cui,String password,String nombre,String imagen)async{
     final authData={
       'CUI':cui,
       'PASSWORD':password,
       'NOMBRE':nombre,
-      'TIPO':tipo,
-      'ESTADO':estado,
-      'AVATAR':avatar
-    };
-    final resp=await http.post(
-      'http://'+_url+':3000/post/usuarioAU',
-      body:json.encode(authData),
-      headers: {"Content-Type": "application/json"}
-    );
-    Map<String,dynamic> decodedResp=json.decode(resp.body);
-    return decodedResp;
-  }*/
-  Future<Map<String,dynamic>> editarUsuario(int cui,String password,String nombre)async{
-    final authData={
-      'CUI':cui,
-      'PASSWORD':password,
-      'NOMBRE':nombre
+      'IMAGEN':imagen
     };
     final resp=await http.put('http://'+_url+':3000/put/usuarioAU',
       body:json.encode(authData),

@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:alerta_app/src/models/usuario_model.dart';
 import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:alerta_app/src/utils/data.dart';
 import 'package:alerta_app/src/provider/usuario_provider.dart';
 import 'package:alerta_app/src/utils/utils.dart';
+import 'package:image_picker/image_picker.dart';
 class EditarUsuarioPage extends StatefulWidget {
   @override
   _EditarUsuarioPageState createState() => _EditarUsuarioPageState();
@@ -13,7 +15,10 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
   final _formKey = GlobalKey<FormState>();
   final usuarioProvider=new UsuarioProvider();
   final _prefs = new PreferenciasUsuario();
+  final _url='192.168.0.17';
+  //final _url='34.67.241.151';
   UsuarioModel usuariomodel=new UsuarioModel();
+  File foto;
   @override
   Widget build(BuildContext context) {   
     UsuarioModel usuarioData=ModalRoute.of(context).settings.arguments;
@@ -77,6 +82,8 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
                   SizedBox(height: 15.0),
                   _crearCONFIRMACIONPASSWORD(context),
                   SizedBox(height: 20.0),
+                   SizedBox(height: 20.0),
+                  _seleccionImagenes(context),
                   _crearEDITAR(context),
                   SizedBox(height: 30.0,),
                 ],
@@ -212,7 +219,28 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
         );
 
   }
-
+  Widget _seleccionImagenes(BuildContext context){
+    return Column(
+      children: <Widget>[
+        _mostrarFoto(),
+        SizedBox(height: 10.0,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.photo_size_select_actual),
+              onPressed: _seleccionarFoto,
+            ),
+            IconButton(
+              icon:Icon(Icons.camera_alt),
+              onPressed: _seleccionarImagen,
+            ),
+          ],
+        ),
+        Text('Foto Perfil'),
+      ],
+    );
+  }
 Widget _crearEDITAR(BuildContext context){
   final size=MediaQuery.of(context).size;
       return RaisedButton(
@@ -233,21 +261,69 @@ Widget _crearEDITAR(BuildContext context){
 }
 
 _editar(UsuarioModel usuario,BuildContext context) async{
-  //mostrarAlerta(context, usuariomodel.nombre);
-  //mostrarAlerta(context,usuario.nombre);
-
   if(usuario.password==usuario.confirmacion){
-    Map info=await usuarioProvider.editarUsuario(usuario.cui,usuario.password,usuario.nombre);
-    if(info['codigo']==200){
-      _prefs.nombre=usuario.nombre;
-      _prefs.password=usuario.password;
-      final Data data= new Data(contenido:'Los datos se actualizaron de manera correcta');
-      Navigator.pushReplacementNamed(context,'perfil',arguments:data);
+    if(foto==null){
+       Map info=await usuarioProvider.editarUsuario(usuario.cui,usuario.password,usuario.nombre,usuario.imagen);
+      if(info['codigo']==200){
+        _prefs.nombre=usuario.nombre;
+        _prefs.password=usuario.password;
+        final Data data= new Data(contenido:'Los datos se actualizaron de manera correcta');
+        Navigator.pushReplacementNamed(context,'perfil',arguments:data);
+      }else{
+        mostrarAlerta(context,info['mensaje']);
+      }
     }else{
-      mostrarAlerta(context,info['mensaje']);
-    }    
+      String urlimagen=await usuarioProvider.subirImagen(foto);
+      if(urlimagen!=null){
+        Map info=await usuarioProvider.editarUsuario(usuario.cui,usuario.password,usuario.nombre,urlimagen);
+        if(info['codigo']==200){
+          _prefs.nombre=usuario.nombre;
+          _prefs.password=usuario.password;
+          final Data data= new Data(contenido:'Los datos se actualizaron de manera correcta');
+          Navigator.pushReplacementNamed(context,'perfil',arguments:data);
+        }else{
+          mostrarAlerta(context,info['mensaje']);
+        }
+      }else{
+        mostrarAlerta(context,'Ocurrio un error intente nuevamente');
+      }
+    }
+       
   }else{
     mostrarAlerta(context,'Las contraseñas no coinciden, por favor intente nuevamente.');
   }
 }
+ Widget _mostrarFoto(){
+    if(foto!=null){
+      return Image.file(
+        foto,
+        fit: BoxFit.cover,
+        height: 100.0,
+      );
+    }
+    return FadeInImage.assetNetwork(
+      placeholder: 'assets/jar-loading.gif',
+      image: 'http://'+_url+':3000/'+usuariomodel.imagen,
+    );
+  }
+
+  _seleccionarFoto()async{
+    foto = await ImagePicker.pickImage(
+      source: ImageSource.gallery
+    );
+    if(foto!=null){
+      //limpieza
+    }
+    setState(() {});
+  }
+
+  _seleccionarImagen()async{
+    foto = await ImagePicker.pickImage(
+      source: ImageSource.camera
+    );
+    if(foto!=null){
+      //limpieza
+    }
+    setState(() {});
+  }
 }
