@@ -15,8 +15,8 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
   final _formKey = GlobalKey<FormState>();
   final usuarioProvider=new UsuarioProvider();
   final _prefs = new PreferenciasUsuario();
-  final _url='192.168.0.17';
-  //final _url='34.67.241.151';
+  //final _url='192.168.0.17';
+  final _url='34.67.241.151';
   UsuarioModel usuariomodel=new UsuarioModel();
   File foto;
   @override

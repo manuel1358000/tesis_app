@@ -39,17 +39,7 @@ class _MapaPageState extends State<MapaPage> {
             centerTitle: true,
             elevation: 0.0,
             actions: <Widget>[
-              GestureDetector(
-                child: Container(
-                  height: 50.0,
-                  width: 50.0,
-                  margin: EdgeInsets.all(14.0),
-                  child:Icon(Icons.fiber_smart_record,color: Colors.white)
-                ),
-                onLongPress: (){
-                      _getCurrentLocation(context);
-                    },
-              )
+              _crearPanico()        
             ],
           ),
         body:Stack(
@@ -63,6 +53,21 @@ class _MapaPageState extends State<MapaPage> {
         floatingActionButton: _crearBotonPublicacion(context),
     );
   }
+  Widget _crearPanico(){
+    if(prefs.cui==0) return Container();
+    return GestureDetector(
+      child: Container(
+        height: 50.0,
+        width: 50.0,
+        margin: EdgeInsets.all(14.0),
+        child:Icon(Icons.fiber_smart_record,color: Colors.white)
+      ),
+      onLongPress: (){
+        _getCurrentLocation(context);
+      },
+    );
+  }
+
   _getCurrentLocation(BuildContext context)async{
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager=true;
     Position position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -94,6 +99,7 @@ class _MapaPageState extends State<MapaPage> {
   }
 
   Widget _crearBotonPublicacion(BuildContext context){
+    if(prefs.cui==0) return Container();
     return SpeedDial(
           // both default to 16
           marginRight: 18,

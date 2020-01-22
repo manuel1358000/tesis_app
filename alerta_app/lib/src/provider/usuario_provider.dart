@@ -9,8 +9,8 @@ import 'package:http_parser/http_parser.dart';
 class UsuarioProvider{
 
   final _prefs = new PreferenciasUsuario();
-  final _url='192.168.0.17';
-  //final _url='34.67.241.151';
+  //final _url='192.168.0.17';
+  final _url='34.67.241.151';
 
   Future<String> subirImagen(File avatar)async {
     

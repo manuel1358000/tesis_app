@@ -16,8 +16,8 @@ class _PerfilPageState extends State<PerfilPage> {
   final usuarioProvider =new UsuarioProvider();
 
   Data data2;
-   final _url='192.168.0.17';
-  //final _url='34.67.241.151';
+  //final _url='192.168.0.17';
+  final _url='34.67.241.151';
   @override
   void initState() { 
     super.initState();
