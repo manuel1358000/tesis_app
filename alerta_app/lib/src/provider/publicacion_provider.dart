@@ -111,7 +111,6 @@ class PublicacionProvider{
       body:json.encode(authData),
       headers: {"Content-Type": "application/json"});
     Map<String,dynamic> decodedResp=json.decode(resp.body);
-    print(decodedResp);
     return decodedResp;
   }
 

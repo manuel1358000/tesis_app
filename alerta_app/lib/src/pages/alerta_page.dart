@@ -221,7 +221,7 @@ class _AlertaPageState extends State<AlertaPage> {
 
    _getCurrentLocation(PublicacionBloc bloc,BuildContext context)async{
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager=true;
-     Position position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+     Position position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     _registrarPublicacion(bloc,position,context);
   }
 
