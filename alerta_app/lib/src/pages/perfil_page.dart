@@ -129,13 +129,13 @@ class _PerfilPageState extends State<PerfilPage> {
           child:Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _itemDatos(Icons.format_list_numbered_rtl,'CUI',usuario.cui.toString()),
+              _itemDatos(Icons.format_list_numbered_rtl,'Cui/Carné',usuario.cui.toString()),
               //SizedBox(height: 20),
               //_itemDatos(Icons.group,'NOMBRE',usuario.nombre),
               SizedBox(height: 20),
-              _itemDatos(Icons.filter_none,'NOMBRE',usuario.nombre),
+              _itemDatos(Icons.filter_none,'Nombre',usuario.nombre),
               SizedBox(height: 20.0,),
-              _itemDatos(Icons.lock_outline,'CONTRASEÑA',usuario.password),
+              _itemDatos(Icons.lock_outline,'Contraseña',usuario.password),
               SizedBox(height: 20.0,),
               _actualizarDatos(context,usuario)
             ],

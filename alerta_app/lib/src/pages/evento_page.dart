@@ -330,7 +330,6 @@ class _EventoPageState extends State<EventoPage> {
     Position position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     _registrarPublicacion(bloc,position,context);
   }
-
   _registrarPublicacion(PublicacionBloc bloc,Position position,BuildContext context)async {
     bloc.setFecha=_fecha+' '+_hora;
     Map info=await usuarioProvider.publicacion(2,bloc.nombre,bloc.descripcion,position.latitude,position.longitude,2,_valueDropdown(_opcionSeleccionada),bloc.fecha);

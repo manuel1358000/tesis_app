@@ -109,7 +109,7 @@ class _RegistroPageState extends State<RegistroPage> {
                 borderRadius: BorderRadius.circular(20.0)
               ),
               fillColor: Colors.black26,
-              labelText: 'CUI',
+              labelText: 'CUI/CARNÉ',
               hintText: 'Ej. 2000000000101',
               labelStyle: TextStyle(
                 fontSize: 12.0,

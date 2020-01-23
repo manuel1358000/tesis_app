@@ -159,4 +159,17 @@ class UsuarioProvider{
       return null;
     }
   }
+  Future<Map<String,dynamic>> getEstadistica2()async{
+    try{
+      final resp=await http.get(
+        'http://'+_url+':3000/get/estadisticas2AU',
+        headers: {"Content-Type": "application/json"}
+      );
+      Map<String,dynamic> decodedData=json.decode(resp.body);
+      if(decodedData['codigo']!=200) return null;
+      return decodedData;
+    }catch(e){
+      return null;
+    }
+  }
 }

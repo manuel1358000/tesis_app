@@ -107,7 +107,7 @@ Widget _crearLogo(BuildContext context){
                 borderRadius: BorderRadius.circular(20.0)
               ),
               fillColor: Colors.black26,
-              labelText: 'Cui',
+              labelText: 'Cui/Carné',
               hintText: 'Ej. 20000000010101',
               labelStyle: TextStyle(
                 color: Color.fromRGBO(42,26,94,1.0)

@@ -113,7 +113,7 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
                 borderRadius: BorderRadius.circular(20.0)
               ),
               fillColor: Colors.black26,
-              labelText: 'Cui',
+              labelText: 'Cui/Carné',
               hintText: 'Ej. 2000000000101',
               labelStyle: TextStyle(
                 fontSize: 12.0,
@@ -123,7 +123,7 @@ class _EditarUsuarioPageState extends State<EditarUsuarioPage> {
             onChanged: (value)=>usuariomodel.cui=int.parse(value),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Ingrese un cui/carné valido';
               }
               return null;
             },

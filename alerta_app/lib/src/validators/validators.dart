@@ -2,10 +2,10 @@ import 'dart:async';
 class Validators{
   final validarCUI=StreamTransformer<int,int>.fromHandlers(
     handleData: (cui,sink){
-      if(cui.toString().length>3){
+      if(cui.toString().length>6){
         sink.add(cui);
       }else{
-        sink.addError('Ingrese un CUI valido');
+        sink.addError('Ingrese un CUI/CARNET valido');
         
       }
     }
