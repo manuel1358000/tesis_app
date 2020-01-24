@@ -100,7 +100,7 @@ Widget _crearEstadisticas(BuildContext context,List datos){
               child: Column(
                 children: <Widget>[
                   SizedBox(height: 10.0,),
-                  Text('Numero de publicaciones',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 15.0,fontWeight: FontWeight.bold)),
+                  Text('Reporte Alertas',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 15.0,fontWeight: FontWeight.bold)),
                   _crearChartAlerta(medica,asalto,vehiculo,accidente,bloqueo,incendio),
                   _crearDatosAlerta(medica,asalto,vehiculo,accidente,bloqueo,incendio),
                   //_crearChartEvento(academico,educativo,informativo,seguridad,cultural,social,deportivo,recreativo),
@@ -145,7 +145,7 @@ Widget _crearEstadisticas2(BuildContext context,List datos){
               child: Column(
                 children: <Widget>[
                   SizedBox(height: 10.0,),
-                  Text('Estadistica Eventos',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 15.0,fontWeight: FontWeight.bold)),
+                  Text('Reporte Eventos',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 15.0,fontWeight: FontWeight.bold)),
                   _crearChartEvento(academico,educativo,informativo,seguridad,cultural,social,deportivo,recreativo),
                   _crearDatosEvento(academico,educativo,informativo,seguridad,cultural,social,deportivo,recreativo),
                   SizedBox(height: 20.0,)
@@ -160,11 +160,11 @@ Widget _crearEstadisticas2(BuildContext context,List datos){
     List<CircularStackEntry> data = <CircularStackEntry>[
       new CircularStackEntry(
         <CircularSegmentEntry>[
-          new CircularSegmentEntry(medica, Colors.grey, rankKey: 'Q1'),
+          new CircularSegmentEntry(medica, Colors.green, rankKey: 'Q1'),
           new CircularSegmentEntry(asalto, Colors.red, rankKey: 'Q2'),
-          new CircularSegmentEntry(vehiculo, Colors.black, rankKey: 'Q3'),
+          new CircularSegmentEntry(vehiculo, Colors.greenAccent, rankKey: 'Q3'),
           new CircularSegmentEntry(accidente, Colors.blue, rankKey: 'Q4'),
-          new CircularSegmentEntry(bloqueo, Colors.white, rankKey: 'Q5'),
+          new CircularSegmentEntry(bloqueo, Colors.brown, rankKey: 'Q5'),
           new CircularSegmentEntry(incendio, Colors.yellow, rankKey: 'Q6'),
         ],
         rankKey: 'Quarterly Profits',
@@ -181,14 +181,13 @@ Widget _crearEstadisticas2(BuildContext context,List datos){
   }
   Widget _crearDatosAlerta(double medica,double asalto,double vehiculo,double accidente,double bloqueo,double incendio){
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         _datos('Emergencia Medica: '+medica.toString(),Colors.green),
         _datos('Asalto: '+asalto.toString(),Colors.red),
-        _datos('Robo Vehiculo: '+asalto.toString(),Colors.black),
-        _datos('Accidente Vehicular: '+asalto.toString(),Colors.blue),
-        _datos('Bloqueo: '+asalto.toString(),Colors.white),
-        _datos('Incendio: '+asalto.toString(),Colors.yellow),
+        _datos('Robo Vehiculo: '+vehiculo.toString(),Colors.black),
+        _datos('Accidente Vehicular: '+accidente.toString(),Colors.blue),
+        _datos('Bloqueo: '+bloqueo.toString(),Colors.brown),
+        _datos('Incendio: '+incendio.toString(),Colors.yellow),
       ],
     );
   }
@@ -200,7 +199,7 @@ Widget _crearEstadisticas2(BuildContext context,List datos){
           new CircularSegmentEntry(educativo, Colors.red, rankKey: 'Q2'),
           new CircularSegmentEntry(informativo, Colors.black, rankKey: 'Q3'),
           new CircularSegmentEntry(seguridad, Colors.blue, rankKey: 'Q4'),
-          new CircularSegmentEntry(cultural, Colors.white, rankKey: 'Q5'),
+          new CircularSegmentEntry(cultural, Colors.brown, rankKey: 'Q5'),
           new CircularSegmentEntry(social, Colors.yellow, rankKey: 'Q6'),
           new CircularSegmentEntry(deportivo, Colors.pink, rankKey: 'Q7'),
           new CircularSegmentEntry(recreativo, Colors.grey, rankKey: 'Q8'),
@@ -219,13 +218,12 @@ Widget _crearEstadisticas2(BuildContext context,List datos){
   }
   Widget _crearDatosEvento(double academico,double educativo,double informativo,double seguridad,double cultural,double social,double deportivo,double recreativo){
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         _datos('Academico: '+academico.toString(),Colors.green),
         _datos('Educativo: '+educativo.toString(),Colors.red),
         _datos('Informativo: '+informativo.toString(),Colors.black),
         _datos('Seguridad: '+seguridad.toString(),Colors.blue),
-        _datos('Cultural: '+cultural.toString(),Colors.white),
+        _datos('Cultural: '+cultural.toString(),Colors.brown),
         _datos('Social: '+social.toString(),Colors.yellow),
         _datos('Deportivo: '+deportivo.toString(),Colors.pink),
         _datos('Recreativo: '+recreativo.toString(),Colors.grey),

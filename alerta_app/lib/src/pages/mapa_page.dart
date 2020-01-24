@@ -69,15 +69,20 @@ class _MapaPageState extends State<MapaPage> {
   }
 
   _getCurrentLocation(BuildContext context)async{
-    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager=true;
-    Position position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    try{
+      final Geolocator geolocator = Geolocator()..forceAndroidLocationManager=true;
+      Position position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     _registrarPublicacion(position,context);
+    }catch(err){
+      mostrarAlerta(context,"Intente nuevamente");
+    }
   }
   _registrarPublicacion(Position position,BuildContext context)async {
     DateTime now = new DateTime.now();
     Map info=await usuarioProvider.publicacion(1,'Alerta Seguridad','Boton de panico activado por el usuario '+prefs.nombre,position.latitude,position.longitude,1,15,now.toString());
     if(info['codigo']==200){
-      mostrarAlerta(context,"Alerta Boton de Panico Enviada");
+      final Data data= new Data(contenido:'Alerta Boton de Panico Enviada');
+      Navigator.pushNamed(context,'mapa',arguments: data);
     }else{
       mostrarAlerta(context,info['mensaje']);
     }

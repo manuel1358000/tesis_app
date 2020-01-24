@@ -129,7 +129,7 @@ class _PerfilPageState extends State<PerfilPage> {
           child:Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _itemDatos(Icons.format_list_numbered_rtl,'Cui/Carné',usuario.cui.toString()),
+              _itemDatos(Icons.format_list_numbered_rtl,'DPI/Carné',usuario.cui.toString()),
               //SizedBox(height: 20),
               //_itemDatos(Icons.group,'NOMBRE',usuario.nombre),
               SizedBox(height: 20),

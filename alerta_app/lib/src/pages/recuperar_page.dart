@@ -78,7 +78,7 @@ Widget _recuperarForm(BuildContext context){
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               fillColor: Colors.black26,
-              labelText: 'CUI',
+              labelText: 'DPI/Carné',
               hintText: '2000000000101',
               labelStyle: TextStyle(
                 color: Color.fromRGBO(42,26,94,1.0)
@@ -95,7 +95,7 @@ Widget _recuperarForm(BuildContext context){
     return Center(
       child: Container(
         child: GestureDetector(
-          child: Text('Ingresa CUI',style:TextStyle(fontWeight:FontWeight.bold,color: Color.fromRGBO(42,26,94,1.0),fontSize:20.0, )),
+          child: Text('Ingresa DPI/Carné',style:TextStyle(fontWeight:FontWeight.bold,color: Color.fromRGBO(42,26,94,1.0),fontSize:20.0, )),
           onTap: (){
             Navigator.pushNamed(context,'recuperar');
           },
