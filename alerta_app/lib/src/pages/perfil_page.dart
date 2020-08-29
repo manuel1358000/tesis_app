@@ -17,7 +17,7 @@ class _PerfilPageState extends State<PerfilPage> {
 
   Data data2;
   //final _url='192.168.0.17';
-  final _url='34.67.241.151';
+  final _url='148.72.23.200';
   @override
   void initState() { 
     super.initState();
@@ -135,7 +135,7 @@ class _PerfilPageState extends State<PerfilPage> {
               SizedBox(height: 20),
               _itemDatos(Icons.filter_none,'Nombre',usuario.nombre),
               SizedBox(height: 20.0,),
-              _itemDatos(Icons.lock_outline,'Contraseña',usuario.password),
+              _itemDatos(Icons.lock_outline,'Contraseña','*********'),
               SizedBox(height: 20.0,),
               _actualizarDatos(context,usuario)
             ],

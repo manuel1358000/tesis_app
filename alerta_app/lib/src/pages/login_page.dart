@@ -191,8 +191,9 @@ Widget _crearInvitado(BuildContext context){
       )
     ),
     onPressed: (){
+      //Navigator.pop(context);
       Navigator.pop(context);
-      Navigator.pushReplacementNamed(context,'mapa');
+      Navigator.pushNamed(context,'mapa');
     },
   );
 }

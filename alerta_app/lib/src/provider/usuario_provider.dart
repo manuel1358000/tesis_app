@@ -10,7 +10,7 @@ class UsuarioProvider{
 
   final _prefs = new PreferenciasUsuario();
   //final _url='192.168.0.17';
-  final _url='34.67.241.151';
+  final _url='148.72.23.200';
 
   Future<String> subirImagen(File avatar)async {
     

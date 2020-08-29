@@ -4,13 +4,12 @@ import 'dart:convert';
 import 'package:alerta_app/src/models/publicacion_model.dart';
 import 'package:http/http.dart' as http;
 class PublicacionProvider{
-
   int _paginacionGeneral = 0;
   int _paginacionUsuario=0;
   bool _cargandoGeneral=false;
   bool _cargandoUsuario=false;
   //final _url='192.168.0.17';
-  final _url='34.67.241.151';
+  final _url='148.72.23.200';
   List<PublicacionModel> _general=new List();
   List<PublicacionModel> _usuario=new List();
 

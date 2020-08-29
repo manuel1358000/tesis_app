@@ -42,7 +42,7 @@ class _EstadisticaPageState extends State<EstadisticaPage> {
                       },
                     ),
                   ),
-                  Container(
+                  /*Container(
                     child: FutureBuilder(
                       future: usuarioProvider.getEstadistica2(),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -53,7 +53,7 @@ class _EstadisticaPageState extends State<EstadisticaPage> {
                         }
                       },
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             ),
@@ -76,13 +76,9 @@ Widget _crearFondo(BuildContext context){
 Widget _crearEstadisticas(BuildContext context,List datos){
     Map<String,dynamic> lista=datos[0];
     //alertas
-    double medica=double.parse(lista['medica']);
-    double asalto=double.parse(lista['asalto']);
-    double vehiculo=double.parse(lista['vehiculo']);
-    double accidente=double.parse(lista['accidente']);
-    double bloqueo=double.parse(lista['bloqueo']);
-    double incendio=double.parse(lista['incendio']);
-    double panico=double.parse(lista['botonpanico']);
+    double medica=double.parse(lista['eventos']??'0');
+    double asalto=double.parse(lista['alertas']??'0');
+    double panico=double.parse(lista['botonpanico']??'0');
     final size=MediaQuery.of(context).size;
     return Column(
         children: <Widget>[
@@ -101,8 +97,8 @@ Widget _crearEstadisticas(BuildContext context,List datos){
                 children: <Widget>[
                   SizedBox(height: 10.0,),
                   Text('Reporte Alertas',style: TextStyle(color: Color.fromRGBO(42,26,94,1.0),fontSize: 15.0,fontWeight: FontWeight.bold)),
-                  _crearChartAlerta(medica,asalto,vehiculo,accidente,bloqueo,incendio),
-                  _crearDatosAlerta(medica,asalto,vehiculo,accidente,bloqueo,incendio),
+                  _crearChartAlerta(medica,asalto),
+                  _crearDatosAlerta(medica,asalto),
                   //_crearChartEvento(academico,educativo,informativo,seguridad,cultural,social,deportivo,recreativo),
                   //_crearDatosEvento(academico,educativo,informativo,seguridad,cultural,social,deportivo,recreativo),
                   SizedBox(height: 20.0,)
@@ -120,14 +116,14 @@ Widget _crearEstadisticas(BuildContext context,List datos){
   
 Widget _crearEstadisticas2(BuildContext context,List datos){
     Map<String,dynamic> lista=datos[0];
-    double academico=double.parse(lista['academico']);
-    double educativo=double.parse(lista['educativo']);
-    double informativo=double.parse(lista['informativo']);
-    double seguridad=double.parse(lista['seguridad']);
-    double cultural=double.parse(lista['cultural']);
-    double social=double.parse(lista['social']);
-    double recreativo=double.parse(lista['recreativo']);
-    double deportivo=double.parse(lista['deportivo']);
+    double academico=double.parse(lista['academico']??'0');
+    double educativo=double.parse(lista['educativo']??'0');
+    double informativo=double.parse(lista['informativo']??'0');
+    double seguridad=double.parse(lista['seguridad']??'0');
+    double cultural=double.parse(lista['cultural']??'0');
+    double social=double.parse(lista['social']??'0');
+    double recreativo=double.parse(lista['recreativo']??'0');
+    double deportivo=double.parse(lista['deportivo']??'0');
     final size=MediaQuery.of(context).size;
     return Column(
         children: <Widget>[
@@ -156,16 +152,12 @@ Widget _crearEstadisticas2(BuildContext context,List datos){
         ],
       );
   }
-  Widget _crearChartAlerta(double medica,double asalto,double vehiculo,double accidente,double bloqueo,double incendio){
+  Widget _crearChartAlerta(double medica,double asalto){
     List<CircularStackEntry> data = <CircularStackEntry>[
       new CircularStackEntry(
         <CircularSegmentEntry>[
           new CircularSegmentEntry(medica, Colors.green, rankKey: 'Q1'),
           new CircularSegmentEntry(asalto, Colors.red, rankKey: 'Q2'),
-          new CircularSegmentEntry(vehiculo, Colors.greenAccent, rankKey: 'Q3'),
-          new CircularSegmentEntry(accidente, Colors.blue, rankKey: 'Q4'),
-          new CircularSegmentEntry(bloqueo, Colors.brown, rankKey: 'Q5'),
-          new CircularSegmentEntry(incendio, Colors.yellow, rankKey: 'Q6'),
         ],
         rankKey: 'Quarterly Profits',
       ),
@@ -179,15 +171,11 @@ Widget _crearEstadisticas2(BuildContext context,List datos){
       ),
     );
   }
-  Widget _crearDatosAlerta(double medica,double asalto,double vehiculo,double accidente,double bloqueo,double incendio){
+  Widget _crearDatosAlerta(double medica,double asalto){
     return Column(
       children: <Widget>[
-        _datos('Emergencia Medica: '+medica.toString(),Colors.green),
-        _datos('Asalto: '+asalto.toString(),Colors.red),
-        _datos('Robo Vehiculo: '+vehiculo.toString(),Colors.black),
-        _datos('Accidente Vehicular: '+accidente.toString(),Colors.blue),
-        _datos('Bloqueo: '+bloqueo.toString(),Colors.brown),
-        _datos('Incendio: '+incendio.toString(),Colors.yellow),
+        _datos('Eventos: '+medica.toString(),Colors.green),
+        _datos('Alertas: '+asalto.toString(),Colors.red),
       ],
     );
   }

@@ -198,7 +198,7 @@ class VerPublicacionPage extends StatelessWidget {
     return Column(
       children: <Widget>[
         Text('Titulo',style: TextStyle(color: Colors.white)),
-        Text(publicacionData.nombre,style: TextStyle(color: Colors.white,fontSize: 20.0,fontWeight: FontWeight.bold)),
+        Text(publicacionData.nombre,style: TextStyle(color: Colors.white,fontSize: 20.0,fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
       ],
     );
   }

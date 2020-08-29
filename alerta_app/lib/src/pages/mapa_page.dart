@@ -57,12 +57,19 @@ class _MapaPageState extends State<MapaPage> {
     if(prefs.cui==0) return Container();
     return GestureDetector(
       child: Container(
-        height: 50.0,
-        width: 50.0,
+        height: 100.0,
+        width: 70.0,
         margin: EdgeInsets.all(14.0),
-        child:Icon(Icons.fiber_smart_record,color: Colors.white)
+        child:Column(
+          children:<Widget>[
+            Icon(Icons.fiber_smart_record,color: Colors.white,size: 17,),
+            Text('BOTONPANICO',style: TextStyle(fontSize: 9),)
+          ]
+        )
+        
       ),
       onLongPress: (){
+        print('aqui');
         _getCurrentLocation(context);
       },
     );
@@ -71,7 +78,7 @@ class _MapaPageState extends State<MapaPage> {
   _getCurrentLocation(BuildContext context)async{
     try{
       final Geolocator geolocator = Geolocator()..forceAndroidLocationManager=true;
-      Position position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      Position position = await geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation,locationPermissionLevel: GeolocationPermission.location);
     _registrarPublicacion(position,context);
     }catch(err){
       mostrarAlerta(context,"Intente nuevamente");

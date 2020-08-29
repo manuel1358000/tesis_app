@@ -12,7 +12,7 @@ class MarcadorPage extends StatelessWidget {
       child: FlutterMap(
         options: MapOptions(
           center:  new LatLng(14.611468, -90.545515),
-          zoom: 18
+          zoom: 17
         ),
         layers:[
           _crearMapa(),

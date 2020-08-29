@@ -117,7 +117,7 @@ class _RegistroPageState extends State<RegistroPage> {
               ),
               errorText: snapshot.error
             ),
-            onChanged: (value)=>bloc.changeCui(int.parse(value)),
+            onChanged: (value)=>bloc.changeCui(value!=''?int.parse(value):0),
           ),
         );
       }
