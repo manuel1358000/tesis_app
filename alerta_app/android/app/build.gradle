@@ -46,9 +46,9 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.manuelfuentes.alerta_app"
         minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 7 
-        versionName "1.5.0"
+        targetSdkVersion 29
+        versionCode 9
+        versionName "1.5.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 

@@ -5,6 +5,7 @@ import 'package:alerta_app/src/widgets/menu_widget.dart';
 import 'package:alerta_app/src/preferencias_usuario/preferencias_usuario.dart';
 import 'package:alerta_app/src/provider/usuario_provider.dart';
 import 'package:alerta_app/src/models/usuario_model.dart';
+
 class PerfilPage extends StatefulWidget {
   @override
   _PerfilPageState createState() => _PerfilPageState();
@@ -13,22 +14,22 @@ class PerfilPage extends StatefulWidget {
 class _PerfilPageState extends State<PerfilPage> {
   final _prefs = new PreferenciasUsuario();
 
-  final usuarioProvider =new UsuarioProvider();
+  final usuarioProvider = new UsuarioProvider();
 
   Data data2;
   //final _url='192.168.0.17';
-  final _url='148.72.23.200';
+  final _url = '148.72.23.200';
   @override
-  void initState() { 
+  void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       mostrarAlerta2(context, data2);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-     data2=ModalRoute.of(context).settings.arguments;
+    data2 = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -37,20 +38,18 @@ class _PerfilPageState extends State<PerfilPage> {
       body: FutureBuilder(
         future: usuarioProvider.cargarUsuario(_prefs.cui),
         builder: (BuildContext context, AsyncSnapshot<UsuarioModel> snapshot) {
-          if(!snapshot.hasData){
+          if (!snapshot.hasData) {
             return Center(
-              child:CircularProgressIndicator(
-                backgroundColor: Color.fromRGBO(42,26,94,1.0)
-              ) 
-            );
+                child: CircularProgressIndicator(
+                    backgroundColor: Color.fromRGBO(42, 26, 94, 1.0)));
           }
-          UsuarioModel usuario=snapshot.data;
+          UsuarioModel usuario = snapshot.data;
           return SingleChildScrollView(
             child: Stack(
               children: <Widget>[
                 _crearFondo(context),
-                _infoPerfil(context,usuario),
-                _avatarPerfil(context,usuario),
+                _infoPerfil(context, usuario),
+                _avatarPerfil(context, usuario),
               ],
             ),
           );
@@ -60,62 +59,71 @@ class _PerfilPageState extends State<PerfilPage> {
     );
   }
 
-  Widget _avatarPerfil(BuildContext context,UsuarioModel usuario){
-    final size=MediaQuery.of(context).size;
+  Widget _avatarPerfil(BuildContext context, UsuarioModel usuario) {
+    final size = MediaQuery.of(context).size;
     return Column(
       children: <Widget>[
         SafeArea(
-            child: Container(
-              height: size.height*0.05,
-            ), 
+          child: Container(
+            height: size.height * 0.05,
           ),
-          Container(
+        ),
+        Container(
             child: CircleAvatar(
-              backgroundImage: NetworkImage('http://'+_url+':3000/'+usuario.imagen),
+              backgroundImage:
+                  NetworkImage('http://' + _url + ':3002/' + usuario.imagen),
               backgroundColor: Colors.white,
               radius: 60,
             ),
-            decoration:BoxDecoration(
-              boxShadow: [new BoxShadow(
-                color: Colors.black,
-                blurRadius: 20.0,
-              ),],
-              color: Colors.white,
-              borderRadius: new BorderRadius.all(Radius.circular(60.0))
-            )
-          )
+            decoration: BoxDecoration(
+                boxShadow: [
+                  new BoxShadow(
+                    color: Colors.black,
+                    blurRadius: 20.0,
+                  ),
+                ],
+                color: Colors.white,
+                borderRadius: new BorderRadius.all(Radius.circular(60.0))))
       ],
     );
   }
 
-  Widget _infoPerfil(BuildContext context,UsuarioModel usuario){
-    final size=MediaQuery.of(context).size;
+  Widget _infoPerfil(BuildContext context, UsuarioModel usuario) {
+    final size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       padding: EdgeInsets.only(bottom: 30.0),
       child: Column(
         children: <Widget>[
           SafeArea(
             child: Container(
-              height: size.height*0.15,
-            ), 
+              height: size.height * 0.15,
+            ),
           ),
           Container(
-            width: size.width*0.85,
-            decoration:BoxDecoration(
-              boxShadow: [new BoxShadow(
-                color: Colors.black,
-                blurRadius: 20.0,
-              ),],
-              color: Colors.white,
-              borderRadius: new BorderRadius.all(Radius.circular(40.0))
-            ),
+            width: size.width * 0.85,
+            decoration: BoxDecoration(
+                boxShadow: [
+                  new BoxShadow(
+                    color: Colors.black,
+                    blurRadius: 20.0,
+                  ),
+                ],
+                color: Colors.white,
+                borderRadius: new BorderRadius.all(Radius.circular(40.0))),
             child: Column(
               children: <Widget>[
-                SizedBox(height:80.0),
-                Text(_prefs.nombre,textAlign: TextAlign.center ,style: TextStyle(fontSize: 20,color:Color.fromRGBO(42,26,94,1.0))), 
-                SizedBox(height:20.0,),
+                SizedBox(height: 80.0),
+                Text(_prefs.nombre,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 20, color: Color.fromRGBO(42, 26, 94, 1.0))),
+                SizedBox(
+                  height: 20.0,
+                ),
                 _datosPerfil(usuario),
-                SizedBox(height:20.0,),
+                SizedBox(
+                  height: 20.0,
+                ),
               ],
             ),
           )
@@ -124,26 +132,31 @@ class _PerfilPageState extends State<PerfilPage> {
     );
   }
 
-  Widget _datosPerfil(UsuarioModel usuario){
-      return Container(
-          child:Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _itemDatos(Icons.format_list_numbered_rtl,'DPI/Carné',usuario.cui.toString()),
-              //SizedBox(height: 20),
-              //_itemDatos(Icons.group,'NOMBRE',usuario.nombre),
-              SizedBox(height: 20),
-              _itemDatos(Icons.filter_none,'Nombre',usuario.nombre),
-              SizedBox(height: 20.0,),
-              _itemDatos(Icons.lock_outline,'Contraseña','*********'),
-              SizedBox(height: 20.0,),
-              _actualizarDatos(context,usuario)
-            ],
+  Widget _datosPerfil(UsuarioModel usuario) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _itemDatos(Icons.format_list_numbered_rtl, 'DPI/Carné',
+              usuario.cui.toString()),
+          //SizedBox(height: 20),
+          //_itemDatos(Icons.group,'NOMBRE',usuario.nombre),
+          SizedBox(height: 20),
+          _itemDatos(Icons.filter_none, 'Nombre', usuario.nombre),
+          SizedBox(
+            height: 20.0,
           ),
-        );
+          _itemDatos(Icons.lock_outline, 'Contraseña', '*********'),
+          SizedBox(
+            height: 20.0,
+          ),
+          _actualizarDatos(context, usuario)
+        ],
+      ),
+    );
   }
 
-  Widget _itemDatos(IconData icono,String tipo,String datos){
+  Widget _itemDatos(IconData icono, String tipo, String datos) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Container(
@@ -151,14 +164,25 @@ class _PerfilPageState extends State<PerfilPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Icon(icono,color: Color.fromRGBO(42,26,94,1.0),),
-            SizedBox(width:25),
+            Icon(
+              icono,
+              color: Color.fromRGBO(42, 26, 94, 1.0),
+            ),
+            SizedBox(width: 25),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(tipo,style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, color: Color.fromRGBO(244,89,5,1.0))),
-                SizedBox(height: 10,),
-                Text(datos,style: TextStyle(fontSize: 15.0, color: Color.fromRGBO(42,26,94,1.0)))
+                Text(tipo,
+                    style: TextStyle(
+                        fontSize: 17.0,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(244, 89, 5, 1.0))),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(datos,
+                    style: TextStyle(
+                        fontSize: 15.0, color: Color.fromRGBO(42, 26, 94, 1.0)))
               ],
             )
           ],
@@ -167,34 +191,35 @@ class _PerfilPageState extends State<PerfilPage> {
     );
   }
 
- Widget _actualizarDatos(BuildContext context,UsuarioModel usuario){
-  final size=MediaQuery.of(context).size;
-  return RaisedButton(
-    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-    color: Color.fromRGBO(244,89,5,1.0),
-    child: Container(
-      width:size.width*0.65,
-      child: Center(
-        child: Text('Actualizar Datos',style: TextStyle(color:Colors.white)),
-      )
-    ),
-    onPressed: (){
-      Navigator.pushNamed(context,'editarusuario',arguments:usuario);
-    },
-  );
-}
+  Widget _actualizarDatos(BuildContext context, UsuarioModel usuario) {
+    final size = MediaQuery.of(context).size;
+    return RaisedButton(
+      shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(30.0)),
+      color: Color.fromRGBO(244, 89, 5, 1.0),
+      child: Container(
+          width: size.width * 0.65,
+          child: Center(
+            child:
+                Text('Actualizar Datos', style: TextStyle(color: Colors.white)),
+          )),
+      onPressed: () {
+        Navigator.pushNamed(context, 'editarusuario', arguments: usuario);
+      },
+    );
+  }
 
-  Widget _crearFondo(BuildContext context){
-    final _screenSize=MediaQuery.of(context).size;
+  Widget _crearFondo(BuildContext context) {
+    final _screenSize = MediaQuery.of(context).size;
     return Column(
       children: <Widget>[
         Container(
-          height: _screenSize.height*0.40,
+          height: _screenSize.height * 0.40,
           width: _screenSize.width,
-          color: Color.fromRGBO(42,26,94,1.0),
+          color: Color.fromRGBO(42, 26, 94, 1.0),
         ),
         Container(
-          height: _screenSize.height*0.50,
+          height: _screenSize.height * 0.50,
           color: Colors.white,
         )
       ],
